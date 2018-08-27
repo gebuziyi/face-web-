@@ -109,6 +109,11 @@
                 <i class="fa fa-trash"></i>
               </el-button>
             </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="用户冻结信息" placement="top">
+              <el-button type="info" size="mini" @click="showFreezeLogsDialog(scope.row)">
+                <i class="fa fa-list"></i>
+              </el-button>
+            </el-tooltip>
           </el-button-group>
         </template>
       </el-table-column>
@@ -176,6 +181,7 @@
     <country-update-dialog ref="countryUpdateDialog" :countryList="countryList" @done="query"></country-update-dialog>
     <giveaway-log-dialog ref="giveAwayLogDialog"></giveaway-log-dialog>
     <freeze-dialog ref="freezeDialog" @done="query"></freeze-dialog>
+    <freeze-log-dialog  ref="FreezeLogsDialog"></freeze-log-dialog>
   </div>
 </template>
 
@@ -191,13 +197,14 @@ import { emptyUserDetail } from '../../utils/empty-model';
 import CountryUpdateDialog from './dialogs/CountryUpdateDialog';
 import UserGiveAwayLogDialog from './dialogs/UserGiveAwayLogDialog';
 import UserFreezeDialog from './dialogs/UserFreezeDialog';
-
+import FreezeLogsDialog from './dialogs/FreezeLogsDialog';
 export default {
   name: 'user-info-page',
   components: {
     'country-update-dialog': CountryUpdateDialog,
     'giveaway-log-dialog': UserGiveAwayLogDialog,
-    'freeze-dialog': UserFreezeDialog
+    'freeze-dialog': UserFreezeDialog,
+    'freeze-log-dialog': FreezeLogsDialog
   },
   data() {
     return {
@@ -243,6 +250,9 @@ export default {
     },
     showCountrySelectionDialog(row) {
       this.$refs.countryUpdateDialog.showDialog(row);
+    },
+    showFreezeLogsDialog(row) {
+      this.$refs.FreezeLogsDialog.showDialog(row);
     },
     shouldDisplay(field) {
       if (
