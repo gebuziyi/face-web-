@@ -156,14 +156,16 @@
         </template>
       </el-table-column>
       <el-table-column prop="statues" label="状态" width="90">
-
         <template slot-scope="scope">
           <icon-tag :type="scope.row.statues === 1 ? 'success' : 'warning'">{{ status2Description(scope.row.statues) }}</icon-tag>
           <icon-tag :type="scope.row.isPrivate | privacyStatus2TagType" :icon="scope.row.isPrivate === 0 ? 'fa fa-lock' : null" v-if="scope.row.statues!=0">{{ privacyStatus2Description(scope.row.isPrivate) }}</icon-tag>
           <icon-tag :type="scope.row.hot === true ? 'danger' : 'info'" :icon="scope.row.hot === true ? 'fa fa-fire' : ''" v-if="scope.row.statues!=0">{{ scope.row.hot === true ? '热门视频' : '普通视频'}}</icon-tag>
+          <icon-tag :type="scope.row.statues === 0 ? 'info' : ''">{{ scope.row.deleteType === true ? '管理员删除' : '用户删除'}}</icon-tag>
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="上传时间" sortable="custom" width="105"></el-table-column>
+      <el-table-column prop="deleteUserName" label="删除人" width="100"></el-table-column>
+      <el-table-column prop="deleteTime" label="删除时间" sortable="custom" width="105"></el-table-column>
       <el-table-column fixed="right" label="操作" width="150">
         <template slot-scope="scope">
           <el-button-group v-if="scope.row.statues!=0">

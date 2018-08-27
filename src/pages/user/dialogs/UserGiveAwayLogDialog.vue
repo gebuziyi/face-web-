@@ -134,6 +134,19 @@
           <el-table-column prop="createTime" label="兑换时间" sortable="custom"></el-table-column>
         </el-table>
       </el-tab-pane>
+      <el-tab-pane label="陌生人聊天送礼物" name="11">
+        <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @sort-change="onSortChange">
+          <el-table-column prop="giveId" label="ID" sortable="custom" width="60"></el-table-column>
+          <el-table-column prop="userId" label="送礼人ID"></el-table-column>
+          <el-table-column prop="username" label="送礼人昵称"></el-table-column>
+          <el-table-column prop="giftName" label="礼品名称"></el-table-column>
+          <el-table-column prop="price" label="礼物单价"></el-table-column>
+          <el-table-column prop="numbers" label="礼物数量" width="120"></el-table-column>
+          <el-table-column prop="account" label="收礼人ID" width="100"></el-table-column>
+          <el-table-column prop="accountUsername" label="收礼人昵称"></el-table-column>
+          <el-table-column prop="createTime" label="赠送时间" sortable="custom"></el-table-column>
+        </el-table>
+      </el-tab-pane>
     </el-tabs>
     <!-- 分页 -->
     <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
