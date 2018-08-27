@@ -149,7 +149,7 @@
           <i class="pd-left-5 fa fa-share"></i>
         </template>
       </el-table-column>
-      <el-table-column prop="playNum" label="播放量" sortable="custom" width="90">
+      <el-table-column prop="playNum" label="播放量" width="90">
         <template slot-scope="scope">
           <span>{{ scope.row.playNum }}</span>
           <i class="el-icon-view"></i>
@@ -160,7 +160,7 @@
           <icon-tag :type="scope.row.statues === 1 ? 'success' : 'warning'">{{ status2Description(scope.row.statues) }}</icon-tag>
           <icon-tag :type="scope.row.isPrivate | privacyStatus2TagType" :icon="scope.row.isPrivate === 0 ? 'fa fa-lock' : null" v-if="scope.row.statues!=0">{{ privacyStatus2Description(scope.row.isPrivate) }}</icon-tag>
           <icon-tag :type="scope.row.hot === true ? 'danger' : 'info'" :icon="scope.row.hot === true ? 'fa fa-fire' : ''" v-if="scope.row.statues!=0">{{ scope.row.hot === true ? '热门视频' : '普通视频'}}</icon-tag>
-          <icon-tag :type="scope.row.statues === 0 ? 'info' : ''">{{ scope.row.deleteType === true ? '管理员删除' : '用户删除'}}</icon-tag>
+          <icon-tag :type="scope.row.statues === 0 ? 'info' : ''" v-if="scope.row.statues === 0">{{ scope.row.deleteType === true ? '管理员删除' : '用户删除'}}</icon-tag>
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="上传时间" sortable="custom" width="105"></el-table-column>
