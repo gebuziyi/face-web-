@@ -105,8 +105,8 @@ export default {
         .catch(() => {});
     },
 
-    calculateNewSort(type) {
-      return findIndex(this.gifts, item => item.giftId === type.giftId);
+    calculateNewSort(info) {
+      return findIndex(this.gifts, item => item.sort === info.sort);
     }
   },
 
