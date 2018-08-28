@@ -17,6 +17,12 @@
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
           </el-upload>
         </el-form-item>
+        <el-form-item label="性别" prop="sex">
+          <el-radio-group v-model="model.sex">
+            <el-radio-button :label="1">男</el-radio-button>
+            <el-radio-button :label="0">女</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
         <el-form-item label="所属国家" prop="countryId">
           <el-select v-model="model.countryId" placeholder="所属国家" clearable filterable>
             <el-option v-for="(item, index) in countryList" :key="index" :value="item.countryId" :label="item.countryName"></el-option>
@@ -106,7 +112,8 @@ export default {
         img: null,
         countryId: null,
         coding: null,
-        sysUserId: null
+        sysUserId: null,
+        sex: 0
       },
       rules: {
         address: [
@@ -127,6 +134,9 @@ export default {
         ],
         sysUserId: [
           { required: true, trigger: 'change', message: '所属管理员不能为空' }
+        ],
+        sex: [
+          { required: true, trigger: 'change', message: '性别不能为空' }
         ]
       },
       formLoading: true,
@@ -258,5 +268,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
