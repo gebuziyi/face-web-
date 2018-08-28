@@ -8,7 +8,8 @@ const propIndexMapping = {
   createTime: 'video_id',
   commentNum: 'comment_num',
   shareNum: 'share_num',
-  heatNum: 'heat_num'
+  heatNum: 'heat_num',
+  playNum: 'play_num'
 }
 
 export const getVideoInfoList = function ({ query, pager, sorter }) {
