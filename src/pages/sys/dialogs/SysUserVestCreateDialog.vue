@@ -1,6 +1,6 @@
 <template>
   <el-dialog :visible.sync="show" title="创建马甲账号" width="800px" @close="onDialogClose('createForm')" :close-on-click-modal="false">
-    <div v-loading="loading" class="edit-form-wrapper">
+    <div v-loading="loading" class="edit-form-wrapper" element-loading-text="正在创建马甲账号">
       <el-form size="small" :model="model" :rules="rules" label-position="left" label-width="120px" ref="createForm">
         <el-form-item label="用户名" prop="username">
           <el-input v-model.trim="model.username" placeholder="字母/数字组合, 长度:6-18"></el-input>
@@ -193,6 +193,8 @@ export default {
             item => item.countryId === this.model.countryId
           );
 
+          this.loading = true;
+
           this.model.coding = selectedCountry.coding;
 
           const h = this.$createElement;
@@ -209,7 +211,7 @@ export default {
                 '马甲账号创建成功',
                 {
                   callback: action => {
-                    this.btnLoading = false;
+                    this.loading = false;
                     this.show = false;
                     this.$emit('done');
                   }
