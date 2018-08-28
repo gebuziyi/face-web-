@@ -3,7 +3,7 @@ const VALID_MOBILE_PATTERN = new RegExp(/^[1]{1}[0-9]{10}$/)
 const VALID_PASSWORD_PATTERN = new RegExp(/^[a-zA-Z0-9]{6,18}$/)
 const VALID_COUNTRY_NUM_PATTERN = new RegExp(/^[0-9]{1,4}$/)
 const VALID_USERNAME_PATTERN = new RegExp(/^[_a-zA-Z0-9]{6,18}$/)
-const VALID_NICKNAME_PATTERN = new RegExp(/^[\S\s]{1,20}$/)
+const VALID_NICKNAME_PATTERN = new RegExp(/^[^]{1,20}$/)
 // 2个大写字母
 const VALID_COUNTRY_CODE_PATTERN = new RegExp(/^[A-Z]{2}$/)
 // 3个大写字母
