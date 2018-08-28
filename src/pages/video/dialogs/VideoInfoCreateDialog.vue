@@ -83,7 +83,8 @@ export default {
         img: null,
         video: null,
         cover: null,
-        chunkSize: 1024000
+        chunkSize: 1024000,
+        fileMd5: null
       },
       rules: {
         vestId: [
@@ -198,6 +199,11 @@ export default {
         });
         // 当有文件被添加进队列的时候，添加到页面预览
         this.uploader.on('fileQueued', file => {
+          this.uploader.md5File(file)
+            .then((val) => {
+              console.log('md5 result:', val)
+              this.model.fileMd5 = val;
+            })
           // 只是为了校验表单有效性
           this.model.url = file.name;
           this.$refs.theForm.validateField('url');

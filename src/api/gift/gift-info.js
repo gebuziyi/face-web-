@@ -70,3 +70,11 @@ export const disableGiftInfo = function (id) {
 export const enableGiftInfo = function (id) {
   return newClient().post(`/gift/info/${id}/enable`)
 }
+
+export const getAllGiftInfoDetail = function() {
+  return newClient().get('/gift/info/listall/detail')
+}
+
+export const updateGiftInfoSort = function(sortedTypes) {
+  return newClient().post('/gift/info/sort/update', sortedTypes)
+}

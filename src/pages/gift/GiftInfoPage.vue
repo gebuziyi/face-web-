@@ -43,6 +43,11 @@
         <i class="fa fa-trash"></i>
         <span>批量删除</span>
       </el-button>
+      <!-- 礼品排序 -->
+      <el-button @click="showSortDialog" type="primary" size="small" v-if="hasPermission('gift:info:delete')" class="btn-operation">
+        <i class="fa fa-sort-numeric-asc"></i>
+        <span>排序</span>
+      </el-button>
       <!-- 新增礼品信息按钮 -->
       <el-button @click="openCreateDialog" type="success" size="small" v-if="hasPermission('gift:info:save')" class="btn-operation">
         <i class="fa fa-plus"></i>
@@ -101,6 +106,9 @@
     <!-- 分页 -->
     <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
     </el-pagination>
+
+    <!-- 弹窗 -->
+    <sort-dialog ref="sortDialog" @done="getTableData()"></sort-dialog>
     <create-dialog ref="createDialog" :musicTypes="musicTypes" @done="getTableData"></create-dialog>
     <edit-dialog ref="editDialog" :musicTypes="musicTypes" @done="getTableData"></edit-dialog>
   </div>
@@ -116,13 +124,15 @@ import {
 import { getAllGiftType } from '../../api/gift/gift-type';
 import GiftInfoCreateDialog from './dialogs/GiftInfoCreateDialog';
 import GiftInfoEditDialog from './dialogs/GiftInfoEditDialog';
+import GiftInfoSortDialog from './dialogs/GiftInfoSortDialog';
 
 export default {
   name: 'gift-info-page',
 
   components: {
     'create-dialog': GiftInfoCreateDialog,
-    'edit-dialog': GiftInfoEditDialog
+    'edit-dialog': GiftInfoEditDialog,
+    'sort-dialog': GiftInfoSortDialog
   },
 
   filters: {
@@ -162,6 +172,9 @@ export default {
     };
   },
   methods: {
+    showSortDialog() {
+      this.$refs.sortDialog.showDialog();
+    },
     disableSingleGift(row) {
       this.$confirm(
         `此操作将停用礼品: ${

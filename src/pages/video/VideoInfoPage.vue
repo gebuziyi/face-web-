@@ -149,7 +149,7 @@
           <i class="pd-left-5 fa fa-share"></i>
         </template>
       </el-table-column>
-      <el-table-column prop="playNum" label="播放量" width="90">
+      <el-table-column prop="playNum" label="播放量" sortable="custom" width="90">
         <template slot-scope="scope">
           <span>{{ scope.row.playNum }}</span>
           <i class="el-icon-view"></i>
