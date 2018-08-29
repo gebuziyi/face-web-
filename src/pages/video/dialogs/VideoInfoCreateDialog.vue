@@ -84,7 +84,8 @@ export default {
         video: null,
         cover: null,
         chunkSize: 5242880,
-        fileMd5: null
+        fileMd5: null,
+        timestamp: Date.now()
       },
       rules: {
         vestId: [
@@ -199,10 +200,6 @@ export default {
         });
         // 当有文件被添加进队列的时候，添加到页面预览
         this.uploader.on('fileQueued', file => {
-          this.uploader.md5File(file).then(val => {
-            console.log('md5 result:', val);
-            this.model.fileMd5 = val;
-          });
           // 只是为了校验表单有效性
           this.model.url = file.name;
           this.$refs.theForm.validateField('url');
@@ -342,8 +339,14 @@ export default {
           );
 
           // 由于初始化uploader的时候， model中的属性还没有赋值， 在上传之前需要再赋值一次
+          this.model.timestamp = Date.now();
+          console.log(this.model.timestamp);
           this.uploader.options.formData = this.model;
-          this.uploader.upload();
+          this.uploadProgressTip = '正在计算文件MD5';
+          this.uploader.md5File(this.uploader.getFiles()[0]).then(val => {
+            this.model.fileMd5 = val;
+            this.uploader.upload();
+          });
         } else {
           return false;
         }
