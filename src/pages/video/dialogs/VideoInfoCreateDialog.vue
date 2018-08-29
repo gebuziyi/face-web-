@@ -199,11 +199,10 @@ export default {
         });
         // 当有文件被添加进队列的时候，添加到页面预览
         this.uploader.on('fileQueued', file => {
-          this.uploader.md5File(file)
-            .then((val) => {
-              console.log('md5 result:', val)
-              this.model.fileMd5 = val;
-            })
+          this.uploader.md5File(file).then(val => {
+            console.log('md5 result:', val);
+            this.model.fileMd5 = val;
+          });
           // 只是为了校验表单有效性
           this.model.url = file.name;
           this.$refs.theForm.validateField('url');
@@ -219,12 +218,23 @@ export default {
           )} %`;
         });
         this.uploader.on('uploadSuccess', (file, response) => {
-          this.$message.info('视频已提交到后台处理');
-          this.show = false;
-          this.$emit('done');
+          const serverResp = response._raw ? JSON.parse(response._raw) : null;
+          if (serverResp && serverResp.code !== 0) {
+            this.$message.error(
+              `视频上传失败: ${serverResp.msg}, 请重新点击上传按钮`
+            );
+            this.btnLoading = false;
+            this.loading.form = false;
+          } else {
+            this.$message.info('视频已提交到后台处理');
+            this.show = false;
+            this.$emit('done');
+          }
         });
         this.uploader.on('uploadError', (file, reason) => {
           this.$message.error('上传失败！！！');
+          this.btnLoading = false;
+          this.loading.form = false;
         });
         this.uploader.on('error', type => {
           let errorMessage = '';
