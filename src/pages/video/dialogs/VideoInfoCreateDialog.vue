@@ -187,7 +187,7 @@ export default {
             id: this.$refs.videoPicker
           },
           accept: this.getAccept(this.accept), // 允许选择文件格式。
-          threads: 5,
+          threads: 1,
           fileNumLimit: this.fileNumLimit, // 限制上传个数
           fileSingleSizeLimit: this.fileSingleSizeLimit, // 限制单个上传图片的大小
           formData: this.model, // 上传所需参数
