@@ -83,7 +83,7 @@ export default {
         img: null,
         video: null,
         cover: null,
-        chunkSize: 1024000,
+        chunkSize: 5242880,
         fileMd5: null
       },
       rules: {
@@ -187,12 +187,12 @@ export default {
             id: this.$refs.videoPicker
           },
           accept: this.getAccept(this.accept), // 允许选择文件格式。
-          threads: 1,
+          threads: 5,
           fileNumLimit: this.fileNumLimit, // 限制上传个数
           fileSingleSizeLimit: this.fileSingleSizeLimit, // 限制单个上传图片的大小
           formData: this.model, // 上传所需参数
           chunked: true, // 分片上传
-          chunkSize: 1024000, // 分片大小
+          chunkSize: 5242880, // 分片大小
           chunkRetry: false,
           duplicate: false, // 重复上传
           fileVal: 'video'
