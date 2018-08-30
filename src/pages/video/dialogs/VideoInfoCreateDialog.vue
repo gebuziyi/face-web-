@@ -340,7 +340,6 @@ export default {
 
           // 由于初始化uploader的时候， model中的属性还没有赋值， 在上传之前需要再赋值一次
           this.model.timestamp = Date.now();
-          console.log(this.model.timestamp);
           this.uploader.options.formData = this.model;
           this.uploadProgressTip = '正在计算文件MD5';
           this.uploader.md5File(this.uploader.getFiles()[0]).then(val => {
