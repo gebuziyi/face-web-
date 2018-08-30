@@ -139,8 +139,10 @@
       </el-table-column>
       <el-table-column prop="commentNum" label="评论数" sortable="custom" width="90">
         <template slot-scope="scope">
-          <span>{{ scope.row.commentNum }}</span>
-          <i class="pd-left-5 fa fa-comments"></i>
+          <a @click="toCommentPage(scope.row)" href="javascript:void(0)" title="前往评论列表页面" :disabled="scope.row.commentNum === 0">
+            <span>{{ scope.row.commentNum }}</span>
+            <i class="pd-left-5 fa fa-comments"></i>
+          </a>
         </template>
       </el-table-column>
       <el-table-column prop="shareNum" label="分享数" sortable="custom" width="90">
@@ -394,10 +396,18 @@ export default {
   },
 
   methods: {
+    toCommentPage(row) {
+      if (row.commentNum > 0) {
+        this.$router.push({
+          name: 'VideoCommentPage',
+          query: {
+            videoId: row.videoId
+          }
+        });
+      }
+    },
+
     onTopicRemove(row, topicId, topicName) {
-      console.log(row.videoId);
-      console.log(topicId);
-      console.log(topicName);
       this.$confirm(
         `此操作将移除所选择的视频话题 ${topicName} , 是否继续?`,
         '视频话题删除',
