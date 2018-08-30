@@ -25,7 +25,7 @@
         <i class="fa fa-search"></i>
         <span>搜索</span>
       </el-button>
-      <el-button type="text" size="mini" @click="$refs.queryForm.resetFields()">重置</el-button>
+      <el-button type="text" size="mini" @click="resetQueryForm">重置</el-button>
       <el-button @click="checkFailedBatch" type="warning" size="small" v-if="hasPermission('video:comment:audit-failed')" class="btn-operation" :disabled="selectedIds.length === 0">
         <i class="fa fa-times"></i>
         <span>批量审核不通过</span>
@@ -117,6 +117,10 @@ export default {
     };
   },
   methods: {
+    resetQueryForm() {
+      this.$refs.queryForm.resetFields();
+    },
+
     onSortChange({ column, prop, order }) {
       this.sorter.prop = prop;
       this.sorter.order = order;
