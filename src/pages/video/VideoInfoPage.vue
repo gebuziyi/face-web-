@@ -398,8 +398,7 @@ export default {
   },
 
   methods: {
-
-     showLikeLog(row) {
+    showLikeLog(row) {
       this.$refs.logDialog.showDialog(row);
     },
     onTopicRemove(row, topicId, topicName) {
