@@ -1,26 +1,24 @@
 <template>
-  <el-dialog :title="`视频收礼记录`" width="1500px" :visible.sync="show" :close-on-click-modal="false">
+  <el-dialog :title="`视频收礼记录`" width="1535px" :visible.sync="show" :close-on-click-modal="false">
     <div :data="totalData">
-      <h2 >赠送礼物总金额为:{{totalData.totalGiftMoney}}</h2><br/>
-      <h2 >赠送人：<template v-for="username in totalData.allUserName">{{username}}</template></h2><br/>
+      <h2 >赠送礼品总金额(钻石数)为： {{totalData.totalGiftMoney ? totalData.totalGiftMoney : 0}}</h2><br/>
+      <h2 >赠送人礼品总人数：{{totalData.totalUserCount ? totalData.totalUserCount : 0}}</h2><br/>
     </div>
      <!-- 表格 -->
     <el-table :data="tableData" border style="width: 100%">
-      <el-table-column prop="sendId" label="ID" sortable="custom" width="80"></el-table-column>
+      <el-table-column prop="sendId" label="ID" sortable="custom" width="100"></el-table-column>
       <el-table-column prop="userId" label="用户ID" width="100"></el-table-column>
       <el-table-column prop="nickname" label="昵称" width="100"></el-table-column>
       <el-table-column prop="username" label="用户名" width="120"></el-table-column>
       <el-table-column prop="giftName" label="礼品名称" width="150"></el-table-column>
-      <el-table-column prop="giftImg" label="礼品图片"  width="180">
+      <el-table-column prop="giftImg" label="礼品图片"  width="120">
         <template slot-scope="scope">
-          <el-tooltip effect="dark" content="点击查看大图" placement="top">
-            <img :src="scope.row.giftImg" class="gift-img-thumb" @click="showPicPreviewDialog(scope.row)">
-          </el-tooltip>
+            <img :src="scope.row.giftImg" class="gift-img-thumb" width="80" height="80">
         </template>
       </el-table-column>
       <el-table-column prop="price" label="礼品单价" sortable="custom" width="115"></el-table-column>
       <el-table-column prop="numbers" label="礼品数量" sortable="custom" width="115"></el-table-column>
-      <el-table-column prop="videoId" label="视频ID" width="80"></el-table-column>
+      <el-table-column prop="videoId" label="视频ID" width="120"></el-table-column>
       <el-table-column prop="recverNickname" label="收礼人昵称" width="120"></el-table-column>
       <el-table-column prop="recverUserId" label="收礼人ID" width="120"></el-table-column>
       <el-table-column prop="createTime" label="赠送时间" sortable="custom" width="180"></el-table-column>
@@ -28,9 +26,9 @@
     <!-- 分页 -->
     <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
     </el-pagination>
-    <el-dialog :visible.sync="dialog.picPreview.show" :title="`礼品图片预览: ${dialog.picPreview.giftName}`">
+    <!-- <el-dialog :visible.sync="dialog.picPreview.show" :title="`礼品图片预览: ${dialog.picPreview.giftName}`">
       <img :src="dialog.picPreview.picSrc" class="img-preview" />
-    </el-dialog>
+    </el-dialog> -->
     <span slot="footer">
       <el-button @click="show = false" size="small">关闭</el-button>
     </span>
@@ -58,7 +56,7 @@ export default {
       },
       tableData: [],
       totalData: {
-        allUserName: [],
+        totalUserCount: null,
         totalGiftMoney: null
       },
       queryModel: {
@@ -89,7 +87,7 @@ export default {
       getTotalDataByVideoId(row.videoId)
         .then(({ data }) => {
           this.totalData.totalGiftMoney = data.detail.totalGiftMoney;
-          this.totalData.allUserName = data.detail.allUserName;
+          this.totalData.totalUserCount = data.detail.totalUserCount;
           console.log(this.totalData)
         })
         .catch(error => {});
