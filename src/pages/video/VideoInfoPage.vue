@@ -202,6 +202,11 @@
               </el-button>
             </el-tooltip>
           </el-button-group>
+          <el-tooltip class="item" effect="dark" content="收礼记录" placement="top" v-if="hasPermission('video:info:delete')">
+              <el-button type="info" size="mini" @click="openSendGiftLogDialog(scope.row)">
+                <i class="fa fa-file-text-o"></i>
+              </el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -213,6 +218,7 @@
     <edit-dialog ref="editDialog" :types="videoTypeList" :countries="countryList" @done="getTableData()"></edit-dialog>
     <create-dialog ref="createDialog" :types="videoTypeList" :countries="countryList" @done="getTableData()"></create-dialog>
     <topic-add-dialog ref="topicAddDialog" @done="getTableData()"></topic-add-dialog>
+    <send-gift-log-dialog ref="sendGiftLogDialog" :types="videoTypeList" :countries="countryList" @done="getTableData()"></send-gift-log-dialog>
   </div>
 </template>
 
@@ -236,6 +242,7 @@ import { debounce } from 'lodash';
 import VideoInfoEditDialog from './dialogs/VideoInfoEditDialog';
 import VideoInfoCreateDialog from './dialogs/VideoInfoCreateDialog';
 import VideoInfoTopicAddDialog from './dialogs/VideoInfoTopicAddDialog';
+import VideoGiftSendLogDialog from './dialogs/VideoGiftSendLogDialog';
 import { getAllLoginAdminVest } from '../../api/sys/sys-user-vest';
 import { getAllSysUser } from '../../api/sys/sys-user';
 import {
@@ -249,7 +256,8 @@ export default {
   components: {
     'edit-dialog': VideoInfoEditDialog,
     'create-dialog': VideoInfoCreateDialog,
-    'topic-add-dialog': VideoInfoTopicAddDialog
+    'topic-add-dialog': VideoInfoTopicAddDialog,
+    'send-gift-log-dialog': VideoGiftSendLogDialog
   },
 
   data() {
@@ -447,6 +455,9 @@ export default {
 
     openEditDialog(row) {
       this.$refs.editDialog.showDialog(row.videoId);
+    },
+    openSendGiftLogDialog(row) {
+      this.$refs.sendGiftLogDialog.showDialog(row);
     },
 
     showMakeHotConfirm(row) {

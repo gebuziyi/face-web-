@@ -34,3 +34,7 @@ export const getVideoGiftSendList = function ({ query, pager, sorter }) {
     }
   })
 }
+
+export const getTotalDataByVideoId = function (videoId) {
+  return newClient().get('/video/gift/list/totalDataByVideoId/' + videoId)
+}
