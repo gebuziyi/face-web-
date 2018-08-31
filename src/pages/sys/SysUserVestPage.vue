@@ -23,6 +23,7 @@
       <el-table-column prop="username" label="用户名"></el-table-column>
       <el-table-column prop="nickname" label="昵称"></el-table-column>
       <el-table-column prop="email" label="邮箱"></el-table-column>
+      <el-table-column prop="cname" label="国家"></el-table-column>
       <el-table-column prop="img" label="头像">
         <template slot-scope="scope">
           <table-img-previewer :option="{ imgSrc: scope.row.img, title: `${scope.row.username}头像预览` }"></table-img-previewer>
