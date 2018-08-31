@@ -26,7 +26,7 @@
         <span class="svg-container">
           <i class="fa fa-exclamation-circle"></i>
         </span>
-        <el-input name="kaptcha" id="kaptcha-input" @keyup.enter.native="handleLogin" v-model="loginForm.kaptcha" autoComplete="off" placeholder="请输入验证码" style="width:50%" />
+        <el-input name="kaptcha" id="kaptcha-input" @keyup.enter.native="handleLogin" v-model="loginForm.kaptcha" autoComplete="on" placeholder="请输入验证码" style="width:50%" />
         <div class="kaptcha-wrapper">
           <img alt="如果看不清楚，请单击图片刷新！" class="pointer" :src="kaptcha.src" @click="refreshKaptcha" id="kaptcha-img">
         </div>

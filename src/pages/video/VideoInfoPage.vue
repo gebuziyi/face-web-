@@ -131,10 +131,12 @@
           <i class="pd-left-5 fa fa-fire"></i>
         </template>
       </el-table-column>
-      <el-table-column prop="collectionNum" label="点赞数" sortable="custom" width="90">
+      <el-table-column prop="collectionNum" label="点赞数" sortable="custom" width="100">
         <template slot-scope="scope">
+          <el-button type="button" size="small" @click="showLikeLog(scope.row)">
           <span>{{ scope.row.collectionNum }}</span>
           <i class="pd-left-5 fa fa-heart color-red"></i>
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column prop="commentNum" label="评论数" sortable="custom" width="90">
@@ -202,6 +204,11 @@
               </el-button>
             </el-tooltip>
           </el-button-group>
+          <el-tooltip class="item" effect="dark" content="收礼记录" placement="top" v-if="hasPermission('video:info:delete')">
+              <el-button type="info" size="mini" @click="openSendGiftLogDialog(scope.row)">
+                <i class="fa fa-file-text-o"></i>
+              </el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -213,6 +220,8 @@
     <edit-dialog ref="editDialog" :types="videoTypeList" :countries="countryList" @done="getTableData()"></edit-dialog>
     <create-dialog ref="createDialog" :types="videoTypeList" :countries="countryList" @done="getTableData()"></create-dialog>
     <topic-add-dialog ref="topicAddDialog" @done="getTableData()"></topic-add-dialog>
+    <send-gift-log-dialog ref="sendGiftLogDialog" :types="videoTypeList" :countries="countryList" @done="getTableData()"></send-gift-log-dialog>
+    <like-log-dialog ref="logDialog"></like-log-dialog>
   </div>
 </template>
 
@@ -236,20 +245,23 @@ import { debounce } from 'lodash';
 import VideoInfoEditDialog from './dialogs/VideoInfoEditDialog';
 import VideoInfoCreateDialog from './dialogs/VideoInfoCreateDialog';
 import VideoInfoTopicAddDialog from './dialogs/VideoInfoTopicAddDialog';
+import VideoGiftSendLogDialog from './dialogs/VideoGiftSendLogDialog';
 import { getAllLoginAdminVest } from '../../api/sys/sys-user-vest';
 import { getAllSysUser } from '../../api/sys/sys-user';
 import {
   VIDEO_PRIVACY_STATUS_LIST,
   VIDEO_STATUS_LIST
 } from '../../utils/constants';
-
+import VideoLikeLogDialog from './dialogs/VideoLikeLogDialog';
 export default {
   name: 'video-info-page',
 
   components: {
     'edit-dialog': VideoInfoEditDialog,
     'create-dialog': VideoInfoCreateDialog,
-    'topic-add-dialog': VideoInfoTopicAddDialog
+    'topic-add-dialog': VideoInfoTopicAddDialog,
+    'send-gift-log-dialog': VideoGiftSendLogDialog,
+    'like-log-dialog': VideoLikeLogDialog
   },
 
   data() {
@@ -394,6 +406,9 @@ export default {
   },
 
   methods: {
+    showLikeLog(row) {
+      this.$refs.logDialog.showDialog(row);
+    },
     onTopicRemove(row, topicId, topicName) {
       console.log(row.videoId);
       console.log(topicId);
@@ -447,6 +462,9 @@ export default {
 
     openEditDialog(row) {
       this.$refs.editDialog.showDialog(row.videoId);
+    },
+    openSendGiftLogDialog(row) {
+      this.$refs.sendGiftLogDialog.showDialog(row);
     },
 
     showMakeHotConfirm(row) {

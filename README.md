@@ -1,6 +1,5 @@
 # facecast-admin-web
 
-<<<<<<< HEAD
 Facecast admin web
 
 > Facecast admin UI implemented by vuejs & element-ui
@@ -22,6 +21,3 @@ npm run build --report
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-=======
-Facecast admin web(Vue.js project)
->>>>>>> de9037038638835b0218a598f2b9f079c5998e8e
