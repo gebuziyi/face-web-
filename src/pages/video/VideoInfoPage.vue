@@ -133,16 +133,18 @@
       </el-table-column>
       <el-table-column prop="collectionNum" label="点赞数" sortable="custom" width="100">
         <template slot-scope="scope">
-          <el-button type="button" size="small" @click="showLikeLog(scope.row)">
-          <span>{{ scope.row.collectionNum }}</span>
-          <i class="pd-left-5 fa fa-heart color-red"></i>
+          <el-button type="button" size="small" @click="showLikeLog(scope.row)" :disabled="scope.row.collectionNum === 0">
+            <span>{{ scope.row.collectionNum }}</span>
+            <i class="pd-left-5 fa fa-heart color-red"></i>
           </el-button>
         </template>
       </el-table-column>
       <el-table-column prop="commentNum" label="评论数" sortable="custom" width="90">
         <template slot-scope="scope">
-          <span>{{ scope.row.commentNum }}</span>
-          <i class="pd-left-5 fa fa-comments"></i>
+          <el-button size="small" @click="toCommentPage(scope.row)" :disabled="scope.row.commentNum === 0">
+            <span>{{ scope.row.commentNum }}</span>
+            <i class="pd-left-5 fa fa-comments "></i>
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column prop="shareNum" label="分享数" sortable="custom" width="90">
@@ -205,9 +207,9 @@
             </el-tooltip>
           </el-button-group>
           <el-tooltip class="item" effect="dark" content="收礼记录" placement="top" v-if="hasPermission('video:info:delete')">
-              <el-button type="info" size="mini" @click="openSendGiftLogDialog(scope.row)">
-                <i class="fa fa-file-text-o"></i>
-              </el-button>
+            <el-button type="info" size="mini" @click="openSendGiftLogDialog(scope.row)">
+              <i class="fa fa-file-text-o"></i>
+            </el-button>
           </el-tooltip>
         </template>
       </el-table-column>
@@ -406,13 +408,22 @@ export default {
   },
 
   methods: {
+    toCommentPage(row) {
+      if (row.commentNum > 0) {
+        this.$router.push({
+          name: 'VideoCommentPage',
+          query: {
+            videoId: row.videoId
+          }
+        });
+      }
+    },
+
     showLikeLog(row) {
       this.$refs.logDialog.showDialog(row);
     },
+
     onTopicRemove(row, topicId, topicName) {
-      console.log(row.videoId);
-      console.log(topicId);
-      console.log(topicName);
       this.$confirm(
         `此操作将移除所选择的视频话题 ${topicName} , 是否继续?`,
         '视频话题删除',
@@ -784,5 +795,8 @@ export default {
 }
 .color-red {
   color: red;
+}
+.color-blue {
+  color: blue;
 }
 </style>

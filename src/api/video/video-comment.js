@@ -21,7 +21,8 @@ export const getVideoCommentList = function ({ query, pager, sorter }) {
     params: {
       page: pager.page,
       limit: pager.limit,
-      username: requireNonNull(query.username),
+      videoId: requireNonNull(query.videoId),
+      userId: requireNonNull(query.userId),
       statues: requireNonNull(query.statues),
       createTimeStart: requireNonNull(createTimeStart),
       createTimeEnd: requireNonNull(createTimeEnd),
