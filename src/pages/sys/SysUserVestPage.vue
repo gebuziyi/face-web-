@@ -23,6 +23,16 @@
       <el-table-column prop="username" label="用户名"></el-table-column>
       <el-table-column prop="nickname" label="昵称"></el-table-column>
       <el-table-column prop="email" label="邮箱"></el-table-column>
+      <el-table-column prop='sex' label="性别">
+          <!-- <template slot-scope="scope">
+          <span class='detail-span' v-if='scope.row.sex === 0'>女</span>
+          <span class='detail-span' v-if='scope.row.sex === 1'>男</span>
+          <span class='detail-span' v-if='scope.row.sex === 2'>未知</span>
+          </template> -->
+         <template slot-scope="scope">
+          <icon-tag>{{ scope.row.sex === 0 ? '女' : '男'}}</icon-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="cname" label="国家"></el-table-column>
       <el-table-column prop="img" label="头像">
         <template slot-scope="scope">
