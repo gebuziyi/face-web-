@@ -5,8 +5,8 @@
         <el-form-item label="昵称" prop="nickname">
           <el-input v-model.trim="model.nickname" placeholder="长度:1-20"></el-input>
         </el-form-item>
-        <el-form-item label="所属国家" prop="country">
-          <el-select v-model="model.country" placeholder="所属国家" clearable filterable>
+        <el-form-item label="所属国家" prop="countryId">
+          <el-select v-model="model.countryId" placeholder="所属国家" clearable filterable>
             <el-option v-for="(item, index) in countryList" :key="index" :value="item.countryId" :label="item.countryName"></el-option>
           </el-select>
         </el-form-item>
@@ -62,7 +62,7 @@ export default {
       countryList: [],
       loading: false,
       model: {
-        country: null,
+        countryId: null,
         sex: null,
         vestId: null,
         sysUserId: null,
@@ -77,7 +77,7 @@ export default {
         nickname: [
           { required: true, validator: nicknameValidator, trigger: 'change' }
         ],
-        country: [
+        countryId: [
           { required: true, trigger: 'change', message: '国家不能为空' }
         ],
         sex: [
