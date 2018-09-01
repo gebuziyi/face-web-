@@ -38,9 +38,8 @@ import {
   updateSysUserVest
 } from '../../../api/sys/sys-user-vest';
 import { isNicknameValid } from '../../../utils/coding-utils';
-import { VALID_AVATAR_FILE_EXT } from '../../../utils/constants';
 import { getAllCountryInfo } from '../../../api/basic-data/country-info';
-import { VEST_SEX_LIST } from '../../../utils/constants';
+import { VEST_SEX_LIST, VALID_AVATAR_FILE_EXT } from '../../../utils/constants';
 
 export default {
   name: 'sys-vest-create-dialog',

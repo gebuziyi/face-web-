@@ -2,8 +2,11 @@
   <div>
     <!-- 查询表单 start-->
     <el-form :inline="true" :model="queryModel" size="small" ref="queryForm">
-      <el-form-item prop="username">
-        <el-input v-model.trim="queryModel.username" placeholder="评论人用户名"></el-input>
+      <el-form-item prop="videoId">
+        <el-input v-model.trim="queryModel.videoId" placeholder="视频ID"></el-input>
+      </el-form-item>
+      <el-form-item prop="userId">
+        <el-input v-model.trim="queryModel.userId" placeholder="评论人用户ID"></el-input>
       </el-form-item>
       <el-form-item prop="statues">
         <el-select v-model="queryModel.statues" clearable placeholder="审核状态">
@@ -36,9 +39,10 @@
     <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @selection-change="onSelectionChange" @sort-change="onSortChange">
       <el-table-column type="selection" width="55">
       </el-table-column>
-      <el-table-column prop="commentId" label="ID" sortable="custom"></el-table-column>
-      <el-table-column prop="videoName" label="视频名称"></el-table-column>
-      <el-table-column prop="username" label="评论人"></el-table-column>
+      <el-table-column prop="commentId" label="评论ID" sortable="custom"></el-table-column>
+      <el-table-column prop="videoId" label="视频ID"></el-table-column>
+      <el-table-column prop="userId" label="评论人ID"></el-table-column>
+      <el-table-column prop="nickname" label="评论人昵称"></el-table-column>
       <el-table-column prop="comment" label="评论内容" show-overflow-tooltip></el-table-column>
       <el-table-column prop="statues" label="审核状态">
         <template slot-scope="scope">
@@ -96,7 +100,8 @@ export default {
       },
       tableData: [],
       queryModel: {
-        username: null,
+        userId: null,
+        videoId: null,
         statues: null,
         createTime: null
       },
@@ -250,6 +255,9 @@ export default {
     }
   },
   created() {
+    if (this.$route.query && this.$route.query.videoId) {
+      this.queryModel.videoId = this.$route.query.videoId;
+    }
     this.getTableData();
   }
 };
