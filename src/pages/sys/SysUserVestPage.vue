@@ -30,7 +30,9 @@
           <span class='detail-span' v-if='scope.row.sex === 2'>未知</span>
           </template> -->
          <template slot-scope="scope">
-          <icon-tag>{{ scope.row.sex === 0 ? '女' : '男'}}</icon-tag>
+          <icon-tag :type="scope.row.sex === 0 ? 'danger' : ''" :icon="scope.row.sex === 0 ? 'fa fa-venus' : scope.row.sex === 1 ? 'fa fa-mars' : 'fa fa-question-circle-o'">
+            {{ scope.row.sex === 0 ? '女' : scope.row.sex === 1 ? '男' : '未知' }}
+          </icon-tag>
         </template>
       </el-table-column>
       <el-table-column prop="cname" label="国家"></el-table-column>
