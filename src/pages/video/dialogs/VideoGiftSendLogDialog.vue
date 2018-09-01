@@ -1,8 +1,8 @@
 <template>
   <el-dialog :title="`视频收礼记录`" width="1535px" :visible.sync="show" :close-on-click-modal="false">
     <div :data="totalData">
-      <h2 >赠送礼品总金额(钻石数)为： {{totalData.totalGiftMoney ? totalData.totalGiftMoney : 0}}</h2><br/>
-      <h2 >赠送人礼品总人数：{{totalData.totalUserCount ? totalData.totalUserCount : 0}}</h2><br/>
+      <h2 >收到礼物总金额（钻石数）： {{totalData.totalGiftMoney ? totalData.totalGiftMoney : 0}}</h2><br/>
+      <h2 >送礼人数：{{totalData.totalUserCount ? totalData.totalUserCount : 0}}</h2><br/>
     </div>
      <!-- 表格 -->
     <el-table :data="tableData" border style="width: 100%">
