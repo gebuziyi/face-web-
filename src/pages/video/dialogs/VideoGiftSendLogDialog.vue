@@ -1,8 +1,8 @@
 <template>
   <el-dialog :title="`视频收礼记录`" width="1535px" :visible.sync="show" :close-on-click-modal="false">
     <div :data="totalData">
-      <h2 >赠送礼品总金额(钻石数)为： {{totalData.totalGiftMoney ? totalData.totalGiftMoney : 0}}</h2><br/>
-      <h2 >赠送人礼品总人数：{{totalData.totalUserCount ? totalData.totalUserCount : 0}}</h2><br/>
+      <h2 >收到礼物总金额（钻石数）： {{totalData.totalGiftMoney ? totalData.totalGiftMoney : 0}}</h2><br/>
+      <h2 >送礼人数：{{totalData.totalUserCount ? totalData.totalUserCount : 0}}</h2><br/>
     </div>
      <!-- 表格 -->
     <el-table :data="tableData" border style="width: 100%">
@@ -26,9 +26,6 @@
     <!-- 分页 -->
     <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
     </el-pagination>
-    <!-- <el-dialog :visible.sync="dialog.picPreview.show" :title="`礼品图片预览: ${dialog.picPreview.giftName}`">
-      <img :src="dialog.picPreview.picSrc" class="img-preview" />
-    </el-dialog> -->
     <span slot="footer">
       <el-button @click="show = false" size="small">关闭</el-button>
     </span>
@@ -36,8 +33,7 @@
 </template>
 
 <script>
-import { getVideoGiftSendList } from '../../../api/video/video-gift-send';
-import { getTotalDataByVideoId } from '../../../api/video/video-gift-send';
+import { getVideoGiftSendList, getTotalDataByVideoId } from '../../../api/video/video-gift-send';
 
 export default {
   name: 'video-gift-send-page',

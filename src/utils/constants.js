@@ -178,6 +178,16 @@ export const VIDEO_PRIVACY_STATUS_LIST = [
   }
 ]
 
+export const VEST_SEX_LIST = [
+  {
+    sex: 0,
+    showsex: '女'
+  },
+  {
+    sex: 1,
+    showsex: '男'
+  }
+]
 export const VIDEO_STATUS_LIST = [
   {
     status: 0,

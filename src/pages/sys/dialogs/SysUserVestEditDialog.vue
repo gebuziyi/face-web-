@@ -5,6 +5,18 @@
         <el-form-item label="昵称" prop="nickname">
           <el-input v-model.trim="model.nickname" placeholder="长度:1-20"></el-input>
         </el-form-item>
+        <el-form-item label="所属国家" prop="countryId">
+          <el-select v-model="model.countryId" placeholder="所属国家" clearable filterable>
+            <el-option v-for="(item, index) in countryList" :key="index" :value="item.countryId" :label="item.countryName"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="性别" prop="sex">
+          <el-select v-model="model.sex" clearable placeholder="性别">
+            <template v-for="(item, index) in sexs">
+              <el-option :label="item.showsex" :value="item.sex" :key="index"></el-option>
+            </template>
+          </el-select>
+        </el-form-item>
         <el-form-item label="头像" prop="img">
           <el-upload :action="uploadAction" :before-upload="beforeImgUpload" :on-success="onUploadSuccess" :on-error="onUploadError" :file-list="imgFileList" list-type="picture" :before-remove="onFileRemove" ref="create-upload">
             <el-button size="small" type="primary">点击选择图片</el-button>
@@ -26,7 +38,8 @@ import {
   updateSysUserVest
 } from '../../../api/sys/sys-user-vest';
 import { isNicknameValid } from '../../../utils/coding-utils';
-import { VALID_AVATAR_FILE_EXT } from '../../../utils/constants';
+import { getAllCountryInfo } from '../../../api/basic-data/country-info';
+import { VEST_SEX_LIST, VALID_AVATAR_FILE_EXT } from '../../../utils/constants';
 
 export default {
   name: 'sys-vest-create-dialog',
@@ -44,8 +57,12 @@ export default {
     };
 
     return {
+      sexs: VEST_SEX_LIST,
+      countryList: [],
       loading: false,
       model: {
+        countryId: null,
+        sex: null,
         vestId: null,
         sysUserId: null,
         userId: null,
@@ -58,6 +75,12 @@ export default {
       rules: {
         nickname: [
           { required: true, validator: nicknameValidator, trigger: 'change' }
+        ],
+        countryId: [
+          { required: true, trigger: 'change', message: '国家不能为空' }
+        ],
+        sex: [
+          { required: true, trigger: 'change', message: '性别不能为空' }
         ],
         img: [{ required: true, trigger: 'change', message: '头像不能为空' }]
       },
@@ -157,10 +180,20 @@ export default {
         })
         .catch(error => {});
     },
+    initCountryInfoSelectData() {
+      getAllCountryInfo()
+        .then(({ data }) => {
+          this.countryList = data.list;
+        })
+        .catch(errorMsg => {
+          this.$message.error('获取国家列表失败, 无法继续创建马甲账号');
+        });
+    },
     showDialog(vestId) {
       this.loading = true;
       this.show = true;
       this.getDetail(vestId);
+      this.initCountryInfoSelectData();
     }
   }
 };
