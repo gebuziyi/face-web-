@@ -26,9 +26,6 @@
     <!-- 分页 -->
     <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
     </el-pagination>
-    <!-- <el-dialog :visible.sync="dialog.picPreview.show" :title="`礼品图片预览: ${dialog.picPreview.giftName}`">
-      <img :src="dialog.picPreview.picSrc" class="img-preview" />
-    </el-dialog> -->
     <span slot="footer">
       <el-button @click="show = false" size="small">关闭</el-button>
     </span>
@@ -36,8 +33,7 @@
 </template>
 
 <script>
-import { getVideoGiftSendList } from '../../../api/video/video-gift-send';
-import { getTotalDataByVideoId } from '../../../api/video/video-gift-send';
+import { getVideoGiftSendList, getTotalDataByVideoId } from '../../../api/video/video-gift-send';
 
 export default {
   name: 'video-gift-send-page',
