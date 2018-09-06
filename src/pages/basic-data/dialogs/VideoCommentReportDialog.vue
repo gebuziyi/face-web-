@@ -20,7 +20,7 @@
         <el-form-item label='视频文件 ：'>
         <icon-tag type="warning" icon="fa fa-info" v-if="dialog.detail.url === '' || dialog.detail.img === null">无视频</icon-tag>
         <video :src='dialog.detail.url' class='vide-report-item' controls />
-        </el-form-item>  
+        </el-form-item>
       </el-form>
     </div>
     <span  slot="footer" class="item" effect="dark"  placement="top" slot-scope="scope" >
@@ -37,14 +37,13 @@
   </el-dialog>
 </template>
 <script>
-import { 
-   updateReportInfo,
-   getVideoCommentdetail 
-  } from '../../../api/basic-data/report-info';
 import {
-  PROMPT_MSG_REG_EXPRESSION,
-  REPORT_TYPE_LIST
-  } from '../../../utils/constants';
+  updateReportInfo,
+  getVideoCommentdetail
+} from '../../../api/basic-data/report-info';
+import {
+  PROMPT_MSG_REG_EXPRESSION
+} from '../../../utils/constants';
 export default {
   data() {
     return {
@@ -86,10 +85,10 @@ export default {
           this.dialog.detail.reportId = data.detail.reportId;
           this.dialog.detail.processed = data.detail.processed;
           this.dialog.detail.formLoading = false;
-          if(this.dialog.detail.processed=== 1){
+          if (this.dialog.detail.processed === 1) {
             this.Handle = true;
-          }else if(this.dialog.detail.processed=== 0){
-            this.Handle=false;
+          } else if (this.dialog.detail.processed === 0) {
+            this.Handle = false;
           }
           ;
         })
@@ -110,15 +109,15 @@ export default {
           };
           updateReportInfo(msg)
             .then(resp => {
-              this.$message.success('操作成功');           
+              this.$message.success('操作成功');
               this.Handle = true;
               this.$emit('done');
               this.show = false;
-            })  
+            })
             .catch(errorMsg => {});
         })
         .catch(() => {});
-    },
+    }
   }
 };
 </script>
