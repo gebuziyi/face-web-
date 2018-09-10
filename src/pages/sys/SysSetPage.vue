@@ -254,7 +254,7 @@ export default {
     openEditDialog(row) {
       this.dialog.edit.show = true;
       this.dialog.edit.fodata;
-      getSysConfigDetail(row.setId)
+      getSysConfigDetail(this.row.setId)
         .then(({ data }) => {
           this.dialog.edit.model = data.set;
           this.dialog.edit.formLoading = false;
