@@ -26,18 +26,18 @@
     <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @selection-change="onSelectionChange" @sort-change="onSortChange">
       <el-table-column type="selection" width="55">
       </el-table-column>
-      <el-table-column prop="setId" label="系统设置ID主键" ></el-table-column>
+      <el-table-column prop="setId" label="系统设置ID主键"></el-table-column>
       <el-table-column prop="sname" label="系统名称"></el-table-column>
       <el-table-column prop="parameter" label="系统参数"></el-table-column>
       <el-table-column prop="createTime" label="创建时间"></el-table-column>
       <el-table-column prop="createUser" label="创建者"></el-table-column>
-      <el-table-column prop="editorTime" label="修改时间" ></el-table-column>
+      <el-table-column prop="editorTime" label="修改时间"></el-table-column>
       <el-table-column prop="editorUser" label="修改者"></el-table-column>
       <el-table-column prop="del" label="是否删除">
-          <template slot-scope="scope">
-            <icon-tag type="warning" v-if='scope.row.del === 0'>已删除</icon-tag>
-            <icon-tag type="success" v-if='scope.row.del === 1'>正常</icon-tag>
-          </template>
+        <template slot-scope="scope">
+          <icon-tag type="warning" v-if='scope.row.del === 0'>已删除</icon-tag>
+          <icon-tag type="success" v-if='scope.row.del === 1'>正常</icon-tag>
+        </template>
       </el-table-column>
       <el-table-column prop="url" label="下载地址"></el-table-column>
       <el-table-column fixed="right" label="操作">
@@ -253,8 +253,8 @@ export default {
     },
     openEditDialog(row) {
       this.dialog.edit.show = true;
-      this.dialog.edit.fodata
-      getSysConfigDetail(setid)
+      this.dialog.edit.fodata;
+      getSysConfigDetail(row.setId)
         .then(({ data }) => {
           this.dialog.edit.model = data.set;
           this.dialog.edit.formLoading = false;
@@ -300,5 +300,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
