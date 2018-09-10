@@ -19,7 +19,7 @@ export const getSysConfigList = function({query, pager, sorter}) {
 }
 
 export const getSysConfigDetail = function(setId) {
-  return newClient().post('/sys/sys-set/info/' + setId)
+  return newClient().get('/sys/sys-set/info/' + setId)
 }
 
 export const updateSysConfig = function(model) {
@@ -27,7 +27,7 @@ export const updateSysConfig = function(model) {
 }
 
 export const removeSysConfig = function(ids) {
-  return newClient().post('/sys/config/delete', [].concat(ids))
+  return newClient().post('/sys/sys-set/delete', [].concat(ids))
 }
 
 export const createSysConfig = function(model) {

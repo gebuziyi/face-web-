@@ -13,11 +13,7 @@
         <span>搜索</span>
       </el-button>
       <el-button type="text" size="mini" @click="$refs.queryForm.resetFields()">重置</el-button>
-      <el-button @click="deleteBatch" type="danger" size="small" v-if="hasPermission('sys:config:delete')" class="btn-operation" :disabled="selectedIds.length === 0">
-        <i class="fa fa-trash"></i>
-        <span>批量删除</span>
-      </el-button>
-      <el-button @click="openCreateDialog" type="success" size="small" v-if="hasPermission('sys:config:save')" class="btn-operation">
+      <el-button @click="openCreateDialog" type="success" size="small" v-if="hasPermission('sys:set:save')" class="btn-operation">
         <i class="fa fa-plus"></i>
         <span>新增</span>
       </el-button>
@@ -43,14 +39,9 @@
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button-group>
-            <el-tooltip class="item" effect="dark" content="编辑" placement="top" v-if="hasPermission('sys:config:update')">
+            <el-tooltip class="item" effect="dark" content="编辑" placement="top" v-if="hasPermission('sys:set:update')">
               <el-button type="warning" size="mini" @click="openEditDialog(scope.row)">
                 <i class="fa fa-edit"></i>
-              </el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('sys:config:delete')">
-              <el-button type="danger" size="mini" @click="doDeleteSingle(scope.row)">
-                <i class="fa fa-trash"></i>
               </el-button>
             </el-tooltip>
           </el-button-group>
@@ -66,13 +57,10 @@
       <div v-loading="dialog.edit.loading" class="edit-form-wrapper">
         <el-form size="small" :model="dialog.edit.model" :rules="dialog.edit.rules" label-position="left" label-width="80px" ref="editForm">
           <el-form-item label="系统名称" prop="sname">
-            <el-input v-model.trim="dialog.edit.model.sname"></el-input>
+            <el-input v-model.trim="dialog.edit.model.sname" readonly></el-input>
           </el-form-item>
           <el-form-item label="参数值" prop="parameter">
             <el-input v-model.trim="dialog.edit.model.parameter"></el-input>
-          </el-form-item>
-          <el-form-item label="要修改的id" prop="setId">
-            <el-input v-model.trim="dialog.edit.model.setId"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -212,7 +200,7 @@ export default {
       });
     },
     doDeleteSingle(row) {
-      this.$confirm('此操作将删除系统参数: ' + row.key, '删除确认')
+      this.$confirm('此操作将删除系统参数: ' + row.sname, '删除确认')
         .then(() => {
           this.loading.table = true;
           removeSysConfig(row.id)
@@ -253,10 +241,9 @@ export default {
     },
     openEditDialog(row) {
       this.dialog.edit.show = true;
-      this.dialog.edit.fodata;
-      getSysConfigDetail(this.row.setId)
+      getSysConfigDetail(row.setId)
         .then(({ data }) => {
-          this.dialog.edit.model = data.set;
+          this.dialog.edit.model = data.detail;
           this.dialog.edit.formLoading = false;
         })
         .catch(error => {
