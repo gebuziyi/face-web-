@@ -13,10 +13,10 @@
         <span>搜索</span>
       </el-button>
       <el-button type="text" size="mini" @click="$refs.queryForm.resetFields()">重置</el-button>
-      <el-button @click="deleteBatch" type="danger" size="small" v-if="hasPermission('sys:config:delete')" class="btn-operation" :disabled="selectedIds.length === 0">
+      <!-- <el-button @click="deleteBatch" type="danger" size="small" v-if="hasPermission('sys:config:delete')" class="btn-operation" :disabled="selectedIds.length === 0">
         <i class="fa fa-trash"></i>
         <span>批量删除</span>
-      </el-button>
+      </el-button> -->
       <el-button @click="openCreateDialog" type="success" size="small" v-if="hasPermission('sys:config:save')" class="btn-operation">
         <i class="fa fa-plus"></i>
         <span>新增</span>
@@ -48,11 +48,11 @@
                 <i class="fa fa-edit"></i>
               </el-button>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('sys:config:delete')">
+            <!-- <el-tooltip class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('sys:config:delete')">
               <el-button type="warning" size="mini" @click="doDeleteSingle(scope.row)">
                 <i class="fa fa-trash"></i>
               </el-button>
-            </el-tooltip>
+            </el-tooltip> -->
           </el-button-group>
         </template>
       </el-table-column>
@@ -66,10 +66,13 @@
       <div v-loading="dialog.edit.loading" class="edit-form-wrapper">
         <el-form size="small" :model="dialog.edit.model" :rules="dialog.edit.rules" label-position="left" label-width="80px" ref="editForm">
           <el-form-item label="参数值" prop="parameter">
+          <el-input-number v-model.trim="dialog.edit.model.parameter" :min="1" :max="128" label="礼品价格"></el-input-number>
+        </el-form-item>
+          <!-- <el-form-item label="参数值" prop="parameter">
             <el-input v-model.trim="dialog.edit.model.parameter"></el-input>
-          </el-form-item>
-          <el-form-item label="id" prop="setId">
-            <el-input v-model.trim="dialog.edit.model.setId"></el-input>
+          </el-form-item> -->
+          <el-form-item label="url" prop="url">
+            <el-input v-model.trim="dialog.edit.model.url"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -85,9 +88,9 @@
           <el-form-item label="系统名称" prop="sname">
             <el-input v-model.trim="dialog.create.model.sname"></el-input>
           </el-form-item>
-          <el-form-item label="参数值" prop="parameter">
-            <el-input v-model.trim="dialog.create.model.parameter"></el-input>
-          </el-form-item>
+        <el-form-item label="参数值" prop="parameter">
+          <el-input-number v-model.trim="dialog.edit.model.parameter" :min="1" :max="128" label="礼品价格"></el-input-number>
+        </el-form-item>
         </el-form>
       </div>
       <span slot="footer">
@@ -103,8 +106,8 @@ import {
   getSysConfigList,
   getSysSetDetail,
   updateSysConfig,
-  getSysConfigDetail,
-  createSysConfig
+  createSysConfig,
+  removeSysConfig
 } from '../../api/sys/sys-set';
 
 import { emptySysSet } from '../../utils/empty-model';
@@ -117,9 +120,8 @@ export default {
       dialog: {
         edit: {
           model: emptySysSet(),
-               rules: {
+          rules: {
             parameter: [
-              
             ]
           },
           show: false,
@@ -128,8 +130,8 @@ export default {
         },
         create: {
           model: emptySysSet(),
-               rules: {
-            parameter: [
+          rules: {
+            sname: [
               { required: true, trigger: 'change', message: '参数名称不能为空' }
             ]
           },
@@ -171,7 +173,7 @@ export default {
       this.$confirm('此操作将删除所选择的参数列表', '批量删除确认')
         .then(() => {
           this.loading.table = true;
-          getSysConfigDetail(this.selectedIds)
+          removeSysConfig(this.selectedIds)
             .then(({ data }) => {
               this.$message.success('删除成功');
               // 刷新表格数据
@@ -201,12 +203,12 @@ export default {
           return false;
         }
       });
-    },  
+    },
     doDeleteSingle(row) {
       this.$confirm('此操作将删除系统参数: ' + row.sname, '删除确认')
         .then(() => {
           this.loading.table = true;
-          getSysConfigDetail(row.setId)
+          removeSysConfig(row.setId)
             .then(({ data }) => {
               this.$message.success('删除成功');
               // 刷新表格数据
@@ -242,12 +244,11 @@ export default {
         }
       });
     },
-     openEditDialog(row) {
+    openEditDialog(row) {
       this.dialog.edit.show = true;
-      this.dialog.edit.fodata;
-      getSysSetDetail(this.row.setId)
+      getSysSetDetail(row.setId)
         .then(({ data }) => {
-          this.dialog.edit.model = data.config;
+          this.dialog.edit.model = data.detail;
           this.dialog.edit.formLoading = false;
         })
         .catch(error => {
