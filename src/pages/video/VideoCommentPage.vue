@@ -59,16 +59,6 @@
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button-group>
-            <!-- <el-tooltip class="item" effect="dark" content="查看父评论" placement="top" v-if="hasPermission('video:comment:parent')">
-              <el-button type="warning" size="mini" @click="showParentComment(scope.row)">
-                <i class="fa fa-edit"></i>
-              </el-button>
-            </el-tooltip> -->
-            <!-- <el-tooltip class="item" effect="dark" content="查看子评论" placement="top" v-if="hasPermission('video:comment:child')">
-              <el-button type="warning" size="mini" @click="showParentComment(scope.row)">
-                <i class="fa fa-edit"></i>
-              </el-button>
-            </el-tooltip> -->
             <el-tooltip class="item" effect="dark" content="审核不通过" placement="top" v-if="hasPermission('video:comment:delete') && scope.row.statues === 1">
               <el-button type="warning" size="mini" @click="checkFailedSingle(scope.row)">
                 <i class="fa fa-times"></i>
