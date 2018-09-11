@@ -49,6 +49,12 @@
           <icon-tag :type="scope.row.statues === 1 ? 'success' : 'danger'">{{ scope.row.statues === 1 ? '审核通过' : '审核未通过' }}</icon-tag>
         </template>
       </el-table-column>
+      <el-table-column prop="isType" label="用户状态" sortable="custom">
+         <template slot-scope="scope">
+            <icon-tag type="success" v-if='scope.row.isType === 0'>真实普通账号</icon-tag>
+            <icon-tag type="warning" v-if='scope.row.isType === 1'>机器人账号</icon-tag>
+          </template>
+      </el-table-column>
       <el-table-column prop="createTime" label="创建时间" sortable="custom"></el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
