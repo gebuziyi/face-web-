@@ -8,7 +8,7 @@
     </el-form>
     <!-- 按钮 -->
     <div class="btn-wrapper">
-      <el-button @click="query" type="primary" size="small">
+      <el-button @click="onQueryBtnClick" type="primary" size="small">
         <i class="fa fa-search"></i>
         <span>搜索</span>
       </el-button>
@@ -55,12 +55,15 @@
     <!-- 修改系统参数 -->
     <el-dialog :visible.sync="dialog.edit.show" title="修改系统参数" width="600px">
       <div v-loading="dialog.edit.loading" class="edit-form-wrapper">
-        <el-form size="small" :model="dialog.edit.model" :rules="dialog.edit.rules" label-position="left" label-width="80px" ref="editForm">
-          <el-form-item label="参数值" prop="parameter">
-          <el-input-number v-model.trim="dialog.edit.model.parameter" :min="1" :max="128" label="礼品价格"></el-input-number>
+        <el-form size="small" :model="dialog.edit.model" :rules="dialog.edit.rules" label-position="left" label-width="100px" ref="editForm">
+         <el-form-item label="系统名称" prop="sname">
+            <el-input type="text" v-model.trim="dialog.edit.model.sname" readonly="readonly"></el-input>
+          </el-form-item>
+          <el-form-item label="参数值" prop="parameter" >
+          <el-input-number  v-model.trim="dialog.edit.model.parameter" :min="1" :max="128" ></el-input-number>
         </el-form-item>
           <el-form-item label="url" prop="url">
-            <el-input v-model.trim="dialog.edit.model.url"></el-input>
+            <el-input type="text" v-model.trim="dialog.edit.model.url" readonly="readonly"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -79,6 +82,9 @@
         <el-form-item label="参数值" prop="parameter">
           <el-input-number v-model.trim="dialog.edit.model.parameter" :min="1" :max="128" label="礼品价格"></el-input-number>
         </el-form-item>
+        <el-form-item label="url" prop="url">
+            <el-input v-model.trim="dialog.create.model.url"></el-input>
+          </el-form-item>
         </el-form>
       </div>
       <span slot="footer">
@@ -110,6 +116,7 @@ export default {
           model: emptySysSet(),
           rules: {
             parameter: [
+              { required: true, trigger: 'change', message: '参数值不能为空' }
             ]
           },
           show: false,
@@ -121,11 +128,14 @@ export default {
           rules: {
             sname: [
               { required: true, trigger: 'change', message: '参数名称不能为空' }
+            ],
+            url: [
+              { required: true, trigger: 'change', message: '参数值不能为空' }
             ]
           },
           show: false,
           formLoading: true,
-          btnLoading: false
+          btnLoading: false,
         }
       },
       loading: {
@@ -243,6 +253,10 @@ export default {
           // 获取详情失败, 关闭修改弹窗
           this.dialog.edit.show = false;
         });
+    },
+    onQueryBtnClick() {
+      this.pager.page = 1;
+      this.query();
     },
     query() {
       this.loading.table = true;
