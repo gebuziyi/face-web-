@@ -135,7 +135,7 @@ export default {
           },
           show: false,
           formLoading: true,
-          btnLoading: false,
+          btnLoading: false
         }
       },
       loading: {
