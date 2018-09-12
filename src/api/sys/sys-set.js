@@ -3,7 +3,7 @@ import { requireNonNull } from '../../utils/coding-utils'
 import { sortOrderMapping } from '../../utils/constants'
 
 const propIndexMapping = {
-  id: 'id'
+  setId: 'setId'
 }
 
 export const getSysConfigList = function({query, pager, sorter}) {
@@ -18,7 +18,7 @@ export const getSysConfigList = function({query, pager, sorter}) {
   })
 }
 
-export const getSysConfigDetail = function(setId) {
+export const getSysSetDetail = function(setId) {
   return newClient().get('/sys/sys-set/info/' + setId)
 }
 

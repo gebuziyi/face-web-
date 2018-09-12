@@ -25,6 +25,13 @@
       <el-table-column prop="detailId" label="ID" sortable="custom" width="60"></el-table-column>
       <el-table-column prop="userId" label="用户ID"></el-table-column>
       <el-table-column prop="username" label="用户名"></el-table-column>
+      <el-table-column prop="img" label="头像">
+        <template slot-scope="scope">
+          <el-tooltip effect="dark" content="点击查看大图" placement="top">
+            <img :src="scope.row.img" class="img-thumb" @click="showPicPreviewDialog(scope.row)">
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column prop="diamond" label="钻石数量" sortable="custom"></el-table-column>
       <el-table-column prop="f" label="F币数量" sortable="custom"></el-table-column>
       <el-table-column prop="liveIncome" label="直播收入" sortable="custom"></el-table-column>
@@ -75,6 +82,9 @@
         <el-button type="primary" @click="doEdit" size="small" :loading="dialog.edit.btnLoading">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog :visible.sync="dialog.picPreview.show" :title="'头像图片预览: '">
+      <img :src="dialog.picPreview.picSrc" class="img-preview" />
+    </el-dialog>
   </div>
 </template>
 
@@ -89,6 +99,10 @@ export default {
   data() {
     return {
       dialog: {
+        picPreview: {
+          show: false,
+          picSrc: null
+        },
         edit: {
           detailId: null,
           username: null,
@@ -139,6 +153,11 @@ export default {
     };
   },
   methods: {
+    showPicPreviewDialog(row) {
+      this.dialog.picPreview.picSrc = row.img;
+      this.dialog.picPreview.mname = row.mname;
+      this.dialog.picPreview.show = true;
+    },
     onQueryBtnClick() {
       this.pager.page = 1;
       this.query();
@@ -222,6 +241,20 @@ export default {
 </script>
 
 <style scoped>
+.img-thumb {
+  width: 60px;
+  height: 60px;
+  border-radius: 20%;
+  cursor: pointer;
+}
+
+.img-preview {
+  display: block;
+  margin: auto auto;
+  max-width: 600px;
+  max-height: 600px;
+}
+
 .tips {
   margin-bottom: 1em;
 }
