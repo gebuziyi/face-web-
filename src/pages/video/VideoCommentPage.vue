@@ -14,6 +14,12 @@
           <el-option :value="0" label="审核不通过"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item prop="isType">
+        <el-select v-model="queryModel.isType" clearable placeholder="是否真实用户">
+          <el-option :value="0" label="真实普通账号"></el-option>
+          <el-option :value="1" label="机器人账号"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item prop="createTime">
         <el-date-picker v-model="queryModel.createTime" type="datetimerange" range-separator="至" start-placeholder="评论时间" end-placeholder="评论时间" value-format="yyyy-MM-dd HH:mm:ss">
         </el-date-picker>
@@ -99,6 +105,7 @@ export default {
         userId: null,
         videoId: null,
         statues: null,
+        isType: null,
         createTime: null
       },
       pager: {
