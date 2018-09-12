@@ -23,6 +23,13 @@
       <el-table-column prop="username" label="用户名"></el-table-column>
       <el-table-column prop="nickname" label="昵称"></el-table-column>
       <el-table-column prop="email" label="邮箱"></el-table-column>
+      <el-table-column prop='sex' label="性别">
+         <template slot-scope="scope">
+          <icon-tag :type="scope.row.sex === 0 ? 'danger' : ''" :icon="scope.row.sex === 0 ? 'fa fa-venus' : scope.row.sex === 1 ? 'fa fa-mars' : 'fa fa-question-circle-o'">
+            {{ scope.row.sex === 0 ? '女' : scope.row.sex === 1 ? '男' : '未知' }}
+          </icon-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="cname" label="国家"></el-table-column>
       <el-table-column prop="img" label="头像">
         <template slot-scope="scope">

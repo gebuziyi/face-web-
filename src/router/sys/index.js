@@ -9,6 +9,7 @@ import SysScheduledJobPage from '../../pages/sys/SysScheduledJobPage.vue'
 import SysConfigPage from '../../pages/sys/SysConfigPage.vue'
 import SysLogPage from '../../pages/sys/SysLogPage.vue'
 import SysUserVestPage from '../../pages/sys/SysUserVestPage.vue'
+import SysSetPage from '../../pages/sys/SysSetPage.vue'
 
 export const SysModuleRouter = {
   path: '/sys',
@@ -59,6 +60,11 @@ export const SysModuleRouter = {
       path: 'sys-vest',
       name: 'SysUserVestPage',
       component: SysUserVestPage
+    },
+    {
+      path: 'sys-set',
+      name: 'SysSetPage',
+      component: SysSetPage
     }
   ]
 }
