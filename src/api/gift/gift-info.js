@@ -26,6 +26,7 @@ export const getGiftInfoList = function ({ query, pager, sorter }) {
       typeId: requireNonNull(query.typeId),
       priceStart: requireNonNull(query.priceStart),
       priceEnd: requireNonNull(query.priceEnd),
+      disabled: requireNonNull(query.disabled),
       createTimeStart: requireNonNull(createTimeStart),
       createTimeEnd: requireNonNull(createTimeEnd),
       sidx: propIndexMapping[sorter.prop],

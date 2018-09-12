@@ -188,6 +188,18 @@ export const VEST_SEX_LIST = [
     showsex: '男'
   }
 ]
+
+export const GIFT_IS_DISABLE = [
+  {
+    disable: 0,
+    description: '已停用'
+  },
+  {
+    disable: 1,
+    description: '正常使用'
+  }
+]
+
 export const VIDEO_STATUS_LIST = [
   {
     status: 0,
