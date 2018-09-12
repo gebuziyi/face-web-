@@ -80,7 +80,7 @@
             <el-input v-model.trim="dialog.create.model.sname"></el-input>
           </el-form-item>
         <el-form-item label="参数值" prop="parameter">
-          <el-input-number v-model.trim="dialog.edit.model.parameter" :min="1" :max="128" label="礼品价格"></el-input-number>
+          <el-input-number v-model.trim="dialog.create.model.parameter" :min="1" :max="128" ></el-input-number>
         </el-form-item>
         <el-form-item label="url" prop="url">
             <el-input v-model.trim="dialog.create.model.url"></el-input>
@@ -130,6 +130,9 @@ export default {
               { required: true, trigger: 'change', message: '参数名称不能为空' }
             ],
             url: [
+              { required: true, trigger: 'change', message: '参数值不能为空' }
+            ],
+            parameter: [
               { required: true, trigger: 'change', message: '参数值不能为空' }
             ]
           },
