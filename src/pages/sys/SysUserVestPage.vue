@@ -7,6 +7,17 @@
       <el-form-item prop="adminUsername">
         <el-input v-model.trim="queryModel.adminUsername" placeholder="管理员用户名"></el-input>
       </el-form-item>
+      <el-form-item prop="userId">
+        <el-input v-model.trim="queryModel.userId" placeholder="马甲账户ID"></el-input>
+      </el-form-item>
+      <el-form-item prop="nickname">
+        <el-input v-model.trim="queryModel.nickname" placeholder="昵称"></el-input>
+      </el-form-item>
+      <el-form-item prop="countryId">
+        <el-select v-model="queryModel.countryId" placeholder="国家" clearable filterable>
+          <el-option v-for="(item, index) in countryList" :key="index" :value="item.countryId" :label="`${item.countryName}(${item.coding})`"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item prop="createTime">
         <el-date-picker v-model="queryModel.createTime" type="datetimerange" range-separator="至" start-placeholder="创建时间" end-placeholder="创建时间" value-format="yyyy-MM-dd HH:mm:ss">
         </el-date-picker>
@@ -69,6 +80,7 @@ import {
 } from '../../api/sys/sys-user-vest';
 import SysUserVestCreateDialog from './dialogs/SysUserVestCreateDialog';
 import SysUserVestEditDialog from './dialogs/SysUserVestEditDialog';
+import { getAllCountryInfo } from '../../api/basic-data/country-info';
 
 export default {
   name: 'sys-user-vest-page',
@@ -80,6 +92,7 @@ export default {
 
   data() {
     return {
+      countryList: [],
       selectedIds: [],
       operationBtns: {
         deleteBatch: {
@@ -111,6 +124,9 @@ export default {
       tableData: [],
       queryModel: {
         username: null,
+        countryId: null,
+        userId: null,
+        nickname: null,
         adminUsername: null,
         createTime: null
       },
@@ -193,6 +209,13 @@ export default {
       this.pager.page = page;
       this.query();
     },
+    initCountryInfoSelectData() {
+      getAllCountryInfo()
+        .then(({ data }) => {
+          this.countryList = data.list;
+        })
+        .catch(errorMsg => {});
+    },
     getTableData() {
       // 显示表格loading
       this.loading.table = true;
@@ -209,8 +232,8 @@ export default {
         .catch(error => {});
     }
   },
-
   created() {
+    this.initCountryInfoSelectData();
     this.getTableData();
   }
 };

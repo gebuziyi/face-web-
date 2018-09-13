@@ -14,6 +14,12 @@
           <el-option :value="0" label="审核不通过"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item prop="isType">
+        <el-select v-model="queryModel.isType" clearable placeholder="是否真实用户">
+          <el-option :value="0" label="真实普通账号"></el-option>
+          <el-option :value="1" label="机器人账号"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item prop="createTime">
         <el-date-picker v-model="queryModel.createTime" type="datetimerange" range-separator="至" start-placeholder="评论时间" end-placeholder="评论时间" value-format="yyyy-MM-dd HH:mm:ss">
         </el-date-picker>
@@ -49,20 +55,16 @@
           <icon-tag :type="scope.row.statues === 1 ? 'success' : 'danger'">{{ scope.row.statues === 1 ? '审核通过' : '审核未通过' }}</icon-tag>
         </template>
       </el-table-column>
+      <el-table-column prop="isType" label="用户状态" sortable="custom">
+         <template slot-scope="scope">
+            <icon-tag type="success" v-if='scope.row.isType === 0'>真实普通账号</icon-tag>
+            <icon-tag type="warning" v-if='scope.row.isType === 1'>机器人账号</icon-tag>
+          </template>
+      </el-table-column>
       <el-table-column prop="createTime" label="创建时间" sortable="custom"></el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button-group>
-            <!-- <el-tooltip class="item" effect="dark" content="查看父评论" placement="top" v-if="hasPermission('video:comment:parent')">
-              <el-button type="warning" size="mini" @click="showParentComment(scope.row)">
-                <i class="fa fa-edit"></i>
-              </el-button>
-            </el-tooltip> -->
-            <!-- <el-tooltip class="item" effect="dark" content="查看子评论" placement="top" v-if="hasPermission('video:comment:child')">
-              <el-button type="warning" size="mini" @click="showParentComment(scope.row)">
-                <i class="fa fa-edit"></i>
-              </el-button>
-            </el-tooltip> -->
             <el-tooltip class="item" effect="dark" content="审核不通过" placement="top" v-if="hasPermission('video:comment:delete') && scope.row.statues === 1">
               <el-button type="warning" size="mini" @click="checkFailedSingle(scope.row)">
                 <i class="fa fa-times"></i>
@@ -103,6 +105,7 @@ export default {
         userId: null,
         videoId: null,
         statues: null,
+        isType: null,
         createTime: null
       },
       pager: {

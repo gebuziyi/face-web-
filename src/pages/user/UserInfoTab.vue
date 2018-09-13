@@ -53,7 +53,9 @@
       <el-table-column prop="nickName" label="昵称"></el-table-column>
       <el-table-column prop="img" label="头像">
         <template slot-scope="scope">
-          <img :src="scope.row.img" class="user-avatar">
+          <el-tooltip effect="dark" content="点击查看大图" placement="top">
+            <img :src="scope.row.img" class="img-thumb" @click="showPicPreviewDialog(scope.row)">
+          </el-tooltip>
         </template>
       </el-table-column>
       <el-table-column prop="mobile" label="手机号码"></el-table-column>
@@ -182,6 +184,9 @@
     <giveaway-log-dialog ref="giveAwayLogDialog"></giveaway-log-dialog>
     <freeze-dialog ref="freezeDialog" @done="query"></freeze-dialog>
     <freeze-log-dialog  ref="FreezeLogsDialog"></freeze-log-dialog>
+    <el-dialog :visible.sync="dialog.picPreview.show" :title="'头像图片预览: '">
+      <img :src="dialog.picPreview.picSrc" class="img-preview" />
+    </el-dialog>
   </div>
 </template>
 
@@ -211,6 +216,10 @@ export default {
       countryList: [],
       selectedIds: [],
       dialog: {
+        picPreview: {
+          show: false,
+          picSrc: null
+        },
         detail: {
           model: emptyUserDetail(),
           show: false,
@@ -245,6 +254,11 @@ export default {
     };
   },
   methods: {
+    showPicPreviewDialog(row) {
+      this.dialog.picPreview.picSrc = row.img;
+      this.dialog.picPreview.mname = row.mname;
+      this.dialog.picPreview.show = true;
+    },
     openGiveAwayLogDialog(row) {
       this.$refs.giveAwayLogDialog.showDialog(row);
     },
@@ -382,5 +396,18 @@ export default {
 .user-avatar {
   width: 60px;
   height: 60px;
+}
+.img-thumb {
+  width: 60px;
+  height: 60px;
+  border-radius: 20%;
+  cursor: pointer;
+}
+
+.img-preview {
+  display: block;
+  margin: auto auto;
+  max-width: 600px;
+  max-height: 600px;
 }
 </style>

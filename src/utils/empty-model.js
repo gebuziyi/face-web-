@@ -177,6 +177,24 @@ export const emptySysConfig = function () {
   return empty
 }
 
+export const emptySysSet = function () {
+  let empty = {
+    setId: null,
+    sname: null,
+    parameter: null,
+    createTime: null,
+    creator: null,
+    editorTime: null,
+    editor: null,
+    del: null,
+    url: null,
+    createUser: null,
+    editorUser: null
+  }
+
+  return empty
+}
+
 // ======================================================== Recharge
 
 export const emptyRechargeNorm = function () {

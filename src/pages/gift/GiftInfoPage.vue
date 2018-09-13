@@ -14,6 +14,14 @@
           </template>
         </el-select>
       </el-form-item>
+      <!-- 礼品状态 -->
+      <el-form-item prop="disabled">
+        <el-select v-model="queryModel.disabled" clearable placeholder="礼品状态">
+          <template v-for="(item, index) in disables">
+            <el-option :label="item.description" :value="item.disable" :key="index"></el-option>
+          </template>
+        </el-select>
+      </el-form-item>
       <!-- 礼品价格区间 -->
       <el-form-item prop="priceStart">
         <!-- 如果用el-button-number, 则无法显示占位符 -->
@@ -125,7 +133,7 @@ import { getAllGiftType } from '../../api/gift/gift-type';
 import GiftInfoCreateDialog from './dialogs/GiftInfoCreateDialog';
 import GiftInfoEditDialog from './dialogs/GiftInfoEditDialog';
 import GiftInfoSortDialog from './dialogs/GiftInfoSortDialog';
-
+import { GIFT_IS_DISABLE } from '../../utils/constants';
 export default {
   name: 'gift-info-page',
 
@@ -146,6 +154,7 @@ export default {
 
   data() {
     return {
+      disables: GIFT_IS_DISABLE,
       selectedIds: [],
       musicTypes: [],
       loading: {
@@ -158,7 +167,8 @@ export default {
         typeId: null,
         priceStart: null,
         priceEnd: null,
-        createTime: null
+        createTime: null,
+        disabled: null
       },
       pager: {
         page: 1,

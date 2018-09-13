@@ -11,7 +11,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="性别" prop="sex">
-          <el-select v-model="model.sex" clearable placeholder="性别">
+          <el-select v-model="model.sex" placeholder="性别" clearable filterable>
             <template v-for="(item, index) in sexs">
               <el-option :label="item.showsex" :value="item.sex" :key="index"></el-option>
             </template>
