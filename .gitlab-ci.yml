@@ -5,6 +5,10 @@ before_script:
 
 lint:
   script: npm run lint
+  tags:
+    - admin-web-ci
 
 build:
   script: npm run build
+  tags:
+    - admin-web-ci
