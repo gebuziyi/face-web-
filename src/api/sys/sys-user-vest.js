@@ -4,6 +4,7 @@ import { sortOrderMapping } from '../../utils/constants'
 
 const propIndexMapping = {
   id: 'id',
+  vestId: 'vest_id',
   createTime: 'id'
 }
 
