@@ -5,6 +5,12 @@
       <el-form-item prop="sname">
         <el-input v-model.trim="queryModel.sname" placeholder="系统名称"></el-input>
       </el-form-item>
+          <el-form-item prop="del">
+        <el-select v-model="queryModel.del" placeholder="是否删除" clearable>
+          <el-option :value="0" label="已删除"></el-option>
+          <el-option :value="1" label="正常"></el-option>
+        </el-select>
+      </el-form-item>
     </el-form>
     <!-- 按钮 -->
     <div class="btn-wrapper">
@@ -39,7 +45,7 @@
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button-group>
-            <el-tooltip class="item" effect="dark" content="编辑" placement="top" v-if="hasPermission('sys:set:update')">
+            <el-tooltip class="item" effect="dark" content="编辑" placement="top" v-if="hasPermission('sys:set:update')&& scope.row.del === 0 === false" >
               <el-button type="warning" size="mini" @click="openEditDialog(scope.row)">
                 <i class="fa fa-edit"></i>
               </el-button>
@@ -94,7 +100,6 @@
     </el-dialog>
   </div>
 </template>
-
 <script>
 import {
   getSysConfigList,
@@ -129,9 +134,6 @@ export default {
             sname: [
               { required: true, trigger: 'change', message: '参数名称不能为空' }
             ],
-            url: [
-              { required: true, trigger: 'change', message: '参数值不能为空' }
-            ],
             parameter: [
               { required: true, trigger: 'change', message: '参数值不能为空' }
             ]
@@ -146,7 +148,8 @@ export default {
       },
       tableData: [],
       queryModel: {
-        sname: null
+        sname: null,
+        del: null
       },
       pager: {
         page: 1,

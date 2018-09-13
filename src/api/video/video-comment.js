@@ -24,6 +24,7 @@ export const getVideoCommentList = function ({ query, pager, sorter }) {
       videoId: requireNonNull(query.videoId),
       userId: requireNonNull(query.userId),
       statues: requireNonNull(query.statues),
+      isType: requireNonNull(query.isType),
       createTimeStart: requireNonNull(createTimeStart),
       createTimeEnd: requireNonNull(createTimeEnd),
       sidx: propIndexMapping[sorter.prop],

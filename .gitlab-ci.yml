@@ -1,0 +1,12 @@
+before_script:
+  - npm install
+
+lint:
+  script: npm run lint
+  tags:
+    - nodejs-runner
+
+build:
+  script: npm run build
+  tags:
+    - nodejs-runner

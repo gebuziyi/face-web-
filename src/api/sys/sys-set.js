@@ -12,6 +12,7 @@ export const getSysConfigList = function({query, pager, sorter}) {
       page: pager.page,
       limit: pager.limit,
       sname: requireNonNull(query.sname),
+      del: requireNonNull(query.del),
       sidx: propIndexMapping[sorter.prop],
       order: sortOrderMapping[sorter.order]
     }
