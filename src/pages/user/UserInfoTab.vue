@@ -174,6 +174,14 @@
           <el-form-item label="星座" v-if="shouldDisplay(dialog.detail.model.constellation)">
             <span class="detail-span" v-text="dialog.detail.model.constellation"></span>
           </el-form-item>
+          <!-- 轮播图 -->
+          <el-form-item label="用户封面">
+            <el-carousel :interval="4000" height="450px">
+              <el-carousel-item v-for="(item, index) in dialog.detail.model.fileList" :key="index" class="pic-bg">
+                <img :src="item.imgUrl" class="friend-ring-pic-item" />
+              </el-carousel-item>
+            </el-carousel>
+          </el-form-item>
         </el-form>
       </div>
       <span slot="footer">
@@ -409,5 +417,11 @@ export default {
   margin: auto auto;
   max-width: 600px;
   max-height: 600px;
+}
+.friend-ring-pic-item {
+  display: block;
+  margin: auto auto;
+  height: 100%;
+  max-height: 450px;
 }
 </style>
