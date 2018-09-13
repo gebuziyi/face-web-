@@ -7,6 +7,12 @@
       <el-form-item prop="adminUsername">
         <el-input v-model.trim="queryModel.adminUsername" placeholder="管理员用户名"></el-input>
       </el-form-item>
+      <el-form-item prop="userId">
+        <el-input v-model.trim="queryModel.userId" placeholder="马甲账户ID"></el-input>
+      </el-form-item>
+      <el-form-item prop="nickname">
+        <el-input v-model.trim="queryModel.nickname" placeholder="昵称"></el-input>
+      </el-form-item>
       <el-form-item prop="countryId">
         <el-select v-model="queryModel.countryId" placeholder="国家" clearable filterable>
           <el-option v-for="(item, index) in countryList" :key="index" :value="item.countryId" :label="`${item.countryName}(${item.coding})`"></el-option>
@@ -119,6 +125,8 @@ export default {
       queryModel: {
         username: null,
         countryId: null,
+        userId: null,
+        nickname: null,
         adminUsername: null,
         createTime: null
       },
