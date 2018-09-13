@@ -46,7 +46,7 @@
         <template slot-scope="scope">
           <el-button-group>
             <el-tooltip class="item" effect="dark" content="编辑" placement="top" v-if="hasPermission('sys:set:update')&& scope.row.del === 0 === false" >
-              <el-button type="success" size="mini" @click="openEditDialog(scope.row)">
+              <el-button type="warning" size="mini" @click="openEditDialog(scope.row)">
                 <i class="fa fa-edit"></i>
               </el-button>
             </el-tooltip>
