@@ -20,8 +20,10 @@ export const getSysUserVestList = function ({ query, pager, sorter }) {
     params: {
       page: pager.page,
       limit: pager.limit,
-      countryId:requireNonNull(query.countryId),
+      countryId: requireNonNull(query.countryId),
       username: requireNonNull(query.username),
+      userId: requireNonNull(query.userId),
+      nickname: requireNonNull(query.nickname),
       adminUsername: requireNonNull(query.adminUsername),
       createTimeStart: requireNonNull(createTimeStart),
       createTimeEnd: requireNonNull(createTimeEnd),
