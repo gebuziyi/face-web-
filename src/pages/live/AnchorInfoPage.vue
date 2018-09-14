@@ -65,6 +65,7 @@
       </el-table-column>
       <el-table-column prop="homeNo" label="直播间编号" width="150" show-overflow-tooltip></el-table-column>
       <el-table-column prop="liveIncome" label="直播礼物收入(F币)" width="150"></el-table-column>
+      <el-table-column prop="f" label="F币余额"></el-table-column>
       <el-table-column prop="charmValues" label="魅力值" sortable="custom"></el-table-column>
       <el-table-column prop="fensiNum" label="粉丝数量" sortable="custom"></el-table-column>
       <el-table-column prop="country" label="国家" width="80"></el-table-column>
