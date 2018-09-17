@@ -543,6 +543,7 @@ export const emptyHobbyInfo = function () {
 
 export const emptyUserDetail = function () {
   let empty = {
+    fileList: [],
     type: null,
     signature: null,
     loginTime: null,

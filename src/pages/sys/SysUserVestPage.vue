@@ -23,7 +23,7 @@
         </el-date-picker>
       </el-form-item>
     </el-form>
-    <table-btns @query="query" :btns="operationBtns"></table-btns>
+    <table-btns @query="onQueryBtnClick" :btns="operationBtns"></table-btns>
     <!-- 表格 -->
     <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @selection-change="onSelectionChange" @sort-change="onSortChange">
       <el-table-column type="selection" width="55">
@@ -196,6 +196,10 @@ export default {
       this.sorter.prop = prop;
       this.sorter.order = order;
       this.getTableData();
+    },
+    onQueryBtnClick() {
+      this.pager.page = 1;
+      this.query();
     },
     query() {
       this.loading.table = true;

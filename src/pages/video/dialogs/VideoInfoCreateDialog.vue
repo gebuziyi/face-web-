@@ -217,6 +217,10 @@ export default {
         this.uploader.on('uploadSuccess', (file, response) => {
           const serverResp = response._raw ? JSON.parse(response._raw) : null;
           if (serverResp && serverResp.code !== 0) {
+            // 重新设置文件状态为inited, 否则重新点击上传按钮之后不会执行上传动作
+            // 具体参见webuploader.js源码中startUpload方法(line 3520)
+            file.setStatus('inited');
+
             this.$message.error(
               `视频上传失败: ${serverResp.msg}, 请重新点击上传按钮`
             );
