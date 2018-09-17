@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { getUserInfoDetail } from '../../../api/user/user-info';
+import { getrecommendDetail } from '../../../api/user/user-info';
 import { createUserRecommend } from '../../../api/user/user-recommend';
 import { getAllForComboBox } from '../../../api/user/user-recommend-type';
 
@@ -88,7 +88,7 @@ export default {
         return;
       }
       this.loading.table = true;
-      getUserInfoDetail(this.queryModel.userId)
+      getrecommendDetail(this.queryModel.userId)
         .then(({ data }) => {
           this.tableData = [].concat(data.detail);
           this.loading.table = false;
