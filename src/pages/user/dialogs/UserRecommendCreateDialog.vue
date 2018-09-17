@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { getrecommendDetail } from '../../../api/user/user-info';
+import { getUserInfoDetail } from '../../../api/user/user-info';
 import { createUserRecommend } from '../../../api/user/user-recommend';
 import { getAllForComboBox } from '../../../api/user/user-recommend-type';
 
@@ -88,13 +88,13 @@ export default {
         return;
       }
       this.loading.table = true;
-      getrecommendDetail(this.queryModel.userId)
+      getUserInfoDetail(this.queryModel.userId)
         .then(({ data }) => {
           this.tableData = [].concat(data.detail);
           this.loading.table = false;
         })
         .catch(error => {
-          this.$message.error('用户已经被推荐');
+          this.$message.error('请检查输入的用户ID是否正确');
         });
     },
     doRecommend(row) {
