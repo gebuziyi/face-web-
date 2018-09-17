@@ -42,7 +42,7 @@ export const getUserInfoList = function ({ query, pager, sorter }) {
 }
 
 export const getUserInfoDetail = function (id) {
-  return newClient().get('/user/info/detail/' + id)
+  return newClient().get('/user/recommend/detail/' + id)
 }
 
 export const deleteUserBatch = function (id) {

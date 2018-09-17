@@ -94,7 +94,7 @@ export default {
           this.loading.table = false;
         })
         .catch(error => {
-          this.$message.error('请检查输入的用户ID是否正确');
+          this.$message.error('用户已经被推荐');
         });
     },
     doRecommend(row) {
