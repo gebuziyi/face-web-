@@ -120,6 +120,9 @@ export default {
                 this.$emit('done');
               })
               .catch(msg => {
+                if(msg === 'This user have been recommended'){
+                  this.$message.error('该用户已经被推荐');
+                }
                 this.loading.table = false;
               });
           })
