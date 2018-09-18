@@ -166,11 +166,6 @@ export default {
 }
 
 .type-name {
-  float: right;
-  padding-left: 2em;
-  width: 30em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  padding-left: 1em;
 }
 </style>
