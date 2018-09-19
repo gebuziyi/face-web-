@@ -6,7 +6,8 @@ const propIndexMapping = {
   rechargeId: 'recharge_id',
   createTime: 'recharge_id',
   money: 'money',
-  price: 'price'
+  price: 'price',
+  logId: 'log_id'
 }
 
 export const getRechargeLogList = function({ query, pager, sorter }) {

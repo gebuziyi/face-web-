@@ -41,7 +41,7 @@
           <img :src="scope.row.img" class="user-avatar">
         </template>
       </el-table-column>
-      <el-table-column prop="recommendType" label="推荐类型" sortable="custom"></el-table-column>
+      <el-table-column prop="recommendType" label="推荐类型"></el-table-column>
       <el-table-column prop="creatorUsername" label="推荐人"></el-table-column>
       <el-table-column prop="createTime" label="推荐时间"></el-table-column>
       <el-table-column fixed="right" label="操作">

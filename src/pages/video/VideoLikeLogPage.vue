@@ -21,7 +21,7 @@
       <el-button type="text" size="mini" @click="$refs.queryForm.resetFields()">重置</el-button>
     </div>
     <!-- 表格 -->
-    <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" :row-class-name="toggleRowClassName">
+    <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" :row-class-name="toggleRowClassName" @sort-change="onSortChange">
       <el-table-column type="selection" width="50">
       </el-table-column>
       <el-table-column prop="videoId" label="视频ID" sortable="custom" width="90"></el-table-column>

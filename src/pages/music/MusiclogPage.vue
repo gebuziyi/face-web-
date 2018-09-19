@@ -22,12 +22,12 @@
     <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @selection-change="onSelectionChange" @sort-change="onSortChange">
       <el-table-column type="selection" width="55">
       </el-table-column>
-      <el-table-column prop="logId" label="日志ID"></el-table-column>
+      <el-table-column prop="logId" label="日志ID" sortable="custom"></el-table-column>
       <el-table-column prop="userId" label="用户ID"></el-table-column>
       <el-table-column prop="nickName" label="用户昵称"></el-table-column>
       <el-table-column prop="musicId" label="音乐ID"></el-table-column>
       <el-table-column prop="mName" label="音乐名称"></el-table-column>
-      <el-table-column prop="createTime" label="收藏时间"></el-table-column>
+      <el-table-column prop="createTime" label="收藏时间" sortable="custom"></el-table-column>
     </el-table>
     <!-- 分页 -->
     <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">

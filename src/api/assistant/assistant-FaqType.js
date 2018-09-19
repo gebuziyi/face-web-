@@ -3,8 +3,9 @@ import { requireNonNull } from '../../utils/coding-utils'
 import { sortOrderMapping } from '../../utils/constants'
 
 const propIndexMapping = {
-  id: 'msg_id',
-  createTime: 'msg_id'
+  typeId: 'type_id',
+  createTime: 'create_time',
+  editorTime: 'editor_time'
 }
 
 export const getAssistantFaqTypeList = function ({ query, pager, sorter }) {

@@ -4,7 +4,8 @@ import { sortOrderMapping } from '../../utils/constants'
 
 const propIndexMapping = {
   sendId: 'give_id',
-  createTime: 'give_id'
+  createTime: 'give_id',
+  giveId: 'give_id'
 }
 
 export const getUserGiveAwayLogList = function ({ query, pager, sorter }) {
