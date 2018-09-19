@@ -27,7 +27,7 @@
     <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @sort-change="onSortChange">
       <el-table-column prop="commentId" label="ID" sortable="custom" width="80"></el-table-column>
       <el-table-column prop="username" label="用户名"></el-table-column>
-      <el-table-column prop="createTime" label="评论时间"></el-table-column>
+      <el-table-column prop="createTime" label="评论时间" sortable="custom"></el-table-column>
       <el-table-column prop="content" label="文字内容" show-overflow-tooltip></el-table-column>
       <el-table-column prop="likeNum" label="点赞数" sortable="custom"></el-table-column>
       <el-table-column prop="checked" label="审核状态">

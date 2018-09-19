@@ -52,7 +52,7 @@
       <el-table-column prop="username" label="用户名"></el-table-column>
       <el-table-column prop="content" label="文字内容" show-overflow-tooltip></el-table-column>
       <el-table-column prop="address" label="发布地址" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="createTime" label="发布时间"></el-table-column>
+      <el-table-column prop="createTime" label="发布时间" sortable="custom"></el-table-column>
       <el-table-column prop="likeNum" label="点赞数" sortable="custom"></el-table-column>
       <el-table-column prop="type" label="朋友圈类型">
         <template slot-scope="scope">

@@ -3,8 +3,8 @@ import { requireNonNull } from '../../utils/coding-utils'
 import { sortOrderMapping } from '../../utils/constants'
 
 const propIndexMapping = {
-  id: 'msg_id',
-  createTime: 'msg_id'
+  msgId: 'msg_id',
+  msgCreateTime: 'msg_id'
 }
 
 export const getAssistantChatMsgPage = function ({ query, pager, sorter }) {

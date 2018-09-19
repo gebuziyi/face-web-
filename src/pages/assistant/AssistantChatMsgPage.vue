@@ -41,7 +41,7 @@
           <span>{{ scope.row.msgType | map2TypeName }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="msgCreateTime" label="发送时间" width="160"></el-table-column>
+      <el-table-column prop="msgCreateTime" label="发送时间" width="160" sortable="custom"></el-table-column>
       <el-table-column fixed="right" label="操作" width="80">
         <template slot-scope="scope">
           <el-button-group>

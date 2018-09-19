@@ -34,7 +34,7 @@
       <el-table-column prop="userId" label="用户ID"></el-table-column>
       <el-table-column prop="nickname" label="昵称"></el-table-column>
       <el-table-column prop="username" label="用户名"></el-table-column>
-      <el-table-column prop="workDate" label="日期"></el-table-column>
+      <el-table-column prop="workDate" label="日期" sortable="custom"></el-table-column>
       <el-table-column prop="totalDuration" label="直播总时长(分钟)"></el-table-column>
       <el-table-column prop="targetDuration" label="目标时长(分钟)"></el-table-column>
       <el-table-column prop="done" label="完成情况">

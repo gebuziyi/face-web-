@@ -1,10 +1,16 @@
 import { newClient } from '../axios-client-factory'
+import { sortOrderMapping } from '../../utils/constants'
+const propIndexMapping = {
+  typeId: 'type_id'
+}
 
-export const getUserRecommendTypeList = function ({ pager }) {
+export const getUserRecommendTypeList = function ({ pager, sorter }) {
   return newClient().get('/user/recommendType/list', {
     params: {
       page: pager.page,
-      limit: pager.limit
+      limit: pager.limit,
+      sidx: propIndexMapping[sorter.prop],
+      order: sortOrderMapping[sorter.order]
     }
   })
 }
