@@ -27,8 +27,8 @@
       <el-table-column prop="typeId" label="ID" sortable="custom"></el-table-column>
       <el-table-column prop="typeName" label="类型名称" width="300"></el-table-column>
       <el-table-column prop="typeUrl" label="问题分类URL"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间"></el-table-column>
-      <el-table-column prop="editorTime" label="修改时间"></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" sortable="custom"></el-table-column>
+      <el-table-column prop="editorTime" label="修改时间" sortable="custom"></el-table-column>
       <el-table-column prop="creatorName" label="创建人"></el-table-column>
       <el-table-column prop="editorName" label="修改人"></el-table-column>
       <el-table-column fixed="right" label="操作">

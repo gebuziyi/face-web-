@@ -5,6 +5,7 @@ import { sortOrderMapping } from '../../utils/constants'
 const propIndexMapping = {
   typeId: 'type_id',
   createTime: 'type_id',
+  editorTime: 'editor_time',
   sort: 'sort'
 }
 

@@ -3,8 +3,8 @@ import { requireNonNull } from '../../utils/coding-utils'
 import { sortOrderMapping } from '../../utils/constants'
 
 const propIndexMapping = {
-  id: 'logId',
-  createTime: 'logId'
+  logId: 'log_id',
+  createTime: 'log_id'
 }
 
 export const getMusiclogList = function ({ query, pager, sorter }) {

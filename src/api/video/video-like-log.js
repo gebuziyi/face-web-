@@ -3,6 +3,7 @@ import { requireNonNull } from '../../utils/coding-utils'
 import { sortOrderMapping } from '../../utils/constants'
 
 const propIndexMapping = {
+  videoId: 'video_id',
   logId: 'log_id',
   createTime: 'log_id'
 }
