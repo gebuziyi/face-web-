@@ -16,7 +16,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="creatorUsername" label="创建人"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" sortable="custom"></el-table-column>
+      <el-table-column prop="createTime" label="创建时间"></el-table-column>
       <el-table-column prop="editorUsername" label="修改人"></el-table-column>
       <el-table-column prop="editorTime" label="修改时间"></el-table-column>
       <el-table-column fixed="right" label="操作" width="150">
