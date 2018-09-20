@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="activity-form-wrapper">
-      <h3>发布小助手消息活动</h3>
+      <h3>发布小助手通知</h3>
       <el-form class="activity-form" size="small" :model="model" :rules="rules" label-position="left" label-width="120px" label-high="500px" ref="videoTopicForm">
-        <el-form-item label="活动介绍" prop="text">
+        <el-form-item label="通知介绍" prop="text">
           <el-input v-model.trim="model.text" type="textarea"></el-input>
         </el-form-item>
         <el-form-item label="">
@@ -12,7 +12,7 @@
       </el-form>
     </div>
     <div class="tab-wrapper">
-      <h4>活动发布记录</h4>
+      <h4>通知发布记录</h4>
       <!-- 查询表单 start-->
       <el-form :inline="true" :model="queryModel" size="small" ref="queryForm">
         <el-form-item prop="createTime">
@@ -98,7 +98,7 @@ export default {
           {
             required: true,
             trigger: 'change',
-            message: '活动介绍不能为空'
+            message: '通知不能为空'
           }
         ]
       },
