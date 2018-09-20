@@ -22,10 +22,10 @@
       </el-form>
       <!-- 按钮 -->
       <div class="btn-wrapper">
-        <el-button @click="query" type="primary" size="small">
-          <i class="fa fa-search"></i>
-          <span>搜索</span>
-        </el-button>
+      <el-button @click="onQueryBtnClick" type="primary" size="small">
+        <i class="fa fa-search"></i>
+        <span>搜索</span>
+      </el-button>
         <el-button type="text" size="mini" @click="$refs.queryForm.resetFields()">重置</el-button>
       </div>
       <!-- 表格 -->
@@ -175,9 +175,12 @@ export default {
         })
         .catch(error => {});
     },
+    onQueryBtnClick() {
+      this.pager.page = 1;
+      this.query();
+    },
     query() {
       this.loading.table = true;
-      this.pager.page = 1;
       this.getTableData();
     },
     onSortChange({ column, prop, order }) {
