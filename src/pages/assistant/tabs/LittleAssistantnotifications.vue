@@ -36,21 +36,6 @@
             <span>{{ scope.row | parseText }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="msgData" label="话题ID" width="80">
-          <template slot-scope="scope">
-            <span>{{ scope.row | parseId }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="msgData" label="话题名称" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row | parseName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="msgData" label="话题封面" width="80">
-          <template slot-scope="scope">
-            <table-img-previewer :option="scope.row | parseImageOption"></table-img-previewer>
-          </template>
-        </el-table-column>
         <el-table-column prop="msgCreateTime" label="发送时间" width="160"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
@@ -76,7 +61,7 @@ import { sendLittleAssistantnotificationsMsg } from '../../../api/assistant/offi
 import { debounce } from 'lodash';
 import { searchLittleAssistantnotificationsByName } from '../../../api/fuzzy-search';
 import {
-  getAssistantChatMsgByVideoTopicPage,
+  getLittleAssistantChatMsgPage,
   deleteMsg
 } from '../../../api/assistant/assistant-ChatMsg';
 
@@ -178,7 +163,7 @@ export default {
     }, 500),
     getTableData() {
       this.loading.table = true;
-      getAssistantChatMsgByVideoTopicPage({
+      getLittleAssistantChatMsgPage({
         query: this.queryModel,
         pager: this.pager,
         sorter: this.sorter
