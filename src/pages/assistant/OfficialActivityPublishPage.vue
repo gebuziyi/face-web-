@@ -13,6 +13,9 @@
       <el-tab-pane label="直播间活动" name="LiveRoom-info">
         <live-room-activity></live-room-activity>
       </el-tab-pane>
+      <el-tab-pane label="小助手通知" name="LittleAssistant-notifications">
+        <Little-Assistant-notifications></Little-Assistant-notifications>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -20,7 +23,9 @@
 import H5ActivityPublishTab from './tabs/H5ActivityPublishTab';
 import VideoTopicActivityPublishTab from './tabs/VideoTopicActivityPublishTab';
 import MusicInfoActivityPublishTab from './tabs/MusicInfoActivityPublishTab';
-import LiveRoomInfoActivityPublishTab from './tabs/LiveRoomInfoActivityPublishTab';
+import LiveRoomInfoActivityPublishTa from './tabs/LiveRoomInfoActivityPublishTab';
+import LittleAssistantnotifications from './tabs/LittleAssistantnotifications';
+
 export default {
   name: 'official-activity-publish-page',
 
@@ -28,7 +33,8 @@ export default {
     'h5-activity': H5ActivityPublishTab,
     'video-topic-activity': VideoTopicActivityPublishTab,
     'music-info-activity': MusicInfoActivityPublishTab,
-    'live-room-activity': LiveRoomInfoActivityPublishTab
+    'live-room-activity': LiveRoomInfoActivityPublishTa,
+    'Little-Assistant-notifications': LittleAssistantnotifications
   },
 
   data() {
