@@ -39,7 +39,6 @@
 
 <script>
 import { getUserInfoDetail } from '../../../api/user/user-info';
-import { getAllForComboBox } from '../../../api/user/user-recommend-type';
 import AssistantDoChatDialog from './AssistantDoChatDialog';
 
 export default {
@@ -97,21 +96,11 @@ export default {
       this.userId = null;
       this.tableData = [];
       this.recommendTypeModel.typeId = null;
-    },
-    initRecommendTypeComboBox() {
-      getAllForComboBox()
-        .then(({ data }) => {
-          this.types = data.list;
-        })
-        .catch(error => {
-          this.$message.error('无法获取推荐类型列表');
-        });
     }
   },
   created() {
     this.userId = null;
     this.tableData = [];
-    this.initRecommendTypeComboBox();
   }
 };
 </script>
