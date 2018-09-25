@@ -15,3 +15,7 @@ export const sendVideoTopicMsg = function (model) {
 export const sendLiveMsg = function (model) {
   return newClient().post('/assistant/chat-msg/sendLiveMsg', model)
 }
+
+export const sendLittleAssistantnotificationsMsg = function (model) {
+  return newClient().post('/assistant/chat-msg/sendLittleAssistantnotificationsMsg', model)
+}

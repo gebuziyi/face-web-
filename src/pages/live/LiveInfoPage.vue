@@ -58,6 +58,8 @@
       <el-table-column prop="onlineNum" label="在线人数" sortable="custom"></el-table-column>
       <el-table-column prop="likeNum" label="点赞数量" sortable="custom"></el-table-column>
       <el-table-column prop="giftNum" label="礼物数量" sortable="custom"></el-table-column>
+      <el-table-column prop="imId" label="IM ID"></el-table-column>
+      <el-table-column prop="streamId" label="流地址"></el-table-column>
       <el-table-column prop="isLive" label="状态">
         <template slot-scope="scope">
           <icon-tag :type="scope.row.isLive === 0 ? 'success' : 'info'" :icon="scope.row.isLive === 0 ? 'fa fa-play' : 'fa fa-clock-o'">

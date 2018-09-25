@@ -31,3 +31,11 @@ export const searchSingerList = function(name) {
     }
   })
 }
+
+export const searchLittleAssistantnotificationsByName = function(name) {
+  return newClient().get('/fuzzy/entity/video-topic/name', {
+    params: {
+      query: name
+    }
+  })
+}

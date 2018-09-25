@@ -104,6 +104,24 @@ export const getAssistantChatMsgByLiveRoomPage = function({ query, pager, sorter
     }
   })
 }
+export const getLittleAssistantChatMsgPage = function({ query, pager, sorter }) {
+  let createTimeStart = null
+  let createTimeEnd = null
+  if (query.createTime !== null && typeof query.createTime !== 'undefined') {
+    createTimeStart = query.createTime[0]
+    createTimeEnd = query.createTime[1]
+  }
+  return newClient().get('/assistant/chat-msg/Assistant-list', {
+    params: {
+      page: pager.page,
+      limit: pager.limit,
+      createTimeStart: requireNonNull(createTimeStart),
+      createTimeEnd: requireNonNull(createTimeEnd),
+      sidx: propIndexMapping[sorter.prop],
+      order: sortOrderMapping[sorter.order]
+    }
+  })
+}
 export const replyMsg = function (msg) {
   return newClient().post('/assistant/chat-msg/text', msg)
 }
