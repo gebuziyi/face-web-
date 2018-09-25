@@ -25,6 +25,9 @@
           </template>
         </div>
       </el-tab-pane>
+      <el-tab-pane label="腾讯云脏字管理" name="LittleAssistant-notifications">
+        <Management-of-dirty-words></Management-of-dirty-words>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -32,12 +35,13 @@
 <script>
 import { doVideoRedisRepair, dovestAccountRedisRepair } from '../../api/sys/sys-repair';
 import RepairOperationCard from './components/RepairOperationCard';
-
+import ManagementOfDirtyWords from './dialogs/ManagementOfDirtyWords';
 export default {
   name: 'sys-repair-page',
 
   components: {
-    'repair-operation-card': RepairOperationCard
+    'repair-operation-card': RepairOperationCard,
+    'Management-of-dirty-words': ManagementOfDirtyWords
   },
 
   data() {

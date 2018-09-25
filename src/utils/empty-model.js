@@ -194,6 +194,12 @@ export const emptySysSet = function () {
 
   return empty
 }
+export const tencentCloud = function () {
+  let empty = {
+    dirtyWord: null,
+  }
+  return empty
+}
 
 // ======================================================== Recharge
 
