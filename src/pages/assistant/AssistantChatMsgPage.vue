@@ -22,6 +22,10 @@
         <span>搜索</span>
       </el-button>
       <el-button type="text" size="mini" @click="$refs.queryForm.resetFields()">重置</el-button>
+      <el-button @click="openSearchDialog" type="success" size="small" class="btn-operation">
+        <i class="fa fa-search"></i>
+        <span>聊天记录窗口</span>
+      </el-button>
     </div>
     <!-- 表格 -->
     <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @sort-change="onSortChange">
@@ -59,6 +63,7 @@
     </el-pagination>
     <!-- 弹窗 -->
     <reply-dialog ref="replyDialog" @done="query"></reply-dialog>
+    <reply-search-dialog ref="searchDialog"  @done="query"></reply-search-dialog>
   </div>
 </template>
 
@@ -66,12 +71,14 @@
 import { getAssistantChatMsgPage } from '../../api/assistant/assistant-ChatMsg';
 import AssistantMsgReplyDialog from './dialogs/AssistantMsgReplyDialog';
 import { ASSISTANT_MSG_TYPES } from '../../utils/constants';
+import AssistantSearchReplyDialog from './dialogs/AssistantSearchReplyDialog';
 
 export default {
   name: 'assistant-ChatMsg',
 
   components: {
-    'reply-dialog': AssistantMsgReplyDialog
+    'reply-dialog': AssistantMsgReplyDialog,
+    'reply-search-dialog': AssistantSearchReplyDialog
   },
 
   data() {
@@ -166,6 +173,9 @@ export default {
           this.loading.table = false;
         })
         .catch(error => {});
+    },
+    openSearchDialog() {
+      this.$refs.searchDialog.showDialog();
     }
   },
   created() {

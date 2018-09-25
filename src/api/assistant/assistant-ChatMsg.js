@@ -129,3 +129,7 @@ export const replyMsg = function (msg) {
 export const deleteMsg = function (msgIds) {
   return newClient().post('/assistant/chat-msg/delete', [].concat(msgIds))
 }
+
+export const getChatRecords = function (userId) {
+  return newClient().get('/assistant/chat-msg/chatRecords/' + userId)
+}
