@@ -52,10 +52,7 @@ export default {
             },
             legend: {
               orient: 'vertical',
-              left: 'left',
-              data: this.userRegistType.map(item => {
-                return item.description;
-              })
+              left: 'left'
             },
             series: [
               {
@@ -99,19 +96,11 @@ export default {
                 },
                 data: data.pieData.map(item => {
                   if (this.userRegistType) {
-                    let data;
-                    if (item.regType !== 0) {
-                      data = {
-                        name: this.userRegistType.find(row => row.type === item.regType)
-                          .description,
-                        value: item.regCount
-                      };
-                    } else {
-                      data = {
-                        name: this.userRegistType.find().description,
-                        value: item.regCount
-                      };
-                    }
+                    let data = {
+                      name: this.userRegistType.find(row => row.type === item.regType)
+                        .description,
+                      value: item.regCount
+                    };
                     return data;
                   }
                 }).sort((a, b) => b.value - a.value),
