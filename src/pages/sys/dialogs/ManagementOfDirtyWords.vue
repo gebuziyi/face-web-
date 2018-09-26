@@ -33,6 +33,7 @@
       </el-table>
          <!-- 创建系统参数 -->
     <el-dialog :visible.sync="dialog.create.show" title="新增脏字" width="600px">
+      <sapn><font color="red" size="0.3px">  *批量新增,中间加英文逗号-例如   (  ok?,yeah!,beach,yes,i`m  )  </font></sapn>
       <div v-loading="dialog.create.loading" class="create-form-wrapper">
         <el-form size="small" :model="dialog.create.model" :rules="dialog.create.rules" label-position="left" label-width="80px" ref="createForm">
           <el-form-item label="脏字名称" prop="dirtyWord">
