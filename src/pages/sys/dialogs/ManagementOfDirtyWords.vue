@@ -33,7 +33,14 @@
       </el-table>
          <!-- 创建系统参数 -->
     <el-dialog :visible.sync="dialog.create.show" title="新增脏字" width="600px">
-      <sapn><font color="red" size="0.3px">  *批量新增,中间加英文逗号-例如   (  ok?,yeah!,beach,yes,i`m  )  </font></sapn>
+      <sapn>
+        <font color="red" size="2.5px">*批量新增,中间加英文逗号-例如
+          <span>
+          <font size="5px" color="#000000">(ok,yeah,beach,yes,I`m)</font>
+          </span>
+        </font>
+      </sapn>
+      <p class="text">*脏字不能超过 50 个</p>
       <div v-loading="dialog.create.loading" class="create-form-wrapper">
         <el-form size="small" :model="dialog.create.model" :rules="dialog.create.rules" label-position="left" label-width="80px" ref="createForm">
           <el-form-item label="脏字名称" prop="dirtyWord">
@@ -203,6 +210,9 @@ export default {
 </script>
 
 <style scoped>
+.text{
+  color: red;
+}
 .activity-form {
   margin-top: 20px;
   width: 60%;
