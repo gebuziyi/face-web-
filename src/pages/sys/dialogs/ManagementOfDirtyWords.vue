@@ -163,18 +163,6 @@ export default {
     openCreateDialog() {
       this.dialog.create.show = true;
     },
-    openEditDialog(row) {
-      this.dialog.edit.show = true;
-      getSysSetDetail(row.setId)
-        .then(({ data }) => {
-          this.dialog.edit.model = data.detail;
-          this.dialog.edit.formLoading = false;
-        })
-        .catch(error => {
-          // 获取详情失败, 关闭修改弹窗
-          this.dialog.edit.show = false;
-        });
-    },
     onQueryBtnClick() {
       this.pager.page = 1;
       this.query();
@@ -196,7 +184,7 @@ export default {
         .then(({ data }) => {
           let dirtyWordsList = JSON.parse(data.list).DirtyWordsList;
           console.log(dirtyWordsList);
-          this.tableData = dirtyWordsList.map(word => { 
+          this.tableData = dirtyWordsList.map(word => {
             return {
               dirtyWord: word
             };

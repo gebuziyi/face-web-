@@ -14,5 +14,5 @@ export const postDirtyWords = function() {
   return newClient().post('/sys/vest/admin/listDirtyWords')
 }
 export const removeSysConfig = function(DirtyWordsList) {
-  return newClient().post('/sys/vest/listDirtyWords/del',[].concat(DirtyWordsList))
+  return newClient().post('/sys/vest/listDirtyWords/del', [].concat(DirtyWordsList))
 }

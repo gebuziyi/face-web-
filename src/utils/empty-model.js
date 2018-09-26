@@ -196,7 +196,7 @@ export const emptySysSet = function () {
 }
 export const tencentCloud = function () {
   let empty = {
-    dirtyWord: null,
+    dirtyWord: null
   }
   return empty
 }
