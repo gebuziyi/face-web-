@@ -33,13 +33,13 @@
       </el-table>
          <!-- 创建系统参数 -->
     <el-dialog :visible.sync="dialog.create.show" title="新增脏字" width="600px">
-      <sapn>
+      <span>
         <font color="red" size="2.5px">*批量新增,中间加英文逗号-例如
           <span>
           <font size="5px" color="#000000">(ok,yeah,beach,yes,I`m)</font>
           </span>
         </font>
-      </sapn>
+      </span>
       <p class="text">*脏字不能超过 50 个</p>
       <div v-loading="dialog.create.loading" class="create-form-wrapper">
         <el-form size="small" :model="dialog.create.model" :rules="dialog.create.rules" label-position="left" label-width="80px" ref="createForm">
@@ -121,7 +121,8 @@ export default {
               this.$message.success('删除成功');
               // 刷新表格数据
               this.$emit('done');
-              this.getTableData();
+              // this.getTableData();
+              this.initGetALLSysSelectData();
             })
             .catch(msg => {
               this.loading.table = false;
@@ -141,7 +142,8 @@ export default {
               this.$emit('done');
               this.dialog.create.btnLoading = false;
               this.dialog.create.show = false;
-              this.getTableData();
+              this.initGetALLSysSelectData();
+              // this.getTableData();
             })
             .catch(errorMsg => {});
         } else {
@@ -158,7 +160,8 @@ export default {
               this.$message.success('删除成功');
               // 刷新表格数据
               this.$emit('done');
-              this.getTableData();
+              // this.getTableData();
+              this.initGetALLSysSelectData();
             })
             .catch(msg => {
               this.loading.table = false;
@@ -191,7 +194,6 @@ export default {
       postDirtyWords()
         .then(({ data }) => {
           let dirtyWordsList = JSON.parse(data.list).DirtyWordsList;
-          console.log(dirtyWordsList);
           this.tableData = dirtyWordsList.map(word => {
             return {
               dirtyWord: word
