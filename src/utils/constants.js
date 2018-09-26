@@ -270,3 +270,50 @@ export const REPORT_TYPE_LIST = [
     description: '举报朋友圈评论'
   }
 ]
+
+export const USER_REGIST_TYPE = [
+  {
+    type: 1,
+    description: '用户名'
+  },
+  {
+    type: 2,
+    description: '邮箱'
+  },
+  {
+    type: 3,
+    description: '手机'
+  },
+  {
+    type: 4,
+    description: '微信'
+  },
+  {
+    type: 5,
+    description: 'QQ'
+  },
+  {
+    type: 6,
+    description: '微博'
+  },
+  {
+    type: 7,
+    description: 'facebook'
+  },
+  {
+    type: 8,
+    description: 'twitter'
+  },
+  {
+    type: 9,
+    description: '谷歌'
+  },
+  {
+    type: 10,
+    description: '图片墙'
+  },
+  {
+    type: 11,
+    description: 'line'
+  }
+]

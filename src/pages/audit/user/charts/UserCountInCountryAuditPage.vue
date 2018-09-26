@@ -1,5 +1,5 @@
 <template>
-  <div class="audit-page">
+  <div class="audit-page" >
     <el-row class="chart-desc">
       <el-button class="btn-operation" type="primary" size="mini" @click="refreshChartData">
         <i class="fa fa-refresh"></i>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { getUserCountInCountryAuditData } from '../../../api/audit/user-audit';
+import { getUserCountInCountryAuditData } from '../../../../api/audit/user-audit';
 
 export default {
   name: 'user-count-in-country-audit-page',
@@ -171,5 +171,10 @@ export default {
 
 .chart-wrapper {
   width: 100%;
+}
+
+.audit-page{
+  border: 3px solid #DDDDDDDD;
+  margin:10px;
 }
 </style>
