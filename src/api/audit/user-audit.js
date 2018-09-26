@@ -8,3 +8,6 @@ export const getUserCountInCountryAuditData = function ({ pager }) {
     }
   })
 }
+export const getUserRechargeTypeAuditPieData = function () {
+  return newClient().get('/audit/user/pie/user-count/regist-type')
+}

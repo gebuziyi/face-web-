@@ -1,5 +1,4 @@
 const AuditHomePage = () => import('../../pages/audit/AuditHomePage.vue');
-const UserCountInCountryAuditPage = () => import('../../pages/audit/user/UserCountInCountryAuditPage.vue');
 const RechargeUserConsumeRatioAuditPage = () => import('../../pages/audit/recharge/RechargeUserConsumeRatioAuditPage.vue');
 const VideoTypePlayCountAuditPage = () => import('../../pages/audit/videoType/VideoTypePlayCountAuditPage.vue');
 const PayTypeUserCountAuditPage = () => import('../../pages/audit/payType/PayTypeUserCountAuditPage.vue');
@@ -12,6 +11,7 @@ const VideoGiftAudit = () => import('../../pages/audit/videoInfo/VideoGiftAudit.
 const videoPlayAudit = () => import('../../pages/audit/videoInfo/videoPlayAudit.vue');
 const userRechargeRatioAudit = () => import('../../pages/audit/user/userRechargeRatioAudit.vue');
 const avgRechargePriceAudit = () => import('../../pages/audit/recharge/avgRechargePriceAudit.vue');
+const UserAuditPage = () => import('../../pages/audit/user/UserAuditPage.vue');
 
 export const AuditModuleRouter = {
   path: 'audit',
@@ -19,9 +19,9 @@ export const AuditModuleRouter = {
   component: AuditHomePage,
   children: [
     {
-      path: 'user/user-count',
-      name: 'UserCountInCountryAuditPage',
-      component: UserCountInCountryAuditPage
+      path: 'user/user-audit',
+      name: 'UserAuditPage',
+      component: UserAuditPage
     },
     {
       path: 'recharge-user-consume-ratio-audit',
