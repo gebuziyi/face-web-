@@ -1,13 +1,13 @@
 <template>
   <div class="audit-page" >
-    <el-row class="chart-desc">
+    <el-row class="chart-desc" style="padding: 15px;">
       <el-button class="btn-operation" type="primary" size="mini" @click="refreshChartData">
         <i class="fa fa-refresh"></i>
         刷新数据
       </el-button>
     </el-row>
     <div class="chart-wrapper">
-      <div ref="bar-chart" style="width: 1500px; height: 650px"></div>
+      <div ref="bar-chart" style="width: 1700px; height: 650px"></div>
     </div>
   </div>
 </template>
@@ -72,6 +72,12 @@ export default {
               axisLabel: {
                 formatter: '{value} 人'
               }
+              
+            },
+            grid: {
+              
+              y: 100,
+              bottom: '40%'
             },
             dataZoom: [
               {
@@ -166,7 +172,6 @@ export default {
 <style scoped>
 .chart-desc {
   width: 100%;
-  margin-bottom: 3em;
 }
 
 .chart-wrapper {
@@ -176,5 +181,7 @@ export default {
 .audit-page{
   border: 3px solid #DDDDDDDD;
   margin:10px;
+  height: 500px; 
+  width: 100%;
 }
 </style>

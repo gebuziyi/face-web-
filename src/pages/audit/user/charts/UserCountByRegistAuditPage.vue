@@ -1,6 +1,6 @@
 <template>
   <div class="audit-page">
-    <el-row class="chart-desc">
+    <el-row class="chart-desc" style="padding: 15px;">
       <el-button class="btn-operation" type="primary" size="mini" @click="refreshChartData">
         <i class="fa fa-refresh"></i>
         刷新数据
@@ -137,7 +137,6 @@ export default {
 <style scoped>
 .chart-desc {
   width: 100%;
-  margin-bottom: 3em;
 }
 
 .chart-wrapper {
@@ -146,8 +145,8 @@ export default {
 
 .audit-page{
   border: 3px solid #DDDDDDDD;
-  height: 750px;
-  width: 750px;
+  height: 700px;
+  width: 700px;
   margin:10px;
 }
 </style>

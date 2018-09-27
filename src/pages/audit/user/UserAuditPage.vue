@@ -19,6 +19,11 @@
         <user-count-in-country></user-count-in-country>
       </el-col>
     </el-row>
+    <el-row class="line-chart-row">
+      <el-col :span="24">
+        <user-count-by-week></user-count-by-week>
+      </el-col>
+    </el-row>
     <el-row class="order-user-table-row" :gutter="60">
       <el-col :span="16" class="latest-10-order-col">
         <user-register-count></user-register-count>
@@ -45,13 +50,15 @@
 
 import UserCountInCountryAuditPage from './charts/UserCountInCountryAuditPage';
 import UserCountByRegistAuditPage from './charts/UserCountByRegistAuditPage';
+import WeeklyRegisteredUserLineChart from './charts/WeeklyRegisteredUserLineChart';
 
 export default {
   name: 'dashboard',
 
   components: {
     'user-count-in-country': UserCountInCountryAuditPage,
-    'user-register-count': UserCountByRegistAuditPage
+    'user-register-count': UserCountByRegistAuditPage,
+    'user-count-by-week': WeeklyRegisteredUserLineChart
   },
 
   data() {
