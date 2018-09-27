@@ -72,10 +72,8 @@ export default {
               axisLabel: {
                 formatter: '{value} 人'
               }
-              
             },
             grid: {
-              
               y: 100,
               bottom: '40%'
             },
@@ -181,7 +179,7 @@ export default {
 .audit-page{
   border: 3px solid #DDDDDDDD;
   margin:10px;
-  height: 500px; 
+  height: 500px;
   width: 100%;
 }
 </style>
