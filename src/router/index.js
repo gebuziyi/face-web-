@@ -8,7 +8,6 @@ import Dashboard from '../pages/dashboard/Dashboard'
 
 import { LiveModuleRouter } from './live';
 import { GiftModuleRouter } from './gift';
-import { QaMoudleRouter } from './qa';
 import { SysModuleRouter } from './sys';
 import { RechargeModuleRouter } from './recharge';
 import { WithdrawModuleRouter } from './withdraw';
@@ -47,7 +46,6 @@ export default new Router({
           component: Dashboard
         },
         GiftModuleRouter,
-        QaMoudleRouter,
         SysModuleRouter,
         RechargeModuleRouter,
         WithdrawModuleRouter,
