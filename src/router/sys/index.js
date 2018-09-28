@@ -10,6 +10,7 @@ import SysConfigPage from '../../pages/sys/SysConfigPage.vue'
 import SysLogPage from '../../pages/sys/SysLogPage.vue'
 import SysUserVestPage from '../../pages/sys/SysUserVestPage.vue'
 import SysSetPage from '../../pages/sys/SysSetPage.vue'
+import SysRepairPage from '../../pages/sys/SysRepairPage.vue'
 
 export const SysModuleRouter = {
   path: '/sys',
@@ -65,6 +66,11 @@ export const SysModuleRouter = {
       path: 'sys-set',
       name: 'SysSetPage',
       component: SysSetPage
+    },
+    {
+      path: 'sys-repair',
+      name: 'SysRepairPage',
+      component: SysRepairPage
     }
   ]
 }

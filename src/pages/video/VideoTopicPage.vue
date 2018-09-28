@@ -40,7 +40,7 @@
     <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @selection-change="onSelectionChange" @sort-change="onSortChange">
       <el-table-column type="selection" width="55">
       </el-table-column>
-      <el-table-column prop="topicId" label="ID" sortable="custom"></el-table-column>
+      <el-table-column prop="topicId" label="ID" sortable="custom" width="60"></el-table-column>
       <el-table-column prop="tname" label="话题名称" show-overflow-tooltip></el-table-column>
       <el-table-column prop="img" label="话题图标">
         <template slot-scope="scope">
@@ -51,7 +51,7 @@
       <el-table-column prop="videoCount" label="视频数量"></el-table-column>
       <el-table-column prop="nickname" label="创建人昵称"></el-table-column>
       <el-table-column prop="userId" label="创建人ID"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" sortable="custom"></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" sortable="custom" width="150"></el-table-column>
       <el-table-column prop="hot" label="热门状态">
         <template slot-scope="scope">
           <icon-tag :type="scope.row.hot === true ? 'danger' : 'info'" :icon="scope.row.hot === true ? 'fa fa-fire' : ''">{{ scope.row.hot === true ? '热门话题' : '普通话题'}}</icon-tag>

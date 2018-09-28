@@ -1,17 +1,10 @@
 <template>
   <div>
     <div class="activity-form-wrapper">
-      <h3>发布视频话题活动</h3>
-      <el-form class="activity-form" size="small" :model="model" :rules="rules" label-position="left" label-width="120px" ref="videoTopicForm">
-        <el-form-item label="活动介绍" prop="text">
+      <h3>发布小助手通知</h3>
+      <el-form class="activity-form" size="small" :model="model" :rules="rules" label-position="left" label-width="120px" label-high="500px" ref="videoTopicForm">
+        <el-form-item label="通知介绍" prop="text">
           <el-input v-model.trim="model.text" type="textarea"></el-input>
-        </el-form-item>
-        <el-form-item prop="id" label="视频话题">
-          <el-select v-model="model.id" clearable placeholder="键入搜索视频话题" filterable :filter-method="remoteSearchVideoTopic" remote :loading="loading.select.topic">
-            <template v-for="item in videoTopicList">
-              <el-option :label="item.tname" :value="item.topicId" :key="item.topicId"></el-option>
-            </template>
-          </el-select>
         </el-form-item>
         <el-form-item label="">
           <el-button type="primary" @click="doPublish" size="small" :loading="btnLoading">确认发布</el-button>
@@ -19,7 +12,7 @@
       </el-form>
     </div>
     <div class="tab-wrapper">
-      <h4>活动发布记录</h4>
+      <h4>通知发布记录</h4>
       <!-- 查询表单 start-->
       <el-form :inline="true" :model="queryModel" size="small" ref="queryForm">
         <el-form-item prop="createTime">
@@ -43,21 +36,6 @@
             <span>{{ scope.row | parseText }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="msgData" label="话题ID" width="80">
-          <template slot-scope="scope">
-            <span>{{ scope.row | parseId }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="msgData" label="话题名称" width="150">
-          <template slot-scope="scope">
-            <span>{{ scope.row | parseName }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="msgData" label="话题封面" width="80">
-          <template slot-scope="scope">
-            <table-img-previewer :option="scope.row | parseImageOption"></table-img-previewer>
-          </template>
-        </el-table-column>
         <el-table-column prop="msgCreateTime" label="发送时间" width="160"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
@@ -79,11 +57,11 @@
 </template>
 
 <script>
-import { sendVideoTopicMsg } from '../../../api/assistant/official-activity';
+import { sendLittleAssistantnotificationsMsg } from '../../../api/assistant/official-activity';
 import { debounce } from 'lodash';
-import { searchVideoTopicListByName } from '../../../api/fuzzy-search';
+import { searchLittleAssistantnotificationsByName } from '../../../api/fuzzy-search';
 import {
-  getAssistantChatMsgByVideoTopicPage,
+  getLittleAssistantChatMsgPage,
   deleteMsg
 } from '../../../api/assistant/assistant-ChatMsg';
 
@@ -120,14 +98,7 @@ export default {
           {
             required: true,
             trigger: 'change',
-            message: '活动介绍不能为空'
-          }
-        ],
-        id: [
-          {
-            required: true,
-            trigger: 'change',
-            message: '视频话题不能为空'
+            message: '通知不能为空'
           }
         ]
       },
@@ -183,7 +154,7 @@ export default {
       }
 
       this.loading.select.mname = true;
-      searchVideoTopicListByName(query.trim())
+      searchLittleAssistantnotificationsByName(query.trim())
         .then(({ data }) => {
           this.videoTopicList = data.list;
           this.loading.select.topic = false;
@@ -192,7 +163,7 @@ export default {
     }, 500),
     getTableData() {
       this.loading.table = true;
-      getAssistantChatMsgByVideoTopicPage({
+      getLittleAssistantChatMsgPage({
         query: this.queryModel,
         pager: this.pager,
         sorter: this.sorter
@@ -238,7 +209,7 @@ export default {
           }
         )
           .then(() => {
-            sendVideoTopicMsg(this.model)
+            sendLittleAssistantnotificationsMsg(this.model)
               .then(resp => {
                 this.$message.success('活动发布成功!');
                 this.$refs.videoTopicForm.resetFields();

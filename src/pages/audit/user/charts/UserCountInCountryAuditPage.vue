@@ -1,19 +1,19 @@
 <template>
-  <div class="audit-page">
-    <el-row class="chart-desc">
+  <div class="audit-page" >
+    <el-row class="chart-desc" style="padding: 15px;">
       <el-button class="btn-operation" type="primary" size="mini" @click="refreshChartData">
         <i class="fa fa-refresh"></i>
         刷新数据
       </el-button>
     </el-row>
     <div class="chart-wrapper">
-      <div ref="bar-chart" style="width: 1500px; height: 650px"></div>
+      <div ref="bar-chart" style="width: 1700px; height: 650px"></div>
     </div>
   </div>
 </template>
 
 <script>
-import { getUserCountInCountryAuditData } from '../../../api/audit/user-audit';
+import { getUserCountInCountryAuditData } from '../../../../api/audit/user-audit';
 
 export default {
   name: 'user-count-in-country-audit-page',
@@ -72,6 +72,10 @@ export default {
               axisLabel: {
                 formatter: '{value} 人'
               }
+            },
+            grid: {
+              y: 100,
+              bottom: '40%'
             },
             dataZoom: [
               {
@@ -166,10 +170,16 @@ export default {
 <style scoped>
 .chart-desc {
   width: 100%;
-  margin-bottom: 3em;
 }
 
 .chart-wrapper {
+  width: 100%;
+}
+
+.audit-page{
+  border: 3px solid #DDDDDDDD;
+  margin:10px;
+  height: 500px;
   width: 100%;
 }
 </style>

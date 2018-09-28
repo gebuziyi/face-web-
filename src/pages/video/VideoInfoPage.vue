@@ -169,7 +169,7 @@
       </el-table-column>
       <el-table-column prop="createTime" label="上传时间" sortable="custom" width="105"></el-table-column>
       <el-table-column prop="deleteUserName" label="删除人" width="100"></el-table-column>
-      <el-table-column prop="deleteTime" label="删除时间" sortable="custom" width="105"></el-table-column>
+      <el-table-column prop="deleteTime" label="删除时间" width="105"></el-table-column>
       <el-table-column fixed="right" label="操作" width="150">
         <template slot-scope="scope">
           <el-button-group v-if="scope.row.statues!=0">

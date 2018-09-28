@@ -3,8 +3,8 @@ import { requireNonNull } from '../../utils/coding-utils'
 import { sortOrderMapping } from '../../utils/constants'
 
 const propIndexMapping = {
-  roleId: 'role_id',
-  createTime: 'role_id'
+  pushId: 'push_id',
+  createTime: 'create_time'
 }
 
 export const getMsgLogList = function({ query, pager, sorter }) {

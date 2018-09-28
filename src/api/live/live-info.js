@@ -3,6 +3,7 @@ import { requireNonNull } from '../../utils/coding-utils'
 import { sortOrderMapping } from '../../utils/constants'
 
 const propIndexMapping = {
+  liveId: 'live_id',
   infoId: 'info_id',
   onlineNum: 'online_num',
   likeNum: 'like_num',
