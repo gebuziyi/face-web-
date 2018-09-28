@@ -30,3 +30,7 @@ export const getUserGiveAwayLogList = function ({ query, pager, sorter }) {
     }
   })
 }
+
+export const getUserFBAuditDetail = function (userId) {
+  return newClient().get('/user/account-info/f/detail/' + userId)
+}
