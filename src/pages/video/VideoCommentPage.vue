@@ -36,6 +36,10 @@
         <i class="fa fa-times"></i>
         <span>批量审核不通过</span>
       </el-button>
+       <el-button @click="passFailedBatch" type="success" size="small" v-if="hasPermission('video:comment:audit-failed')" class="btn-operation" :disabled="selectedIds.length === 0">
+        <i class="fa fa-times"></i>
+        <span>批量审核通过</span>
+      </el-button>
       <el-button @click="deleteBatch" type="danger" size="small" v-if="hasPermission('video:comment:delete')" class="btn-operation" :disabled="selectedIds.length === 0">
         <i class="fa fa-trash"></i>
         <span>批量删除</span>
@@ -70,6 +74,11 @@
                 <i class="fa fa-times"></i>
               </el-button>
             </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="审核通过" placement="top" v-if="hasPermission('video:comment:delete') && scope.row.statues === 0">
+              <el-button type="success" size="mini" @click="ReviewAndPassThrough(scope.row)">
+               <i class="fa fa-check"></i>
+              </el-button>
+            </el-tooltip>
             <el-tooltip class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('video:comment:delete')">
               <el-button type="danger" size="mini" @click="deleteSingle(scope.row)">
                 <i class="fa fa-trash"></i>
@@ -89,7 +98,8 @@
 import {
   getVideoCommentList,
   checkFailedComment,
-  deleteVideoComment
+  deleteVideoComment,
+  ReviewAndPass
 } from '../../api/video/video-comment';
 
 export default {
@@ -180,6 +190,31 @@ export default {
           // 用户点击了取消, do nothing
         });
     },
+    passFailedBatch() {
+      this.$confirm(
+        '此操作将把所选择的视频评论标记为审核通过, 确定继续?',
+        '批量审核视频评论',
+        {
+          type: 'success'
+        }
+      )
+        .then(() => {
+          // 表格loading
+          this.loading.table = true;
+          ReviewAndPass(this.selectedIds)
+            .then(({ data }) => {
+              this.$message.success('操作成功');
+              // 刷新表格数据
+              this.getTableData();
+            })
+            .catch(msg => {
+              this.loading.table = false;
+            });
+        })
+        .catch(() => {
+          // 用户点击了取消, do nothing
+        });
+    },
     checkFailedSingle(row) {
       this.$confirm(
         '此操作将把所选择的视频评论标记为审核不通过, 确定继续?',
@@ -192,6 +227,31 @@ export default {
           // 表格loading
           this.loading.table = true;
           checkFailedComment(row.commentId)
+            .then(({ data }) => {
+              this.$message.success('操作成功');
+              // 刷新表格数据
+              this.getTableData();
+            })
+            .catch(msg => {
+              this.loading.table = false;
+            });
+        })
+        .catch(() => {
+          // 用户点击了取消, do nothing
+        });
+    },
+    ReviewAndPassThrough(row) {
+      this.$confirm(
+        '此操作将把所选择的视频评论标记为审核通过, 确定继续?',
+        '审核视频评论',
+        {
+          type: 'success'
+        }
+      )
+        .then(() => {
+          // 表格loading
+          this.loading.table = true;
+          ReviewAndPass(row.commentId)
             .then(({ data }) => {
               this.$message.success('操作成功');
               // 刷新表格数据
