@@ -36,7 +36,7 @@
         <i class="fa fa-times"></i>
         <span>批量审核不通过</span>
       </el-button>
-       <el-button @click="passFailedBatch" type="success" size="small" v-if="hasPermission('video:comment:audit-failed')" class="btn-operation" :disabled="selectedIds.length === 0">
+       <el-button @click="passFailedBatch" type="success" size="small" v-if="hasPermission('video:comment:audit-rollback')" class="btn-operation" :disabled="selectedIds.length === 0">
         <i class="fa fa-times"></i>
         <span>批量审核通过</span>
       </el-button>
