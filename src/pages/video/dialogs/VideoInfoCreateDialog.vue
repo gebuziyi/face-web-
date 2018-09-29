@@ -25,11 +25,6 @@
             </template>
           </el-select>
         </el-form-item>
-        <el-form-item label="所属国家" prop="country">
-          <el-select v-model="model.country" placeholder="国家" filterable>
-            <el-option v-for="(item, index) in countries" :key="index" :value="item.coding" :label="item.countryName"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="视频文件" prop="url">
           <div id="pick" ref="videoPicker" :style="pickContainerStyle">选择视频文件</div>
           <p class="selected-video-name" v-if="model.url !== ''">{{ model.url }}</p>
@@ -78,7 +73,6 @@ export default {
         selectedTopics: [],
         topicIds: [],
         topicNames: [],
-        country: null,
         url: null,
         img: null,
         video: null,
@@ -93,13 +87,6 @@ export default {
         ],
         textIntro: [
           { required: true, trigger: 'change', message: '视频简介不能为空' }
-        ],
-        country: [
-          {
-            required: true,
-            trigger: ['change', 'blur'],
-            message: '所属国家不能为空'
-          }
         ],
         typeId: [
           {
