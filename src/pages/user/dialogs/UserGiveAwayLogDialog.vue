@@ -150,10 +150,8 @@
           <el-table-column prop="giveId" label="ID" sortable="custom" width="60"></el-table-column>
           <el-table-column prop="userId" label="邀请人的用户ID"></el-table-column>
           <el-table-column prop="username" label="邀请人的用户名"></el-table-column>
-          <el-table-column prop="giftName" label="礼品名称"></el-table-column>
           <el-table-column prop="price" label="系统赠送的钻石数量"></el-table-column>
-          <el-table-column prop="numbers" label="礼物数量" width="120"></el-table-column>
-          <el-table-column prop="account" label="被邀请人用户ID" width="100"></el-table-column>
+          <el-table-column prop="account" label="被邀请人用户ID"></el-table-column>
           <el-table-column prop="accountUsername" label="被邀请人昵称"></el-table-column>
           <el-table-column prop="createTime" label="被邀请人的注册时间" sortable="custom"></el-table-column>
         </el-table>
