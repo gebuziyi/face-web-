@@ -11,6 +11,7 @@ import SysLogPage from '../../pages/sys/SysLogPage.vue'
 import SysUserVestPage from '../../pages/sys/SysUserVestPage.vue'
 import SysSetPage from '../../pages/sys/SysSetPage.vue'
 import SysRepairPage from '../../pages/sys/SysRepairPage.vue'
+import diamondChangeLlogPage from '../../pages/sys/diamondChangeLlogPage.vue'
 
 export const SysModuleRouter = {
   path: '/sys',
@@ -71,6 +72,11 @@ export const SysModuleRouter = {
       path: 'sys-repair',
       name: 'SysRepairPage',
       component: SysRepairPage
+    },
+    {
+      path: 'diamond-change-log',
+      name: 'diamondChangeLlogPage',
+      component: diamondChangeLlogPage
     }
   ]
 }
