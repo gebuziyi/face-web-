@@ -76,7 +76,7 @@ export const SysModuleRouter = {
     {
       path: 'Diamond-change-log',
       name: 'DiamondChangeLogPage',
-      component: DiamondChangeLogPage
+      component:  DiamondChangeLogPage
     }
   ]
 }
