@@ -3,8 +3,7 @@ import { requireNonNull } from '../../utils/coding-utils'
 import { sortOrderMapping } from '../../utils/constants'
 
 const propIndexMapping = {
-  logId: 'log_id',
-  createTime: 'create_time'
+  logId: 'log_id'
 }
 
 export const getdiamondChangeLogList = function({query, pager, sorter}) {

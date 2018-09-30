@@ -29,7 +29,7 @@
       <el-table-column prop="newDiamondAmount" label="修改的钻石数量"></el-table-column>
       <el-table-column prop="memo" label="备注信息"></el-table-column>
       <el-table-column prop="userName" label="管理员"></el-table-column>
-      <el-table-column prop="createTime" label="修改时间" sortable="custom" width="200"></el-table-column>
+      <el-table-column prop="createTime" label="修改时间" ></el-table-column>
     </el-table>
     <!-- 分页 -->
     <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
