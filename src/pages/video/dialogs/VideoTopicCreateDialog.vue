@@ -85,6 +85,11 @@ export default {
             })
             .catch(error => {
               // do something
+              this.$refs['create-upload'].clearFiles();
+              this.imgFileList = [];
+              this.btnLoading = false;
+              this.show = false;
+              this.$emit('done');
             });
         } else {
           return false;
