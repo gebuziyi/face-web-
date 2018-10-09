@@ -45,7 +45,7 @@ export default {
       rules: {
         tname: [
           { required: true, trigger: 'change', message: '话题名称不能为空' }
-        ],
+        ]
         // img: [
         //   { required: true, trigger: 'change', message: '话题图片不能为空' }
         // ]
