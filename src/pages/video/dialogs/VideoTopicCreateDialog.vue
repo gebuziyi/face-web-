@@ -45,9 +45,9 @@ export default {
         tname: [
           { required: true, trigger: 'change', message: '话题名称不能为空' }
         ],
-        img: [
-          { required: true, trigger: 'change', message: '话题图片不能为空' }
-        ],
+        // img: [
+        //   { required: true, trigger: 'change', message: '话题图片不能为空' }
+        // ],
         userId: [
           { required: true, trigger: 'change', message: '马甲账号不能为空' }
         ]
