@@ -235,7 +235,8 @@ import {
   deleteVideoInfo,
   makeVideoHot,
   cancelVideoHot,
-  removeVideoTopic
+  removeVideoTopic,
+  DoCancelHotConfirm
 } from '../../api/video/video-info';
 import { getAllCountryInfo } from '../../api/basic-data/country-info';
 import { getAllVideoType } from '../../api/video/video-type';
@@ -293,7 +294,17 @@ export default {
         //     this.freezeBatch();
         //   }
         // },
-
+        cancelHotConfirmBatch: {
+          label: '批量取消热门视频',
+          type: 'danger',
+          needPerm: true,
+          permission: 'user:info:delete',
+          icon: 'fa fa-trash',
+          enable: false,
+          onClick: payload => {
+            this.CancelHotConfirmBatch();
+          }
+        },
         deleteBatch: {
           label: '批量删除',
           type: 'danger',
@@ -305,7 +316,6 @@ export default {
             this.deleteBatch();
           }
         },
-
         save: {
           label: '新增',
           type: 'success',
@@ -670,6 +680,25 @@ export default {
         .catch(() => {});
     },
 
+    CancelHotConfirmBatch() {
+      this.$confirm(
+        `此操作将取消所选中的视频的热门推荐, 是否继续?`,
+        '取消推荐视频',
+        {
+          type: 'warning'
+        }
+      )
+        .then(() => {
+          DoCancelHotConfirm(this.selectedIds)
+            .then(resp => {
+              this.$message.success('操作成功');
+              this.getTableData();
+            })
+            .catch(errorMsg => {});
+        })
+        .catch(() => {});
+    },
+
     freezeBatch() {
       this.$confirm(`确定要批量冻结选中的视频信息?`, '视频信息批量冻结', {
         type: 'warning'
@@ -709,9 +738,11 @@ export default {
     onSelectionChange(rows) {
       if (rows && rows.length > 0) {
         this.operationBtns.deleteBatch.enable = true;
+        this.operationBtns.cancelHotConfirmBatch.enable = true;
         this.selectedIds = rows.map(data => data.videoId);
       } else {
         this.operationBtns.deleteBatch.enable = false;
+        this.operationBtns.cancelHotConfirmBatch.enable = false;
       }
     },
 
