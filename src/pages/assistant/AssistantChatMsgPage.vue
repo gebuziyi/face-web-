@@ -180,6 +180,8 @@ export default {
   },
   created() {
     this.getTableData();
+    // 1. 调用接口获取小助手ID
+    // 2. 将小助手ID存到vuex中, 参考登录成功之后setUser的调用方法
   }
 };
 </script>

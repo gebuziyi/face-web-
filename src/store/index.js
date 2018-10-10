@@ -14,9 +14,15 @@ const store = new Vuex.Store({
       login: false,
       token: localStorage.getItem('token'),
       permissions: []
+    },
+    assistant: {
+      officialAccountId: null
     }
   },
   mutations: {
+    setOfficialAccountId: (state, payload) => {
+      state.assistant.officialAccountId = payload;
+    },
     setUser: (state, { username, userId, token }) => {
       state.user.username = username
       state.user.userId = userId
