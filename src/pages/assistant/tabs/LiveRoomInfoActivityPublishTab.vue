@@ -218,7 +218,7 @@ export default {
         })
         .catch(error => {});
     },
-        openEditDialog(row) {
+    openEditDialog(row) {
       this.dialog.edit.show = true;
       getDetailList(row.msgId)
         .then(({ data }) => {
