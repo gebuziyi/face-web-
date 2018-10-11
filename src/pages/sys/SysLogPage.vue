@@ -8,8 +8,14 @@
       <el-form-item prop="operation">
         <el-input v-model.trim="queryModel.operation" placeholder="用户操作"></el-input>
       </el-form-item>
-      <el-form-item prop="platform">
+      <!-- <el-form-item prop="platform">
         <el-input v-model.trim="queryModel.platform" placeholder="设备平台"></el-input>
+      </el-form-item> -->
+       <el-form-item prop="platform">
+        <el-select v-model="queryModel.platform" clearable placeholder="设备平台">
+          <el-option value="android" label="android"></el-option>
+          <el-option value="ios" label="ios"></el-option>
+        </el-select>
       </el-form-item>
     </el-form>
     <!-- 按钮 -->
