@@ -130,6 +130,13 @@ export const deleteMsg = function (msgIds) {
   return newClient().post('/assistant/chat-msg/delete', [].concat(msgIds))
 }
 
+export const getDetailList = function (msgId) {
+  return newClient().get('/assistant/chat-msg/detailList/' + msgId)
+}
+
 export const getChatRecords = function (userId) {
   return newClient().get('/assistant/chat-msg/chatRecords/' + userId)
+}
+export const updateSysConfig = function(model) {
+  return newClient().post('/assistant/chat-msg/update', model)
 }
