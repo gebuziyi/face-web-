@@ -59,14 +59,14 @@
       </el-pagination>
     <!-- 弹窗 -->
     <!-- 修改系统参数 -->
-    <el-dialog :visible.sync="dialog.edit.show" title="修改系统参数" width="600px">
+    <el-dialog :visible.sync="dialog.edit.show" title="修改系统参数" width="1200px">
       <div v-loading="dialog.edit.loading" class="edit-form-wrapper">
-        <el-form size="small" :model="dialog.edit.model" :rules="dialog.edit.rules" label-position="left" label-width="100px" ref="editForm">
+        <el-form size="small" :model="dialog.edit.model" :rules="dialog.edit.rules" label-position="left" label-width="120px" ref="editForm">
          <!-- <el-form-item label="修改活动介绍" prop="txt">
             <el-input type="text" v-model.trim="dialog.edit.model.msgData"></el-input>
           </el-form-item> -->
           <el-form-item label="修改活动介绍" prop="txt">
-            <el-input type="text" v-model.trim="dialog.edit.model.txt"></el-input>
+            <el-input type="textarea" v-model.trim="dialog.edit.model.txt"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -221,7 +221,10 @@ export default {
       this.dialog.edit.show = true;
       getDetailList(row.msgId)
         .then(({ data }) => {
-          this.dialog.edit.model = data.detail;
+          let msgData = JSON.parse(data.detail.msgData);
+          this.dialog.edit.model.msgId = data.detail.msgId;
+          this.dialog.edit.model.txt = msgData.Text;
+          this.dialog.edit.model.msgType = data.detail.msgType;
           this.dialog.edit.formLoading = false;
         })
         .catch(error => {
