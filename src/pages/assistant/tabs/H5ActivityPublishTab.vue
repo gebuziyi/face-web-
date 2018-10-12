@@ -10,7 +10,7 @@
           <el-input v-model.trim="model.url"></el-input>
         </el-form-item>
         <el-form-item label="活动图片" prop="image">
-          <el-upload :action="uploadAction" :on-success="onUploadSuccess" :on-error="onUploadError" :file-list="imgFileList" list-type="picture">
+          <el-upload :action="uploadAction" :on-success="onUploadSuccess" :before-upload="beforeSvgaUpload" :on-error="onUploadError" :file-list="imgFileList" list-type="picture">
             <el-button size="small" type="primary">点击选择活动图片</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
           </el-upload>
@@ -242,6 +242,19 @@ export default {
           this.loading.table = false;
         })
         .catch(error => {});
+    },
+    beforeSvgaUpload(file) {
+      if (file) {
+        const filename = file.name;
+        const dotIdx = filename.lastIndexOf('.');
+        const ext = filename.substr(dotIdx);
+        if (ext === '.jpg' || ext === '.JPG' || ext === '.jpeg' || ext === '.JPEG' || ext === '.png' || ext === '.PNG') {
+          return true;
+        }
+      }
+      this.svgaFileList = [];
+      this.$message.error('必须上传.jpg .JPG .jpeg .JPEG .png .PNG结尾的文件!!');
+      return false;
     },
     doPublish() {
       this.$refs.h5Form.validate(valid => {
