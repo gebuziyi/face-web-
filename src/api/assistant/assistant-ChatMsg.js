@@ -141,3 +141,7 @@ export const getChatRecords = function (userId) {
 export const updateSysConfig = function(model) {
   return newClient().post('/assistant/chat-msg/update', model)
 }
+
+export const getAssistantId = function () {
+  return newClient().get('/assistant/chat-msg/assistantId/')
+}
