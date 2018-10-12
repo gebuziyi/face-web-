@@ -21,6 +21,7 @@ export const getAssistantChatMsgPage = function ({ query, pager, sorter }) {
       limit: pager.limit,
       nickname: requireNonNull(query.nickname),
       userId: requireNonNull(query.userId),
+      ifAssiataneId: requireNonNull(query.ifAssiataneId),
       msgType: requireNonNull(query.msgType),
       createTimeStart: requireNonNull(createTimeStart),
       createTimeEnd: requireNonNull(createTimeEnd),
@@ -132,4 +133,8 @@ export const deleteMsg = function (msgIds) {
 
 export const getChatRecords = function (userId) {
   return newClient().get('/assistant/chat-msg/chatRecords/' + userId)
+}
+
+export const getAssistantId = function () {
+  return newClient().get('/assistant/chat-msg/assistantId')
 }

@@ -2,6 +2,11 @@
   <div>
     <div class="activity-form-wrapper">
       <h3>发布小助手通知</h3>
+      <el-row style="padding: 15px;">
+        <el-button class="btn-operation" type="primary" size="mini" @click="doPushAppoint">
+         指定用户
+        </el-button>
+      </el-row>
       <el-form class="activity-form" size="small" :model="model" :rules="rules" label-position="left" label-width="120px" label-high="500px" ref="videoTopicForm">
         <el-form-item label="通知介绍" prop="text">
           <el-input v-model.trim="model.text" type="textarea"></el-input>
@@ -52,6 +57,8 @@
       <!-- 分页 -->
       <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
       </el-pagination>
+      <!-- 弹窗 -->
+      <push-by-appoint ref="appointUser"></push-by-appoint>
     </div>
   </div>
 </template>
@@ -60,6 +67,7 @@
 import { sendLittleAssistantnotificationsMsg } from '../../../api/assistant/official-activity';
 import { debounce } from 'lodash';
 import { searchLittleAssistantnotificationsByName } from '../../../api/fuzzy-search';
+import DoPushByAppointUser from '../dialogs/DoPushByAppointUser';
 import {
   getLittleAssistantChatMsgPage,
   deleteMsg
@@ -67,6 +75,10 @@ import {
 
 export default {
   name: 'h5-activity-publish-tab',
+
+  components: {
+    'push-by-appoint': DoPushByAppointUser
+  },
 
   data() {
     return {
@@ -128,6 +140,9 @@ export default {
   },
 
   methods: {
+    doPushAppoint() {
+      this.$refs.appointUser.showDialog();
+    },
     deleteActivityMsg(row) {
       this.$confirm(
         `此操作将删除视频话题活动消息, 删除后所有用户的小助手页面都将看不到此消息, 是否继续?`,

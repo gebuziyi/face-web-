@@ -10,6 +10,11 @@
           <el-option v-for="item in msgTypes" :key="item.type" :label="item.name" :value="item.type"></el-option>
         </el-select>
       </el-form-item>
+       <el-form-item prop="ifAssiataneId">
+        <el-select v-model="queryModel.ifAssiataneId" placeholder="选择发送人角色" filterable>
+          <el-option v-for="item in ifAssistant" :key="item.status" :label="item.name" :value="item.status"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item prop="createTime">
         <el-date-picker v-model="queryModel.createTime" type="datetimerange" range-separator="至" start-placeholder="发送时间" end-placeholder="发送时间" value-format="yyyy-MM-dd HH:mm:ss">
         </el-date-picker>
@@ -68,9 +73,9 @@
 </template>
 
 <script>
-import { getAssistantChatMsgPage } from '../../api/assistant/assistant-ChatMsg';
+import { getAssistantChatMsgPage, getAssistantId } from '../../api/assistant/assistant-ChatMsg';
 import AssistantMsgReplyDialog from './dialogs/AssistantMsgReplyDialog';
-import { ASSISTANT_MSG_TYPES } from '../../utils/constants';
+import { ASSISTANT_MSG_TYPES, IF_ASSISTANTID } from '../../utils/constants';
 import AssistantSearchReplyDialog from './dialogs/AssistantSearchReplyDialog';
 
 export default {
@@ -84,14 +89,17 @@ export default {
   data() {
     return {
       msgTypes: ASSISTANT_MSG_TYPES,
+      ifAssistant: IF_ASSISTANTID,
       loading: {
         table: true
       },
       tableData: [],
+      assistandId: null,
       queryModel: {
         userId: null,
         msgType: null,
-        createTime: null
+        createTime: null,
+        ifAssiataneId: null
       },
       pager: {
         page: 1,
@@ -176,12 +184,21 @@ export default {
     },
     openSearchDialog() {
       this.$refs.searchDialog.showDialog();
+    },
+    dogetAssistantId() {
+      getAssistantId()
+        .then(({ data }) => {
+          this.assistandId = data.detail
+          this.$store.commit('setOfficialAccountId', {
+            payload: data.detail
+          });
+        })
+        .catch(error => {});
     }
   },
   created() {
     this.getTableData();
-    // 1. 调用接口获取小助手ID
-    // 2. 将小助手ID存到vuex中, 参考登录成功之后setUser的调用方法
+    this.dogetAssistantId();
   }
 };
 </script>
