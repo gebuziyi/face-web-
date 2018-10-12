@@ -64,12 +64,10 @@
       </el-pagination>
     <!-- 弹窗 -->
     <!-- 修改系统参数 -->
+    <push-by-appoint ref="appointUser" @done="query"></push-by-appoint>
     <el-dialog :visible.sync="dialog.edit.show" title="修改系统参数" width="1200px">
       <div v-loading="dialog.edit.loading" class="edit-form-wrapper">
         <el-form size="small" :model="dialog.edit.model" :rules="dialog.edit.rules" label-position="left" label-width="120px" ref="editForm">
-         <!-- <el-form-item label="修改活动介绍" prop="txt">
-            <el-input type="text" v-model.trim="dialog.edit.model.msgData"></el-input>
-          </el-form-item> -->
           <el-form-item label="修改活动介绍" prop="txt">
             <el-input type="textarea" v-model.trim="dialog.edit.model.txt"></el-input>
           </el-form-item>
