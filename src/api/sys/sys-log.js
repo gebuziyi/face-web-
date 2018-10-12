@@ -14,6 +14,7 @@ export const getSysLogList = function({ query, pager, sorter }) {
       limit: pager.limit,
       username: requireNonNull(query.username),
       operation: requireNonNull(query.operation),
+      platform: requireNonNull(query.platform),
       sidx: propIndexMapping[sorter.prop],
       order: sortOrderMapping[sorter.order]
     }
