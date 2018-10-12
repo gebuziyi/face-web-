@@ -197,7 +197,9 @@ export const emptySysSet = function () {
 
 export const emptyassistant = function () {
   let empty = {
-    txt: null
+    txt: null,
+    msgId: null,
+    msgType: null
   }
 
   return empty
