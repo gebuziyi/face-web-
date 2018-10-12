@@ -2,6 +2,11 @@
   <div>
     <div class="activity-form-wrapper">
       <h3>发布小助手通知</h3>
+      <el-row style="padding: 15px;">
+        <el-button class="btn-operation" type="primary" size="mini" @click="doPushAppoint">
+         指定用户
+        </el-button>
+      </el-row>
       <el-form class="activity-form" size="small" :model="model" :rules="rules" label-position="left" label-width="120px" label-high="500px" ref="videoTopicForm">
         <el-form-item label="通知介绍" prop="text">
           <el-input v-model.trim="model.text" type="textarea"></el-input>
@@ -59,12 +64,10 @@
       </el-pagination>
     <!-- 弹窗 -->
     <!-- 修改系统参数 -->
+    <push-by-appoint ref="appointUser" @done="query"></push-by-appoint>
     <el-dialog :visible.sync="dialog.edit.show" title="修改系统参数" width="1200px">
       <div v-loading="dialog.edit.loading" class="edit-form-wrapper">
         <el-form size="small" :model="dialog.edit.model" :rules="dialog.edit.rules" label-position="left" label-width="120px" ref="editForm">
-         <!-- <el-form-item label="修改活动介绍" prop="txt">
-            <el-input type="text" v-model.trim="dialog.edit.model.msgData"></el-input>
-          </el-form-item> -->
           <el-form-item label="修改活动介绍" prop="txt">
             <el-input type="textarea" v-model.trim="dialog.edit.model.txt"></el-input>
           </el-form-item>
@@ -83,6 +86,7 @@
 import { sendLittleAssistantnotificationsMsg } from '../../../api/assistant/official-activity';
 import { debounce } from 'lodash';
 import { searchLittleAssistantnotificationsByName } from '../../../api/fuzzy-search';
+import DoPushByAppointUser from '../dialogs/DoPushByAppointUser';
 import {
   getLittleAssistantChatMsgPage,
   deleteMsg,
@@ -92,6 +96,10 @@ import {
 import { emptyassistant } from '../../../utils/empty-model';
 export default {
   name: 'h5-activity-publish-tab',
+
+  components: {
+    'push-by-appoint': DoPushByAppointUser
+  },
 
   data() {
     return {
@@ -166,6 +174,9 @@ export default {
   },
 
   methods: {
+    doPushAppoint() {
+      this.$refs.appointUser.showDialog();
+    },
     deleteActivityMsg(row) {
       this.$confirm(
         `此操作将删除视频话题活动消息, 删除后所有用户的小助手页面都将看不到此消息, 是否继续?`,

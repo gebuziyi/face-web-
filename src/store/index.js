@@ -20,7 +20,7 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
-    setOfficialAccountId: (state, payload) => {
+    setOfficialAccountId: (state, { payload }) => {
       state.assistant.officialAccountId = payload;
     },
     setUser: (state, { username, userId, token }) => {
