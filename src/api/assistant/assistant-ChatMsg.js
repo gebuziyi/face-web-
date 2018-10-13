@@ -22,6 +22,7 @@ export const getAssistantChatMsgPage = function ({ query, pager, sorter }) {
       nickname: requireNonNull(query.nickname),
       userId: requireNonNull(query.userId),
       ifAssiataneId: requireNonNull(query.ifAssiataneId),
+      readByAdmin: requireNonNull(query.readByAdmin),
       msgType: requireNonNull(query.msgType),
       createTimeStart: requireNonNull(createTimeStart),
       createTimeEnd: requireNonNull(createTimeEnd),
@@ -144,4 +145,8 @@ export const updateSysConfig = function(model) {
 
 export const getAssistantId = function () {
   return newClient().get('/assistant/chat-msg/assistantId/')
+}
+
+export const doReadByAdmin = function (msgId) {
+  return newClient().post(`/assistant/chat-msg/readMsg/${msgId}`)
 }

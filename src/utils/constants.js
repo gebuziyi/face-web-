@@ -143,6 +143,17 @@ export const IF_ASSISTANTID = [
   }
 ]
 
+export const IF_READ_BYADMIN = [
+  {
+    type: 0,
+    name: '未读'
+  },
+  {
+    type: 1,
+    name: '已读'
+  }
+]
+
 export const ASSISTANT_MSG_TYPES = [
   {
     type: 201,
