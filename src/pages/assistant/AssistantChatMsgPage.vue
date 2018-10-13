@@ -6,7 +6,7 @@
         <el-input v-model="queryModel.userId" placeholder="用户ID"></el-input>
       </el-form-item>
       <el-form-item prop="msgType">
-        <el-select v-model="queryModel.msgType" placeholder="选择消息类型" filterable>
+        <el-select v-model="queryModel.msgType" placeholder="选择消息类型" filterable clearable >
           <el-option v-for="item in msgTypes" :key="item.type" :label="item.name" :value="item.type"></el-option>
         </el-select>
       </el-form-item>
@@ -16,7 +16,7 @@
         </el-select>
       </el-form-item>
        <el-form-item prop="ifAssiataneId">
-        <el-select v-model="queryModel.ifAssiataneId" placeholder="选择发送人角色" filterable>
+        <el-select v-model="queryModel.ifAssiataneId" placeholder="选择发送人角色" clearable >
           <el-option v-for="item in ifAssistant" :key="item.status" :label="item.name" :value="item.status"></el-option>
         </el-select>
       </el-form-item>
@@ -27,7 +27,7 @@
     </el-form>
     <!-- 按钮 -->
     <div class="btn-wrapper">
-      <el-button @click="query" type="primary" size="small">
+      <el-button @click="onQueryBtnClick" type="primary" size="small">
         <i class="fa fa-search"></i>
         <span>搜索</span>
       </el-button>
@@ -166,6 +166,10 @@ export default {
     }
   },
   methods: {
+    onQueryBtnClick() {
+      this.pager.page = 1;
+      this.query();
+    },
     isTextMsg(msg) {
       return msg.msgType === 201;
     },
