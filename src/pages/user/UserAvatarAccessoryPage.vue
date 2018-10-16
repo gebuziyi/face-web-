@@ -18,6 +18,14 @@
         <span>搜索</span>
       </el-button>
       <el-button type="text" size="mini" @click="$refs.queryForm.resetFields()">重置</el-button>
+      <el-button @click="showBatchDeleteConfirm" type="danger" size="small" v-if="hasPermission('user:accessory:delete')" class="btn-operation" :disabled="selectedIds.length === 0">
+        <i class="fa fa-trash"></i>
+        <span>批量取消</span>
+      </el-button>
+      <el-button @click="openCreateDialog" type="success" size="small" v-if="hasPermission('user:accessory:create')" class="btn-operation">
+        <i class="fa fa-plus"></i>
+        <span>分配挂饰</span>
+      </el-button>
     </div>
     <!-- 表格 -->
     <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @selection-change="onSelectionChange" @sort-change="onSortChange">
@@ -84,6 +92,20 @@ export default {
     };
   },
   methods: {
+    showBatchDeleteConfirm() {
+      this.$confirm(
+        `此操作将取消所选用户的头像挂饰, 是否继续?`,
+        '批量取消用户挂饰',
+        {
+          type: 'warning'
+        }
+      )
+        .then(() => {
+          // TODO
+        })
+        .catch(() => {});
+    },
+
     onSortChange({ column, prop, order }) {
       this.sorter.prop = prop;
       this.sorter.order = order;
