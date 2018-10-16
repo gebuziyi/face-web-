@@ -45,18 +45,18 @@
       <el-table-column prop="isDeleted" label="状态">
         <template slot-scope="scope">
           <icon-tag type="success" v-if="scope.row.isDeleted === 0">正常</icon-tag>
-          <icon-tag type="warning" icon="fa fa-lock"  v-if="scope.row.isDeleted === 1">已删除</icon-tag>
+          <icon-tag type="warning" v-if="scope.row.isDeleted === 1">已删除</icon-tag>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button-group>
-            <el-tooltip class="item" effect="dark" content="编辑" placement="top" v-if="hasPermission('gift:type:update')">
+            <el-tooltip class="item" effect="dark" content="编辑" placement="top" v-if="hasPermission('gift:type:update') && scope.row.isDeleted === 1 === false" >
               <el-button type="warning" size="mini" @click="openEditDialog(scope.row)">
                 <i class="fa fa-edit"></i>
             </el-button>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('gift:type:delete')">
+            <el-tooltip class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('gift:type:delete') && scope.row.isDeleted === 1 === false">
               <el-button type="danger" size="mini" @click="deleteSingleGift(scope.row)">
                 <i class="fa fa-trash"></i>
               </el-button>
