@@ -45,7 +45,7 @@
       <el-table-column prop="isDeleted" label="状态">
         <template slot-scope="scope">
           <icon-tag type="success" v-if="scope.row.isDeleted === 0">正常</icon-tag>
-          <icon-tag type="warning" icon="fa fa-lock"  v-if="scope.row.isDeleted === 1">>已删除</icon-tag>
+          <icon-tag type="warning" icon="fa fa-lock"  v-if="scope.row.isDeleted === 1">已删除</icon-tag>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作">
