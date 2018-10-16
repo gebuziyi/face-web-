@@ -41,7 +41,13 @@
       <el-table-column prop="createTime" label="创建时间" ></el-table-column>
       <el-table-column prop="username" label="创建人" ></el-table-column>
       <el-table-column prop="editTime" label="修改时间" ></el-table-column>
-      <el-table-column prop="username" label="修改人" ></el-table-column>
+      <el-table-column prop="editname" label="修改人" ></el-table-column>
+      <el-table-column prop="isDeleted" label="状态">
+        <template slot-scope="scope">
+          <icon-tag type="success" v-if="scope.row.isDeleted === 0">正常</icon-tag>
+          <icon-tag type="warning" icon="fa fa-lock"  v-if="scope.row.isDeleted === 1">>已删除</icon-tag>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button-group>
