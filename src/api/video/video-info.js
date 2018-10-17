@@ -55,6 +55,9 @@ export const deleteVideoInfo = function (id) {
   return newClient().post('/video/info/delete', [].concat(id))
 }
 
+export const DoCancelHotConfirm = function (id) {
+  return newClient().post('/video/info/cancel/hot/videos', [].concat(id))
+}
 export const freezeVideoInfo = function (id) {
   return newClient().post('/video/info/freeze', [].concat(id))
 }

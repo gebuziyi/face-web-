@@ -84,32 +84,6 @@
           <el-table-column prop="createTime" label="赠送时间" sortable="custom"></el-table-column>
         </el-table>
       </el-tab-pane>
-      <!-- <el-tab-pane label="问答礼物收支记录" name="6">
-        <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @sort-change="onSortChange">
-          <el-table-column prop="giveId" label="ID" sortable="custom" width="60"></el-table-column>
-          <el-table-column prop="userId" label="送礼人ID"></el-table-column>
-          <el-table-column prop="username" label="送礼人昵称"></el-table-column>
-          <el-table-column prop="giftName" label="礼品名称"></el-table-column>
-          <el-table-column prop="price" label="礼物单价" sortable="custom"></el-table-column>
-          <el-table-column prop="numbers" label="礼物数量" sortable="custom" width="120"></el-table-column>
-          <el-table-column prop="account" label="收礼人ID" width="100"></el-table-column>
-          <el-table-column prop="accountUsername" label="收礼人昵称"></el-table-column>
-          <el-table-column prop="createTime" label="赠送时间" sortable="custom"></el-table-column>
-        </el-table>
-      </el-tab-pane>
-      <el-tab-pane label="PK礼物收支记录" name="7">
-        <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @sort-change="onSortChange">
-          <el-table-column prop="giveId" label="ID" sortable="custom" width="60"></el-table-column>
-          <el-table-column prop="userId" label="送礼人ID"></el-table-column>
-          <el-table-column prop="username" label="送礼人昵称"></el-table-column>
-          <el-table-column prop="giftName" label="礼品名称"></el-table-column>
-          <el-table-column prop="price" label="礼物单价" sortable="custom"></el-table-column>
-          <el-table-column prop="numbers" label="礼物数量" sortable="custom" width="120"></el-table-column>
-          <el-table-column prop="account" label="收礼人ID" width="100"></el-table-column>
-          <el-table-column prop="accountUsername" label="收礼人昵称"></el-table-column>
-          <el-table-column prop="createTime" label="赠送时间" sortable="custom"></el-table-column>
-        </el-table>
-      </el-tab-pane> -->
       <el-tab-pane label="充值记录" name="8">
         <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @sort-change="onSortChange">
           <el-table-column prop="giveId" label="ID" sortable="custom" width="60"></el-table-column>
@@ -130,24 +104,22 @@
       </el-tab-pane>
       <el-tab-pane label="F币转换钻石记录" name="10">
         <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @sort-change="onSortChange">
-          <el-table-column prop="giveId" label="ID" sortable="custom" width="60"></el-table-column>
+          <el-table-column prop="giveId" label="ID" sortable="custom"></el-table-column>
           <el-table-column prop="userId" label="用户ID"></el-table-column>
           <el-table-column prop="username" label="用户昵称"></el-table-column>
           <el-table-column prop="price" label="钻石兑换数量" sortable="custom"></el-table-column>
           <el-table-column prop="createTime" label="兑换时间" sortable="custom"></el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="陌生人聊天送礼物" name="11">
+      <el-tab-pane label="邀请好友送钻石记录" name="11">
         <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @sort-change="onSortChange">
           <el-table-column prop="giveId" label="ID" sortable="custom" width="60"></el-table-column>
-          <el-table-column prop="userId" label="送礼人ID"></el-table-column>
-          <el-table-column prop="username" label="送礼人昵称"></el-table-column>
-          <el-table-column prop="giftName" label="礼品名称"></el-table-column>
-          <el-table-column prop="price" label="礼物单价"></el-table-column>
-          <el-table-column prop="numbers" label="礼物数量" width="120"></el-table-column>
-          <el-table-column prop="account" label="收礼人ID" width="100"></el-table-column>
-          <el-table-column prop="accountUsername" label="收礼人昵称"></el-table-column>
-          <el-table-column prop="createTime" label="赠送时间" sortable="custom"></el-table-column>
+          <el-table-column prop="userId" label="邀请人的用户ID"></el-table-column>
+          <el-table-column prop="username" label="邀请人的用户名"></el-table-column>
+          <el-table-column prop="price" label="系统赠送的钻石数量"></el-table-column>
+          <el-table-column prop="account" label="被邀请人用户ID"></el-table-column>
+          <el-table-column prop="accountUsername" label="被邀请人昵称"></el-table-column>
+          <el-table-column prop="createTime" label="被邀请人的注册时间" sortable="custom"></el-table-column>
         </el-table>
       </el-tab-pane>
     </el-tabs>

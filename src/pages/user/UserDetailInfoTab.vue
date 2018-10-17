@@ -106,6 +106,7 @@ export default {
         edit: {
           detailId: null,
           username: null,
+          userId: null,
           original: null,
           model: {
             diamond: null,
@@ -180,6 +181,7 @@ export default {
           .then(() => {
             let msg = {
               detailId: this.dialog.edit.detailId,
+              userId: this.dialog.edit.userId,
               diamond: this.dialog.edit.model.diamond,
               memo: this.dialog.edit.model.memo
             };
@@ -197,6 +199,7 @@ export default {
     },
     showUpdateDialog(row) {
       this.dialog.edit.detailId = row.detailId;
+      this.dialog.edit.userId = row.userId;
       this.dialog.edit.username = row.username;
       this.dialog.edit.original = row.diamond;
       this.dialog.edit.model.diamond = row.diamond;

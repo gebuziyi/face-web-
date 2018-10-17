@@ -66,10 +66,10 @@
             <el-input type="text" v-model.trim="dialog.edit.model.sname" readonly="readonly"></el-input>
           </el-form-item>
           <el-form-item label="参数值" prop="parameter" >
-          <el-input-number  v-model.trim="dialog.edit.model.parameter" :min="1" :max="128" ></el-input-number>
+          <el-input-number  v-model.trim="dialog.edit.model.parameter" :min="0" :max="128" ></el-input-number>
         </el-form-item>
           <el-form-item label="url" prop="url">
-            <el-input type="text" v-model.trim="dialog.edit.model.url" readonly="readonly"></el-input>
+            <el-input type="text" v-model.trim="dialog.edit.model.url" ></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -86,7 +86,7 @@
             <el-input v-model.trim="dialog.create.model.sname"></el-input>
           </el-form-item>
         <el-form-item label="参数值" prop="parameter">
-          <el-input-number v-model.trim="dialog.create.model.parameter" :min="1" :max="128" ></el-input-number>
+          <el-input-number v-model.trim="dialog.create.model.parameter" :min="0" :max="128" ></el-input-number>
         </el-form-item>
         <el-form-item label="url" prop="url">
             <el-input v-model.trim="dialog.create.model.url"></el-input>

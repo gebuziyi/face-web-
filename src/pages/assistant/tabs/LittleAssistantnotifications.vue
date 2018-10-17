@@ -2,6 +2,11 @@
   <div>
     <div class="activity-form-wrapper">
       <h3>发布小助手通知</h3>
+      <el-row style="padding: 15px;">
+        <el-button class="btn-operation" type="primary" size="mini" @click="doPushAppoint">
+         指定用户
+        </el-button>
+      </el-row>
       <el-form class="activity-form" size="small" :model="model" :rules="rules" label-position="left" label-width="120px" label-high="500px" ref="videoTopicForm">
         <el-form-item label="通知介绍" prop="text">
           <el-input v-model.trim="model.text" type="textarea"></el-input>
@@ -37,7 +42,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="msgCreateTime" label="发送时间" width="160"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column fixed="right" label="操作" width="160">
           <template slot-scope="scope">
             <el-button-group>
               <el-tooltip class="item" effect="dark" content="删除" placement="top">
@@ -45,6 +50,11 @@
                   <i class="fa fa-trash"></i>
                 </el-button>
               </el-tooltip>
+              <el-tooltip class="item" effect="dark" content="编辑" placement="top" >
+              <el-button type="warning" size="mini" @click="openEditDialog(scope.row)">
+                <i class="fa fa-edit"></i>
+              </el-button>
+            </el-tooltip>
             </el-button-group>
           </template>
         </el-table-column>
@@ -52,6 +62,22 @@
       <!-- 分页 -->
       <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
       </el-pagination>
+    <!-- 弹窗 -->
+    <!-- 修改系统参数 -->
+    <push-by-appoint ref="appointUser" @done="query"></push-by-appoint>
+    <el-dialog :visible.sync="dialog.edit.show" title="修改系统参数" width="1200px">
+      <div v-loading="dialog.edit.loading" class="edit-form-wrapper">
+        <el-form size="small" :model="dialog.edit.model" :rules="dialog.edit.rules" label-position="left" label-width="120px" ref="editForm">
+          <el-form-item label="修改活动介绍" prop="txt">
+            <el-input type="textarea" v-model.trim="dialog.edit.model.txt"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <span slot="footer">
+        <el-button @click="dialog.edit.show = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="doEdit" size="small" :loading="dialog.edit.btnLoading">确 定</el-button>
+      </span>
+    </el-dialog>
     </div>
   </div>
 </template>
@@ -60,17 +86,37 @@
 import { sendLittleAssistantnotificationsMsg } from '../../../api/assistant/official-activity';
 import { debounce } from 'lodash';
 import { searchLittleAssistantnotificationsByName } from '../../../api/fuzzy-search';
+import DoPushByAppointUser from '../dialogs/DoPushByAppointUser';
 import {
   getLittleAssistantChatMsgPage,
-  deleteMsg
+  deleteMsg,
+  getDetailList,
+  updateSysConfig
 } from '../../../api/assistant/assistant-ChatMsg';
-
+import { emptyassistant } from '../../../utils/empty-model';
 export default {
   name: 'h5-activity-publish-tab',
+
+  components: {
+    'push-by-appoint': DoPushByAppointUser
+  },
 
   data() {
     return {
       tableData: [],
+      dialog: {
+        edit: {
+          model: emptyassistant(),
+          rules: {
+            txt: [
+              { required: true, trigger: 'change', message: '活动介绍不能为空' }
+            ]
+          },
+          show: false,
+          formLoading: true,
+          btnLoading: false
+        }
+      },
       queryModel: {
         createTime: null
       },
@@ -128,6 +174,9 @@ export default {
   },
 
   methods: {
+    doPushAppoint() {
+      this.$refs.appointUser.showDialog();
+    },
     deleteActivityMsg(row) {
       this.$confirm(
         `此操作将删除视频话题活动消息, 删除后所有用户的小助手页面都将看不到此消息, 是否继续?`,
@@ -178,6 +227,40 @@ export default {
     onQueryBtnClick() {
       this.pager.page = 1;
       this.query();
+    },
+    openEditDialog(row) {
+      this.dialog.edit.show = true;
+      getDetailList(row.msgId)
+        .then(({ data }) => {
+          let msgData = JSON.parse(data.detail.msgData);
+          this.dialog.edit.model.msgId = data.detail.msgId;
+          this.dialog.edit.model.txt = msgData.Text;
+          this.dialog.edit.model.msgType = data.detail.msgType;
+          this.dialog.edit.formLoading = false;
+        })
+        .catch(error => {
+          // 获取详情失败, 关闭修改弹窗
+          this.dialog.edit.show = false;
+        });
+    },
+    doEdit() {
+      // 验证表单有效性
+      this.$refs.editForm.validate(valid => {
+        if (valid) {
+          updateSysConfig(this.dialog.edit.model)
+            .then(data => {
+              this.$message.success('操作成功');
+              this.dialog.edit.btnLoading = false;
+              this.dialog.edit.show = false;
+              this.getTableData();
+            })
+            .catch(error => {
+              // do something
+            });
+        } else {
+          return false;
+        }
+      });
     },
     query() {
       this.loading.table = true;

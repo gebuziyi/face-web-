@@ -194,6 +194,17 @@ export const emptySysSet = function () {
 
   return empty
 }
+
+export const emptyassistant = function () {
+  let empty = {
+    txt: null,
+    msgId: null,
+    msgType: null
+  }
+
+  return empty
+}
+
 export const tencentCloud = function () {
   let empty = {
     dirtyWord: null

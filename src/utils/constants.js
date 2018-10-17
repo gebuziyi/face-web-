@@ -132,6 +132,28 @@ export const WITHDRAW_STATUS_LIST = [
  */
 export const MAX_RECOMMENDED_USER_COUNT = 10;
 
+export const IF_ASSISTANTID = [
+  {
+    status: 0,
+    name: '小助手发送'
+  },
+  {
+    status: 1,
+    name: '用户发送'
+  }
+]
+
+export const IF_READ_BYADMIN = [
+  {
+    type: 0,
+    name: '未读'
+  },
+  {
+    type: 1,
+    name: '已读'
+  }
+]
+
 export const ASSISTANT_MSG_TYPES = [
   {
     type: 201,

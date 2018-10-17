@@ -40,3 +40,6 @@ export const deleteVideoComment = function (id) {
 export const checkFailedComment = function (id) {
   return newClient().post('/video/comment/audit/failed', [].concat(id))
 }
+export const ReviewAndPass = function (id) {
+  return newClient().post('/video/comment/audit/pass', [].concat(id))
+}

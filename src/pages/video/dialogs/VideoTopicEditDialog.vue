@@ -45,10 +45,10 @@ export default {
       rules: {
         tname: [
           { required: true, trigger: 'change', message: '话题名称不能为空' }
-        ],
-        img: [
-          { required: true, trigger: 'change', message: '话题图片不能为空' }
         ]
+        // img: [
+        //   { required: true, trigger: 'change', message: '话题图片不能为空' }
+        // ]
       },
       imgFileList: [],
       show: false,
@@ -100,11 +100,7 @@ export default {
 
     onFileRemove(file, fileList) {
       // 由于图片为必选项, 所以这里禁止移除已经上传的图片文件
-      this.$message({
-        type: 'warning',
-        message: '图片文件不可为空!'
-      });
-      return false;
+      this.model.img = null;
     },
 
     onUploadSuccess(response, file, fileList) {

@@ -45,6 +45,15 @@ export const getUserInfoDetail = function (id) {
   return newClient().get('/user/info/detail/' + id)
 }
 
+export const getUserInfoDetailByIdOrName = function ({ queryModel }) {
+  return newClient().get('/user/info/detail/by_id_name/', {
+    params: {
+      userId: requireNonNull(queryModel.userId),
+      nickname: requireNonNull(queryModel.nickname)
+    }
+  })
+}
+
 export const deleteUserBatch = function (id) {
   return newClient().post('/user/info/delete', [].concat(id))
 }

@@ -6,8 +6,18 @@
         <el-input v-model="queryModel.userId" placeholder="用户ID"></el-input>
       </el-form-item>
       <el-form-item prop="msgType">
-        <el-select v-model="queryModel.msgType" placeholder="选择消息类型" filterable>
+        <el-select v-model="queryModel.msgType" placeholder="选择消息类型" filterable clearable >
           <el-option v-for="item in msgTypes" :key="item.type" :label="item.name" :value="item.type"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item prop="readByAdmin">
+        <el-select v-model="queryModel.readByAdmin" placeholder="选择已读未读" filterable>
+          <el-option v-for="item in ifReadByAdmin" :key="item.type" :label="item.name" :value="item.type"></el-option>
+        </el-select>
+      </el-form-item>
+       <el-form-item prop="ifAssiataneId">
+        <el-select v-model="queryModel.ifAssiataneId" placeholder="选择发送人角色" clearable >
+          <el-option v-for="item in ifAssistant" :key="item.status" :label="item.name" :value="item.status"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item prop="createTime">
@@ -17,7 +27,7 @@
     </el-form>
     <!-- 按钮 -->
     <div class="btn-wrapper">
-      <el-button @click="query" type="primary" size="small">
+      <el-button @click="onQueryBtnClick" type="primary" size="small">
         <i class="fa fa-search"></i>
         <span>搜索</span>
       </el-button>
@@ -28,8 +38,22 @@
       </el-button>
     </div>
     <!-- 表格 -->
-    <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @sort-change="onSortChange">
+    <el-table :data="tableData" border style="width: 100%; cursor: pointer" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @sort-change="onSortChange" :row-class-name="toggleRowClassName" @row-click="doReaded">
       <el-table-column prop="msgId" label="ID" sortable="custom" width="80"></el-table-column>
+      <el-table-column prop="readByAdmin" width="80">
+        <template slot-scope="scope">
+          <p v-if="scope.row.readByAdmin === true">
+            <el-tag type="info" size="mini">
+              <i class="fa fa-envelope-open"></i>
+            </el-tag>
+          </p>
+          <p v-else>
+            <el-tag type="warning" size="mini">
+              <i class="fa fa-envelope"></i>
+            </el-tag>
+          </p>
+        </template>
+      </el-table-column>
       <el-table-column prop="fromAccount" label="发送人用户ID" width="120"></el-table-column>
       <el-table-column prop="fromNickName" label="发送人昵称" width="120"></el-table-column>
       <el-table-column prop="toAccount" label="接收人用户ID" width="120"></el-table-column>
@@ -68,10 +92,11 @@
 </template>
 
 <script>
-import { getAssistantChatMsgPage } from '../../api/assistant/assistant-ChatMsg';
+import { getAssistantChatMsgPage, getAssistantId, doReadByAdmin } from '../../api/assistant/assistant-ChatMsg';
 import AssistantMsgReplyDialog from './dialogs/AssistantMsgReplyDialog';
-import { ASSISTANT_MSG_TYPES } from '../../utils/constants';
+import { ASSISTANT_MSG_TYPES, IF_ASSISTANTID, IF_READ_BYADMIN } from '../../utils/constants';
 import AssistantSearchReplyDialog from './dialogs/AssistantSearchReplyDialog';
+import { debounce } from 'lodash';
 
 export default {
   name: 'assistant-ChatMsg',
@@ -84,14 +109,19 @@ export default {
   data() {
     return {
       msgTypes: ASSISTANT_MSG_TYPES,
+      ifAssistant: IF_ASSISTANTID,
+      ifReadByAdmin: IF_READ_BYADMIN,
       loading: {
         table: true
       },
       tableData: [],
+      assistandId: null,
       queryModel: {
         userId: null,
         msgType: null,
-        createTime: null
+        createTime: null,
+        ifAssiataneId: null,
+        readByAdmin: null
       },
       pager: {
         page: 1,
@@ -135,8 +165,11 @@ export default {
       }
     }
   },
-
   methods: {
+    onQueryBtnClick() {
+      this.pager.page = 1;
+      this.query();
+    },
     isTextMsg(msg) {
       return msg.msgType === 201;
     },
@@ -176,13 +209,44 @@ export default {
     },
     openSearchDialog() {
       this.$refs.searchDialog.showDialog();
+    },
+    dogetAssistantId() {
+      getAssistantId()
+        .then(({ data }) => {
+          this.assistandId = data.detail
+          this.$store.commit('setOfficialAccountId', {
+            payload: data.detail
+          });
+        })
+        .catch(error => {});
+    },
+    doReaded: debounce(function(row, event, column) {
+      if (row.readByAdmin === true) {
+        return;
+      }
+      doReadByAdmin(row.msgId)
+        .then(data => {
+          row.readByAdmin = true;
+        })
+        .catch(error => {});
+    }, 500),
+    toggleRowClassName({ row, rowIndex }) {
+      if (row.readByAdmin === false) {
+        return 'readed-by-admin';
+      } else {
+        return '';
+      }
     }
   },
   created() {
     this.getTableData();
+    this.dogetAssistantId();
   }
 };
 </script>
 
-<style scoped>
+<style>
+.el-table .readed-by-admin {
+  font-weight: bolder;
+}
 </style>

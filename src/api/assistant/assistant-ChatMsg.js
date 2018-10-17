@@ -21,6 +21,8 @@ export const getAssistantChatMsgPage = function ({ query, pager, sorter }) {
       limit: pager.limit,
       nickname: requireNonNull(query.nickname),
       userId: requireNonNull(query.userId),
+      ifAssiataneId: requireNonNull(query.ifAssiataneId),
+      readByAdmin: requireNonNull(query.readByAdmin),
       msgType: requireNonNull(query.msgType),
       createTimeStart: requireNonNull(createTimeStart),
       createTimeEnd: requireNonNull(createTimeEnd),
@@ -130,6 +132,21 @@ export const deleteMsg = function (msgIds) {
   return newClient().post('/assistant/chat-msg/delete', [].concat(msgIds))
 }
 
+export const getDetailList = function (msgId) {
+  return newClient().get('/assistant/chat-msg/detailList/' + msgId)
+}
+
 export const getChatRecords = function (userId) {
   return newClient().get('/assistant/chat-msg/chatRecords/' + userId)
+}
+export const updateSysConfig = function(model) {
+  return newClient().post('/assistant/chat-msg/update', model)
+}
+
+export const getAssistantId = function () {
+  return newClient().get('/assistant/chat-msg/assistantId/')
+}
+
+export const doReadByAdmin = function (msgId) {
+  return newClient().post(`/assistant/chat-msg/readMsg/${msgId}`)
 }

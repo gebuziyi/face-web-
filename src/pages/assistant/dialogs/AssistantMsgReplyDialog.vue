@@ -62,7 +62,7 @@ export default {
       this.$refs.theForm.validate(valid => {
         if (valid) {
           let msg = {
-            fromAccount: 10000190,
+            fromAccount: null,
             toAccounts: [].concat(this.msg.fromAccount),
             text: this.model.text
           }

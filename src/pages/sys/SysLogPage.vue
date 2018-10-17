@@ -8,6 +8,15 @@
       <el-form-item prop="operation">
         <el-input v-model.trim="queryModel.operation" placeholder="用户操作"></el-input>
       </el-form-item>
+      <!-- <el-form-item prop="platform">
+        <el-input v-model.trim="queryModel.platform" placeholder="设备平台"></el-input>
+      </el-form-item> -->
+       <el-form-item prop="platform">
+        <el-select v-model="queryModel.platform" clearable placeholder="设备平台">
+          <el-option value="android" label="android"></el-option>
+          <el-option value="ios" label="ios"></el-option>
+        </el-select>
+      </el-form-item>
     </el-form>
     <!-- 按钮 -->
     <div class="btn-wrapper">
@@ -24,7 +33,11 @@
       <el-table-column prop="operation" label="用户操作"></el-table-column>
       <el-table-column prop="params" label="参数" show-overflow-tooltip ></el-table-column>
       <el-table-column prop="time" label="执行时长(ms)"></el-table-column>
-      <el-table-column prop="ip" label="客户端IP"></el-table-column>
+      <el-table-column prop="platform" label="设备平台"></el-table-column>
+      <el-table-column prop="device" label="设备型号"></el-table-column>
+      <el-table-column prop="platformVersion" label="系统版本号"></el-table-column>
+      <el-table-column prop="appVersion" label="软件版本号"></el-table-column>
+      <el-table-column prop="ip" label="客户端ip"></el-table-column>
       <el-table-column prop="createDate" label="执行时间" sortable="custom"></el-table-column>
     </el-table>
     <!-- 分页 -->
@@ -48,7 +61,8 @@ export default {
       tableData: [],
       queryModel: {
         username: null,
-        operation: null
+        operation: null,
+        platform: null
       },
       pager: {
         page: 1,

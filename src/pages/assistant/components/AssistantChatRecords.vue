@@ -1,41 +1,41 @@
 <template>
   <div style=" overflow:scroll; width:1175px; height:400px;">
-      <div v-for="(talk,index) in msg" :key="index">
-        <el-card class="box-card">
-          <span v-if="talk.fromAccount === 10000190">
-            <span style="text-align: center;display: block;">{{ talk.msgCreateTime }}</span>
+    <div v-for="(talk,index) in msg" :key="index">
+      <el-card class="box-card">
+        <span v-if="talk.fromAccount === 10000190">
+          <span style="text-align: center;display: block;">{{ talk.msgCreateTime }}</span>
+        </span>
+        <span v-else>
+          <span style="margin-left: 15px;">
+            {{talk.fromNickName}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {{ talk.msgCreateTime }}
           </span>
-          <span v-else>
-            <span style="margin-left: 15px;">
-              {{talk.fromNickName}}
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              {{ talk.msgCreateTime }}
-            </span>
-          </span>
-          <br/>
-          <span v-if="talk.fromAccount === 10000190" class="syscss">
-            <span v-if="isTextMsg(talk)" class="sbox" >{{ talk | parseText }}</span>
-            <img v-else :src="talk | parseImgUrl" class="chat-msg-img box" style="width: 100px"  @click="showPicPreviewDialog(talk)"/>&nbsp;&nbsp;&nbsp;
-            <img :src="talk.fromImg" class="chat-msg-img" style="width: 50px"/>
-          </span>
-          <span v-else class="othercss">
-            <img :src="talk.fromImg" class="chat-msg-img" style="width: 50px"/>
-            <span v-if="isTextMsg(talk) " class="box" style="margin: 30px;">{{ talk | parseText }}</span>
-            <span  v-else><img :src="talk | parseImgUrl" class="chat-msg-img box" style="width: 100px"  @click="showPicPreviewDialog(talk)"/></span>
-          </span>
-        </el-card>
-      </div>
-      <el-dialog :visible.sync="dialog.picPreview.show" :append-to-body="true">
-        <img :src="dialog.picPreview.picSrc" class="img-preview" />
-      </el-dialog>
+        </span>
+        <br />
+        <span v-if="talk.fromAccount === officialAccountId" class="syscss">
+          <span v-if="isTextMsg(talk)" class="sbox">{{ talk | parseText }}</span>
+          <img v-else :src="talk | parseImgUrl" class="chat-msg-img box" style="width: 100px" @click="showPicPreviewDialog(talk)" />&nbsp;&nbsp;&nbsp;
+          <img :src="talk.fromImg" class="chat-msg-img" style="width: 50px" />
+        </span>
+        <span v-else class="othercss">
+          <img :src="talk.fromImg" class="chat-msg-img" style="width: 50px" />
+          <span v-if="isTextMsg(talk) " class="box" style="margin: 30px;">{{ talk | parseText }}</span>
+          <span v-else><img :src="talk | parseImgUrl" class="chat-msg-img box" style="width: 100px" @click="showPicPreviewDialog(talk)" /></span>
+        </span>
+      </el-card>
+    </div>
+    <el-dialog :visible.sync="dialog.picPreview.show" :append-to-body="true">
+      <img :src="dialog.picPreview.picSrc" class="img-preview" />
+    </el-dialog>
   </div>
 </template>
 
@@ -53,6 +53,13 @@ export default {
       }
     };
   },
+
+  computed: {
+    officialAccountId() {
+      return this.$store.state.assistant.officialAccountId;
+    }
+  },
+
   props: {
     msg: {
       required: true,
@@ -73,12 +80,14 @@ export default {
   },
   methods: {
     isTextMsg(talk) {
-      return talk.msgType === 201
+      return talk.msgType === 201;
     },
     showPicPreviewDialog(talk) {
       const msgDataStr = talk.msgData;
       const imageInfoArray = JSON.parse(msgDataStr).ImageInfoArray;
-      this.dialog.picPreview.picSrc = imageInfoArray.find(talk => talk.Type === 3).URL;
+      this.dialog.picPreview.picSrc = imageInfoArray.find(
+        talk => talk.Type === 3
+      ).URL;
       this.dialog.picPreview.show = true;
     }
   }
@@ -103,7 +112,7 @@ export default {
 }
 
 .text {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .item {
@@ -113,8 +122,8 @@ export default {
 .box-card {
   width: 1155px;
 }
-.box:before{
-  content: "";
+.box:before {
+  content: '';
   display: block;
   position: absolute;
   width: 0;
@@ -124,7 +133,7 @@ export default {
   top: 10px;
   left: -14px;
 }
-.box{
+.box {
   position: relative;
   width: 150px;
   min-height: 50px;
@@ -138,8 +147,8 @@ export default {
   line-height: 18px;
 }
 
-.sbox:before{
-  content: "";
+.sbox:before {
+  content: '';
   display: block;
   position: absolute;
   width: 0;
@@ -149,7 +158,7 @@ export default {
   top: 10px;
   right: -14px;
 }
-.sbox{
+.sbox {
   position: relative;
   width: 150px;
   min-height: 50px;
