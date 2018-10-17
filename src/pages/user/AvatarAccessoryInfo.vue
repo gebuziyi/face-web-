@@ -5,6 +5,12 @@
       <el-form-item prop="name">
         <el-input v-model.trim="queryModel.name" placeholder="挂饰名称"></el-input>
       </el-form-item>
+     <el-form-item prop="isDeleted">
+        <el-select v-model="queryModel.isDeleted" clearable placeholder="状态">
+          <el-option :value="0" label="未删除"></el-option>
+          <el-option :value="1" label="已删除"></el-option>
+        </el-select>
+      </el-form-item>
     </el-form>
     <!-- 按钮 -->
     <div class="btn-wrapper">
@@ -70,14 +76,14 @@
     </el-pagination>
     <!-- 弹窗 start-->
     <!-- 修改礼品类型 -->
-    <el-dialog :visible.sync="dialog.edit.show" title="修改礼品类型" width="600px">
+    <el-dialog :visible.sync="dialog.edit.show" title="修改礼品类型" width="1000px">
       <div v-loading="dialog.edit.loading" class="edit-form-wrapper">
-        <el-form size="small" :model="dialog.edit.model" :rules="dialog.edit.rules" label-position="left" label-width="80px" ref="editForm">
+        <el-form size="small" :model="dialog.edit.model" :rules="dialog.edit.rules" label-position="left" label-width="200px" ref="editForm">
             <el-form-item label="挂件名称" prop="name">
             <el-input v-model.trim="dialog.edit.model.name"></el-input>
           </el-form-item>
            <el-form-item label="挂件介绍" prop="introduction">
-            <el-input v-model.trim="dialog.edit.model.introduction"></el-input>
+            <el-input type="textarea" v-model.trim="dialog.edit.model.introduction"></el-input>
           </el-form-item>
            <el-form-item label="挂件优先级" prop="priority">
             <el-input-number v-model.trim="dialog.edit.model.priority" :min="1"></el-input-number>
@@ -106,7 +112,7 @@
             <el-input v-model.trim="dialog.create.model.name"></el-input>
           </el-form-item>
           <el-form-item label="挂件介绍" prop="introduction">
-            <el-input v-model.trim="dialog.create.model.introduction"></el-input>
+            <el-input type="textarea" v-model.trim="dialog.create.model.introduction"></el-input>
           </el-form-item>
           <el-form-item label="挂件优先级" prop="priority">
             <el-input-number v-model.trim="dialog.create.model.priority" :min="1"></el-input-number>
@@ -135,11 +141,11 @@
 
 <script>
 import {
-  getGiftTypeList,
-  getGiftTypeDetail,
-  updateGiftType,
-  removeGiftType,
-  createGiftType
+  getList,
+  getDetail,
+  update,
+  remove,
+  create
 } from '../../api/user/avatar-accessory-info';
 
 import { emptyUserAvatarAccessory } from '../../utils/empty-model';
@@ -228,7 +234,8 @@ export default {
       },
       tableData: [],
       queryModel: {
-        name: null
+        name: null,
+        isDeleted: null
       },
       pager: {
         page: 1,
@@ -262,7 +269,7 @@ export default {
         .then(() => {
           // 表格loading
           this.loading.table = true;
-          removeGiftType(this.selectedIds)
+          remove(this.selectedIds)
             .then(({ data }) => {
               this.$message.success('删除成功');
               // 刷新表格数据
@@ -280,7 +287,7 @@ export default {
       // 验证表单有效性
       this.$refs.createForm.validate(valid => {
         if (valid) {
-          createGiftType(this.dialog.create.model)
+          create(this.dialog.create.model)
             .then(data => {
               this.$message.success('操作成功');
               this.$refs['create-upload'].clearFiles();
@@ -297,10 +304,10 @@ export default {
       });
     },
     deleteSingleGift(row) {
-      this.$confirm('此操作将删除礼品类型: ' + row.name, '删除确认')
+      this.$confirm('此操作将删除此挂饰: ' + row.name, '删除确认')
         .then(() => {
           this.loading.table = true;
-          removeGiftType(row.id)
+          remove(row.id)
             .then(({ data }) => {
               this.$message.success('删除成功');
               // 刷新表格数据
@@ -361,7 +368,7 @@ export default {
       // 验证表单有效性
       this.$refs.editForm.validate(valid => {
         if (valid) {
-          updateGiftType(this.dialog.edit.model)
+          update(this.dialog.edit.model)
             .then(data => {
               this.$message.success('操作成功');
               this.dialog.edit.btnLoading = false;
@@ -379,7 +386,7 @@ export default {
     openEditDialog(row) {
       // 打开对话框
       this.dialog.edit.show = true;
-      getGiftTypeDetail(row.id)
+      getDetail(row.id)
         .then(({ data }) => {
           this.dialog.edit.model = data.list;
           this.imgFileList = [].concat({ url: data.list.url });
@@ -405,7 +412,7 @@ export default {
       this.loading.table = true;
       this.dialog.create.model = emptyUserAvatarAccessory();
       this.imgFileList = [];
-      getGiftTypeList({
+      getList({
         query: this.queryModel,
         pager: this.pager,
         sorter: this.sorter
