@@ -339,3 +339,29 @@ export const USER_REGIST_TYPE = [
     description: 'line'
   }
 ]
+
+export const APP_SPLASH_SCREEN_TYPE = [
+  {
+    type: 0,
+    name: '图片'
+  },
+  {
+    type: 1,
+    name: '视频'
+  }
+]
+
+export const APP_SPLASH_SCREEN_CLICKACTIONS = [
+  {
+    type: 0,
+    name: '打开H5页面'
+  },
+  {
+    type: 1,
+    name: '进入直播间'
+  },
+  {
+    type: 2,
+    name: '进入短视频详情页面'
+  }
+]
