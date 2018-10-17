@@ -19,6 +19,20 @@ export const emptyGiftInfo = function () {
   return empty
 }
 
+export const emptyUserAvatarAccessory = function () {
+  let empty = {
+    id: null,
+    name: null,
+    introduction: null,
+    url: null,
+    priority: null,
+    layer: null
+
+  }
+
+  return empty
+}
+
 export const emptyGiftType = function () {
   let empty = {
     typeId: null,

@@ -202,13 +202,8 @@ export default {
           const selectedCountry = this.countryList.find(
             item => item.countryId === this.model.countryId
           );
-
-          this.loading = true;
-
           this.model.coding = selectedCountry.coding;
-
           const h = this.$createElement;
-
           createSysUserVest(this.model)
             .then(data => {
               this.$alert(
