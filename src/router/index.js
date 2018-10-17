@@ -21,6 +21,7 @@ import { FriendRingModuleRouter } from './friend';
 import { MsgPushMoudleRouter } from './msgpush';
 import { AuditModuleRouter } from './audit';
 import { AssistantModuleRouter } from './assistant';
+import { AppModuleRouter } from './app';
 
 Vue.use(Router)
 
@@ -60,6 +61,7 @@ export default new Router({
         MsgPushMoudleRouter,
         AuditModuleRouter,
         AssistantModuleRouter,
+        AppModuleRouter,
         {
           path: '*',
           name: 'NotFound',
