@@ -46,7 +46,7 @@
         <template slot-scope="scope">
           <el-button-group>
             <el-tooltip class="item" effect="dark" content="取消挂饰" placement="top" v-if="hasPermission('user:accessory:delete')">
-              <el-button type="danger" size="mini" @click="openDelSingleConfirm(scope.row)">
+              <el-button type="danger" size="mini" @click="showDelSingleConfirm(scope.row)">
                 <i class="fa fa-trash"></i>
               </el-button>
             </el-tooltip>
@@ -65,7 +65,8 @@
 <script>
 import {
   getUserAvatarAccessoryList,
-  getAllAccessories
+  getAllAccessories,
+  deleteUserAvatarAccessory
 } from '../../api/user/user-avatar-accessory';
 import UserAvatarAccessoryCreateDialog from './dialogs/UserAvatarAccessoryCreateDialog';
 
@@ -100,16 +101,44 @@ export default {
     };
   },
   methods: {
-    showBatchDeleteConfirm() {
+    showDelSingleConfirm(row) {
       this.$confirm(
-        `此操作将取消所选用户的头像挂饰, 是否继续?`,
-        '批量取消用户挂饰',
+        `此操作将取消用户 ${row.nickname} 的 ${row.accessoryName} 头像挂饰, 是否继续?`,
+        '取消用户头像挂饰',
         {
           type: 'warning'
         }
       )
         .then(() => {
-          // TODO
+          deleteUserAvatarAccessory(row.id)
+            .then(resp => {
+              this.$message.success('操作成功');
+              this.query();
+            })
+            .catch(err => {
+              this.$message.error('操作失败');
+            })
+        })
+        .catch(() => {});
+    },
+
+    showBatchDeleteConfirm() {
+      this.$confirm(
+        `此操作将取消所选用户的头像挂饰, 是否继续?`,
+        '批量取消用户头像挂饰',
+        {
+          type: 'warning'
+        }
+      )
+        .then(() => {
+          deleteUserAvatarAccessory(this.selectedIds)
+            .then(resp => {
+              this.$message.success('操作成功');
+              this.query();
+            })
+            .catch(err => {
+              this.$message.error('操作失败');
+            })
         })
         .catch(() => {});
     },
@@ -122,7 +151,7 @@ export default {
 
     onSelectionChange(rows) {
       if (rows) {
-        this.selectedIds = rows.map(data => data.typeId);
+        this.selectedIds = rows.map(data => data.id);
       }
     },
 

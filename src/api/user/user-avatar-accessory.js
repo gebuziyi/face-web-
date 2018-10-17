@@ -27,3 +27,7 @@ export const createUserAvatarAccessory = function (payload) {
 export const getAllAccessories = function () {
   return newClient().get('/user/avatar-accessory-info/getUndeletedAll');
 }
+
+export const deleteUserAvatarAccessory = function (ids) {
+  return newClient().post('/user/accessory/delete', [].concat(ids));
+}
