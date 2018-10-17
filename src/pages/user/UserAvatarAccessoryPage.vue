@@ -29,10 +29,10 @@
     </div>
     <!-- 表格 -->
     <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @selection-change="onSelectionChange" @sort-change="onSortChange">
+      <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="id" label="ID"></el-table-column>
       <el-table-column prop="userId" label="用户ID"></el-table-column>
       <el-table-column prop="nickname" label="用户昵称"></el-table-column>
-      <el-table-column prop="nickName" label="用户昵称"></el-table-column>
       <el-table-column prop="accessoryId" label="挂饰ID"></el-table-column>
       <el-table-column prop="accessoryName" label="挂饰名称"></el-table-column>
       <el-table-column prop="accessoryUrl" label="挂饰图片">
@@ -40,14 +40,13 @@
           <table-img-previewer :option="{imgSrc: scope.row.accessoryUrl}"></table-img-previewer>
         </template>
       </el-table-column>
-      <el-table-column prop="img" label="冻结类型"></el-table-column>
       <el-table-column prop="createTime" label="创建时间"></el-table-column>
       <el-table-column prop="expireTime" label="过期时间"></el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button-group>
             <el-tooltip class="item" effect="dark" content="取消挂饰" placement="top" v-if="hasPermission('user:accessory:delete')">
-              <el-button type="error" size="mini" @click="openDelSingleConfirm(scope.row)">
+              <el-button type="danger" size="mini" @click="openDelSingleConfirm(scope.row)">
                 <i class="fa fa-trash"></i>
               </el-button>
             </el-tooltip>
@@ -64,7 +63,10 @@
 </template>
 
 <script>
-import { getUserAvatarAccessoryList } from '../../api/user/user-avatar-accessory';
+import {
+  getUserAvatarAccessoryList,
+  getAllAccessories
+} from '../../api/user/user-avatar-accessory';
 import UserAvatarAccessoryCreateDialog from './dialogs/UserAvatarAccessoryCreateDialog';
 
 export default {
@@ -148,13 +150,13 @@ export default {
       this.getTableData();
     },
 
-    // initAccessoriesSelectData() {
-    //   getAllAccessories()
-    //     .then(({ data }) => {
-    //       this.accessories = data.list;
-    //     })
-    //     .catch(error => {});
-    // },
+    initAccessoriesSelectData() {
+      getAllAccessories()
+        .then(({ data }) => {
+          this.accessories = data.list;
+        })
+        .catch(error => {});
+    },
 
     getTableData() {
       // 显示表格loading
@@ -174,6 +176,7 @@ export default {
   },
   created() {
     this.getTableData();
+    this.initAccessoriesSelectData();
   }
 };
 </script>

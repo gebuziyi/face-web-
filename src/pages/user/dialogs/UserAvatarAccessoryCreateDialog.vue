@@ -67,7 +67,7 @@
         </el-select>
       </el-form-item>
       <el-form-item prop="expireTime">
-        <el-date-picker v-model="model.expireTime" type="datetime" placeholder="选择挂饰过期时间" :picker-options="expireTimeOption">
+        <el-date-picker v-model="model.expireTime" type="datetime" placeholder="选择挂饰过期时间" :picker-options="expireTimeOption" value-format="yyyy-MM-dd HH:mm:ss">
         </el-date-picker>
       </el-form-item>
     </el-form>
@@ -147,7 +147,7 @@ export default {
         if (valid) {
           let msg = {
             userIds: this.selectedUsers.map(item => item.userId),
-            accessroyId: this.model.accessoryId,
+            accessoryId: this.model.accessoryId,
             expireTime: this.model.expireTime
           };
           createUserAvatarAccessory(msg)
