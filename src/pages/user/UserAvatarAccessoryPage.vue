@@ -59,15 +59,21 @@
     <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
     </el-pagination>
     <!-- 弹窗 start-->
-
+    <create-dialog :accessories="accessories" @done="onQueryBtnClick" ref="createDialog"></create-dialog>
   </div>
 </template>
 
 <script>
 import { getUserAvatarAccessoryList } from '../../api/user/user-avatar-accessory';
+import UserAvatarAccessoryCreateDialog from './dialogs/UserAvatarAccessoryCreateDialog';
 
 export default {
   name: 'user-avatar-accessory-page',
+
+  components: {
+    'create-dialog': UserAvatarAccessoryCreateDialog
+  },
+
   data() {
     return {
       selectedIds: [],

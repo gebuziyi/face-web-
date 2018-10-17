@@ -26,23 +26,21 @@
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button-group>
-            <el-button type="success" size="mini" @click="addAppointUser(scope.row)" v-if="hasPermission('user:accessory:create')">
+            <el-button type="success" size="mini" @click="selectUser(scope.row)" v-if="hasPermission('user:accessory:create')">
               添加
             </el-button>
           </el-button-group>
         </template>
       </el-table-column>
     </el-table>
-    <br>
-    <h3>已选定用户</h3>
     <el-row style="padding: 15px;">
+      <h4>已选定用户</h4>
       <el-button class="btn-operation" type="danger" size="mini" @click="clearSelectedUsers" :disabled="selectedUsers.length === 0">
         清空已选
       </el-button>
     </el-row>
-    <br>
-    <div style=" overflow:scroll; width:1175px; height:250px;">
-      <el-table :data="selectedUsers" border style="width: 100%" v-loading="loading.table">
+    <div style=" overflow:scroll; width:100%; height:250px;">
+      <el-table :data="selectedUsers" border style="width: 100%">
         <el-table-column prop="userId" label="用户ID"></el-table-column>
         <el-table-column prop="nickName" label="用户昵称"></el-table-column>
         <el-table-column prop="img" label="用户头像">
@@ -63,27 +61,43 @@
     </div><br>
     <h4>头像挂饰</h4>
     <el-form size="small" :model="model" :rules="rules" label-position="left" label-width="120px" ref="theForm">
-      <el-form-item label="回复内容" prop="text">
-        <el-input v-model.trim="model.text" type="textarea"></el-input>
+      <el-form-item prop="accessoryId">
+        <el-select v-model="model.accessoryId" placeholder="选择头像挂饰" filterable>
+          <el-option v-for="item in accessories" :key="item.id" :label="item.name" :value="item.id"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item prop="expireTime">
+        <el-date-picker v-model="model.expireTime" type="datetime" placeholder="选择挂饰过期时间" :picker-options="expireTimeOption">
+        </el-date-picker>
       </el-form-item>
     </el-form>
     <span slot="footer">
-      <el-button @click="closeDialogs" size="small">关闭</el-button>
-      <el-button type="primary" @click="doReply" size="small" :loading="btnLoading">发送</el-button>
+      <el-button @click="show = false" size="small">关闭</el-button>
+      <el-button type="primary" @click="doCreate" size="small" :loading="btnLoading" :disabled="selectedUsers.length === 0">确定</el-button>
     </span>
   </el-dialog>
 </template>
 <script>
 import { getUserInfoDetailByIdOrName } from '../../../api/user/user-info';
-import { replyMsg } from '../../../api/assistant/assistant-ChatMsg';
+import { createUserAvatarAccessory } from '../../../api/user/user-avatar-accessory';
 
 export default {
-  name: 'user-recommend-create-dialog',
+  name: 'user-avatar-accessory-create-dialog',
 
-  components: {},
+  props: {
+    accessories: {
+      required: true,
+      type: Array
+    }
+  },
 
   data() {
     return {
+      expireTimeOption: {
+        disabledDate(date) {
+          return date.getTime() <= Date.now();
+        }
+      },
       selectedUsers: [],
       isdisabled: false,
       show: false,
@@ -94,53 +108,53 @@ export default {
       addUsersTable: [],
       toAccounts: [],
       model: {
-        text: null
+        accessoryId: null,
+        expireTime: null
       },
       rules: {
-        text: [
-          { required: true, trigger: 'change', message: '回复内容不能为空' }
+        accessoryId: [
+          { required: true, trigger: 'change', message: '头像挂饰不能为空' }
+        ],
+        expireTime: [
+          { required: true, trigger: 'change', message: '过期时间不能为空' }
         ]
       },
       btnLoading: false,
       queryModel: {
         userId: null,
         nickname: null
-      },
-      recommendTypeModel: {
-        typeId: null
-      },
-      types: [],
-      selectedTypeName: ''
+      }
     };
   },
-  computed: {
-    isdisableds() {
-      let users = this.addUsersTable;
-      return users.length === 0;
-    }
-  },
   methods: {
+    selectUser(row) {
+      if (this.selectedUsers.indexOf(row) === -1) {
+        this.selectedUsers.push(row);
+      }
+    },
+
     clearSelectedUsers() {
       this.selectedUsers = [];
     },
-    
-    doReply() {
-      let users = this.addUsersTable;
-      if (users === null || users === [] || users.length === 0) {
-        this.$message.error('请选择发送用户');
+
+    doCreate() {
+      if (this.selectedUsers.length === 0) {
+        this.$message.error('未选择任何用户');
         return;
       }
+
       this.$refs.theForm.validate(valid => {
         if (valid) {
           let msg = {
-            fromAccount: null,
-            toAccounts: this.toAccounts,
-            text: this.model.text
+            userIds: this.selectedUsers.map(item => item.userId),
+            accessroyId: this.model.accessoryId,
+            expireTime: this.model.expireTime
           };
-          replyMsg(msg)
+          createUserAvatarAccessory(msg)
             .then(resp => {
-              this.$refs.theForm.resetFields();
-              this.$message.success('发送成功');
+              this.$message.success('设置头像挂饰成功!');
+              this.show = false;
+              this.$emit('done');
             })
             .catch(err => {});
         } else {
@@ -149,20 +163,12 @@ export default {
       });
     },
     closeDialogs() {
-      this.show = false;
-      this.addUsersTable = [];
-      this.toAccounts = [];
+      this.selectedUsers = [];
       this.tableData = [];
       this.queryModel.userId = null;
       this.queryModel.nickname = null;
-      this.model.text = null;
-    },
-    onTypeChange(val) {
-      if (val) {
-        this.selectedTypeName = this.types.filter(
-          item => item.typeId === val
-        )[0].name;
-      }
+      this.model.accessoryId = null;
+      this.model.expireTime = null;
     },
 
     findUser() {
@@ -184,28 +190,16 @@ export default {
           this.$message.error('请检查输入的用户ID或者用户名是否正确');
         });
     },
-    addAppointUser(row) {
-      let userTables = this.addUsersTable;
-      let accounts = this.toAccounts;
-      for (var i = 0; i < userTables.length; i++) {
-        if (userTables[i].userId === row.userId) {
-          return;
-        }
-      }
-      userTables.push(row);
-      accounts.push(row.userId);
-    },
+
     removeSelectedUser(row) {
       this.selectedUsers.splice(this.selectedUsers.indexOf(row));
     },
+
     showDialog() {
       this.show = true;
     }
   },
-  created() {
-    this.userId = null;
-    this.tableData = [];
-  }
+  created() {}
 };
 </script>
 

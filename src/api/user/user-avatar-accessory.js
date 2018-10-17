@@ -19,3 +19,7 @@ export const getUserAvatarAccessoryList = function ({ query, pager, sorter }) {
     }
   })
 }
+
+export const createUserAvatarAccessory = function (payload) {
+  return newClient().post('/user/accessory/create', payload);
+}
