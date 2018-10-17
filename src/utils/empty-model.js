@@ -722,3 +722,21 @@ export const emptyAssistantFaqType = function () {
 
   return empty
 }
+
+// ========================================================= APP model
+
+export const AppSplashScreen = function () {
+  let empty = {
+    type: null,
+    fileUrl: null,
+    clickable: null,
+    stayTime: null,
+    skippable: null,
+    clickAction: null,
+    actionData: null,
+    enableTime: null,
+    disableTime: null
+  }
+
+  return empty
+}
