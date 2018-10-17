@@ -140,7 +140,7 @@ import {
   updateGiftType,
   removeGiftType,
   createGiftType
-} from '../../api/user/user-avatar-accessory';
+} from '../../api/user/avatar-accessory-info';
 
 import { emptyUserAvatarAccessory } from '../../utils/empty-model';
 
