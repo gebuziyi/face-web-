@@ -38,6 +38,7 @@ export const getVideoInfoList = function ({ query, pager, sorter }) {
       isPrivate: requireNonNull(query.isPrivate),
       source: requireNonNull(query.source),
       hot: requireNonNull(query.hot),
+      featured: requireNonNull(query.featured),
       createTimeStart: requireNonNull(createTimeStart),
       createTimeEnd: requireNonNull(createTimeEnd),
       sysUserId: requireNonNull(query.sysUserId),
@@ -84,6 +85,14 @@ export const makeVideoHot = function (id) {
 
 export const cancelVideoHot = function (id) {
   return newClient().post(`/video/info/${id}/hot/cancel`)
+}
+
+export const makeVideoFeatured = function (id) {
+  return newClient().post(`/video/info/featured/make`, [].concat(id))
+}
+
+export const cancelVideoFeatured = function (id) {
+  return newClient().post(`/video/info/featured/cancel`, [].concat(id))
 }
 
 export const updateVideoInfo = function (model) {
