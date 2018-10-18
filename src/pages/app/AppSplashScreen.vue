@@ -37,7 +37,7 @@
           <icon-tag :type="scope.row.type === 1 ? 'primary' : 'success'">{{ isType(scope.row.type) }}</icon-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="fileUrl" label="url">
+      <el-table-column prop="fileUrl" label="封面">
         <template slot-scope="scope">
           <el-tooltip effect="dark" content="点击查看大图" placement="top">
             <img :src="scope.row.fileUrl" class="img-thumb" @click="showPicPreviewDialog(scope.row)">
