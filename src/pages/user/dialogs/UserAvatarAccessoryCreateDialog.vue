@@ -1,41 +1,45 @@
 <template>
   <el-dialog title="分配头像挂饰" width="1200px" :visible.sync="show" :close-on-click-modal="false" @close="closeDialogs">
-    <el-form :inline="true" :model="queryModel" size="small" ref="queryForm">
-      <el-form-item prop="userId">
-        <el-input v-model.trim="queryModel.userId" placeholder="用户ID"></el-input>
-      </el-form-item>
-      <el-form-item prop="nickname">
-        <el-input v-model.trim="queryModel.nickname" placeholder="用户昵称"></el-input>
-      </el-form-item>
-    </el-form>
-    <div class="btn-wrapper">
-      <el-button @click="findUser" type="primary" size="small">
-        <i class="fa fa-search"></i>
-        <span>搜索</span>
-      </el-button>
+    <!-- 用户搜索部分, 如果外部传入的指定的用户, 则不需要展示这个部分 -->
+    <div class="user-search-wrapper" v-if="needSearch">
+      <el-form :inline="true" :model="queryModel" size="small" ref="queryForm">
+        <el-form-item prop="userId">
+          <el-input v-model.trim="queryModel.userId" placeholder="用户ID"></el-input>
+        </el-form-item>
+        <el-form-item prop="nickname">
+          <el-input v-model.trim="queryModel.nickname" placeholder="用户昵称"></el-input>
+        </el-form-item>
+      </el-form>
+      <div class="btn-wrapper">
+        <el-button @click="findUser" type="primary" size="small">
+          <i class="fa fa-search"></i>
+          <span>搜索</span>
+        </el-button>
+      </div>
+      <!-- 表格 -->
+      <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading">
+        <el-table-column prop="userId" label="用户ID"></el-table-column>
+        <el-table-column prop="nickName" label="用户昵称"></el-table-column>
+        <el-table-column prop="img" label="用户头像">
+          <template slot-scope="scope">
+            <img :src="scope.row.img" class="user-avatar">
+          </template>
+        </el-table-column>
+        <el-table-column fixed="right" label="操作">
+          <template slot-scope="scope">
+            <el-button-group>
+              <el-button type="success" size="mini" @click="selectUser(scope.row)" v-if="hasPermission('user:accessory:create')">
+                添加
+              </el-button>
+            </el-button-group>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
-    <!-- 表格 -->
-    <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading">
-      <el-table-column prop="userId" label="用户ID"></el-table-column>
-      <el-table-column prop="nickName" label="用户昵称"></el-table-column>
-      <el-table-column prop="img" label="用户头像">
-        <template slot-scope="scope">
-          <img :src="scope.row.img" class="user-avatar">
-        </template>
-      </el-table-column>
-      <el-table-column fixed="right" label="操作">
-        <template slot-scope="scope">
-          <el-button-group>
-            <el-button type="success" size="mini" @click="selectUser(scope.row)" v-if="hasPermission('user:accessory:create')">
-              添加
-            </el-button>
-          </el-button-group>
-        </template>
-      </el-table-column>
-    </el-table>
     <el-row style="padding: 15px;">
       <h4>已选定用户</h4>
-      <el-button class="btn-operation" type="danger" size="mini" @click="clearSelectedUsers" :disabled="selectedUsers.length === 0">
+      <!-- 是否可清空已选择用户, 从外部传入的用户不可清空 -->
+      <el-button class="btn-operation" type="danger" size="mini" @click="clearSelectedUsers" :disabled="selectedUsers.length === 0" v-if="canClear">
         清空已选
       </el-button>
     </el-row>
@@ -50,7 +54,8 @@
         </el-table-column>
         <el-table-column fixed="right" label="操作">
           <template slot-scope="scope">
-            <el-tooltip class="item" effect="dark" content="移除" placement="top">
+            <!-- 是否可清空已选择用户, 从外部传入的用户不可清空 -->
+            <el-tooltip class="item" effect="dark" content="移除" placement="top" v-if="canClear">
               <el-button type="danger" size="mini" @click="removeSelectedUser(scope.row)">
                 <i class="fa fa-trash"></i>
               </el-button>
@@ -79,27 +84,25 @@
 </template>
 <script>
 import { getUserInfoDetailByIdOrName } from '../../../api/user/user-info';
-import { createUserAvatarAccessory } from '../../../api/user/user-avatar-accessory';
+import {
+  createUserAvatarAccessory,
+  getAllAccessories
+} from '../../../api/user/user-avatar-accessory';
 
 export default {
   name: 'user-avatar-accessory-create-dialog',
 
-  props: {
-    accessories: {
-      required: true,
-      type: Array
-    }
-  },
-
   data() {
     return {
+      accessories: [],
+      needSearch: true,
+      canClear: true,
       expireTimeOption: {
         disabledDate(date) {
           return date.getTime() <= Date.now();
         }
       },
       selectedUsers: [],
-      isdisabled: false,
       show: false,
       loading: {
         table: false
@@ -195,8 +198,26 @@ export default {
       this.selectedUsers.splice(this.selectedUsers.indexOf(row));
     },
 
-    showDialog() {
+    showDialog(accessoryList, user) {
+      if (accessoryList && accessoryList.length > 0) {
+        this.accessories = accessoryList;
+      } else {
+        this.initAccessories();
+      }
+      if (user) {
+        this.selectedUsers.push(user);
+        this.needSearch = false;
+        this.canClear = false;
+      }
       this.show = true;
+    },
+
+    initAccessories() {
+      getAllAccessories()
+        .then(({ data }) => {
+          this.accessories = data.list;
+        })
+        .catch(error => {});
     }
   },
   created() {}

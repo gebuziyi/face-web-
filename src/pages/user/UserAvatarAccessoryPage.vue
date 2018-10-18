@@ -58,7 +58,7 @@
     <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
     </el-pagination>
     <!-- 弹窗 start-->
-    <create-dialog :accessories="accessories" @done="onQueryBtnClick" ref="createDialog"></create-dialog>
+    <create-dialog @done="onQueryBtnClick" ref="createDialog"></create-dialog>
   </div>
 </template>
 
@@ -156,7 +156,7 @@ export default {
     },
 
     openCreateDialog() {
-      this.$refs.createDialog.showDialog();
+      this.$refs.createDialog.showDialog(this.accessories);
     },
 
     onQueryBtnClick() {
