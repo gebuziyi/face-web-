@@ -19,6 +19,20 @@ export const emptyGiftInfo = function () {
   return empty
 }
 
+export const emptyUserAvatarAccessory = function () {
+  let empty = {
+    id: null,
+    name: null,
+    introduction: null,
+    url: null,
+    priority: null,
+    layer: null
+
+  }
+
+  return empty
+}
+
 export const emptyGiftType = function () {
   let empty = {
     typeId: null,
@@ -704,6 +718,24 @@ export const emptyAssistantFaqType = function () {
     createTime: null,
     editor: null,
     editTime: null
+  }
+
+  return empty
+}
+
+// ========================================================= APP model
+
+export const AppSplashScreen = function () {
+  let empty = {
+    type: null,
+    fileUrl: null,
+    clickable: null,
+    stayTime: null,
+    skippable: null,
+    clickAction: null,
+    actionData: null,
+    enableTime: null,
+    disableTime: null
   }
 
   return empty
