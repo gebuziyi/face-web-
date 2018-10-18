@@ -28,6 +28,7 @@
           <el-date-picker
             v-model="model.enableTime"
             type="datetime"
+            :picker-options="expireTimeOption"
             placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-form-item>
@@ -35,6 +36,7 @@
           <el-date-picker
             v-model="model.disableTime"
             type="datetime"
+            :picker-options="expireTimeOption"
             placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-form-item>
@@ -81,8 +83,13 @@ export default {
           { required: true, trigger: 'change', message: '失效时间不能为空' }
         ],
         fileUrl: [
-          { required: true, trigger: 'change', message: '封面不能为空' }
+          { required: true, trigger: 'change', message: '启动页封面不能为空' }
         ]
+      },
+      expireTimeOption: {
+        disabledDate(date) {
+          return date.getTime() <= Date.now();
+        }
       },
       loading: false,
       model: AppSplashScreen(),
@@ -136,12 +143,8 @@ export default {
       // 验证表单有效性
       this.$refs.createForm.validate(valid => {
         if (valid) {
-          var remindTime = this.model.disableTime;
-          var str = remindTime.toString();
-          str = str.replace('/-/g', '/');
-          var oldTime = new Date(str).getTime();
-          if (this.model.disableTime <= this.model.enableTime || oldTime <= new Date().getTime()) {
-            this.$message.error('失效时间必须大于生效时间和当前时间');
+          if (this.model.disableTime <= this.model.enableTime) {
+            this.$message.error('失效时间必须大于生效时间');
             return;
           }
           createAppSplashScreen(this.model)
