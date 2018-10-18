@@ -26,7 +26,7 @@ export const emptyUserAvatarAccessory = function () {
     introduction: null,
     url: null,
     priority: null,
-    layer: null
+    module: null
 
   }
 
