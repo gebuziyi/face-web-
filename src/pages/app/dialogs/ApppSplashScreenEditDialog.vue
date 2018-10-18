@@ -140,11 +140,15 @@ export default {
     doEdit() {
       // 验证表单有效性
       this.$refs.createForm.validate(valid => {
-        if (this.model.disableTime <= this.model.enableTime || this.model.disableTime <= new Date().getTime()) {
-          this.$message.error('失效时间必须大于生效时间和当前时间');
-          return;
-        }
         if (valid) {
+          var remindTime = this.model.disableTime;
+          var str = remindTime.toString();
+          str = str.replace('/-/g', '/');
+          var oldTime = new Date(str).getTime();
+          if (this.model.disableTime <= this.model.enableTime || oldTime <= new Date().getTime()) {
+            this.$message.error('失效时间必须大于生效时间和当前时间');
+            return;
+          }
           updateAppSplashScreen(this.model)
             .then(data => {
               this.$message.success('操作成功');
@@ -153,7 +157,9 @@ export default {
               this.$emit('done')
             })
             .catch(error => {
-              // do something
+              this.btnLoading = false;
+              this.show = true;
+              this.$message.error('您选择的生效期已有其他启动页正在生效，请选择其他生效期');
             });
         } else {
           return false;

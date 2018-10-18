@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { checkEnableTime, createAppSplashScreen } from '../../../api/app/app-splash-screen';
+import { createAppSplashScreen } from '../../../api/app/app-splash-screen';
 import { AppSplashScreen } from '../../../utils/empty-model';
 import { APP_SPLASH_SCREEN_TYPE, APP_SPLASH_SCREEN_CLICKACTIONS } from '../../../utils/constants';
 
@@ -84,7 +84,6 @@ export default {
           { required: true, trigger: 'change', message: '封面不能为空' }
         ]
       },
-      checkEnableTime: null,
       loading: false,
       model: AppSplashScreen(),
       types: APP_SPLASH_SCREEN_TYPE,
@@ -136,14 +135,7 @@ export default {
     doCreate() {
       // 验证表单有效性
       this.$refs.createForm.validate(valid => {
-        checkEnableTime(this.model)
-          .then(({ data }) => {
-            this.checkEnableTime = data.detail;
-          })
-          .catch(error => {
-            this.$message.error('验证异常')
-          })
-        setTimeout(() => {
+        if (valid) {
           var remindTime = this.model.disableTime;
           var str = remindTime.toString();
           str = str.replace('/-/g', '/');
@@ -152,26 +144,21 @@ export default {
             this.$message.error('失效时间必须大于生效时间和当前时间');
             return;
           }
-          if (this.checkEnableTime === false) {
-            this.$message.error('您选择的生效期中已经有其他启动页正在生效，请重新选择生效期');
-            this.checkEnableTime = null;
-            return;
-          }
-          if (valid) {
-            createAppSplashScreen(this.model)
-              .then(data => {
-                this.$message.success('操作成功');
-                this.btnLoading = false;
-                this.show = false;
-                this.$emit('done')
-              })
-              .catch(error => {
-                // do something
-              });
-          } else {
-            return false;
-          }
-        }, 500)
+          createAppSplashScreen(this.model)
+            .then(data => {
+              this.$message.success('操作成功');
+              this.btnLoading = false;
+              this.show = false;
+              this.$emit('done')
+            })
+            .catch(error => {
+              this.btnLoading = false;
+              this.show = true;
+              this.$message.error('您选择的生效期已有其他启动页正在生效，请选择其他生效期');
+            });
+        } else {
+          return false;
+        }
       });
     },
     onDialogClose(formRef) {
