@@ -16,6 +16,7 @@ const UserRecommendTypePage = () => import('../../pages/user/UserRecommendTypePa
 const UserFreezeTypePage = () => import('../../pages/user/UserFreezeTypePage.vue');
 const UserFreezeLogPage = () => import('../../pages/user/UserFreezelog.vue');
 const InviteRecord = () => import('../../pages/user/InviteRecord.vue');
+const UserAvatarAccessoryPage = () => import('../../pages/user/UserAvatarAccessoryPage.vue');
 const AvatarAccessoryInfo = () => import('../../pages/user/AvatarAccessoryInfo.vue');
 
 export const UserModuleRouter = {
@@ -102,6 +103,11 @@ export const UserModuleRouter = {
       path: 'invite-record',
       name: 'InviteRecord',
       component: InviteRecord
+    },
+    {
+      path: 'avatar-accessory',
+      name: 'UserAvatarAccessoryPage',
+      component: UserAvatarAccessoryPage
     },
     {
       path: 'avatar-accessory-info',
