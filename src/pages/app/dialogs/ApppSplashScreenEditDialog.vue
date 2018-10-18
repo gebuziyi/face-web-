@@ -137,9 +137,6 @@ export default {
         message: '新图片上传失败!'
       });
     },
-    openCreateDialog() {
-      this.show = true;
-    },
     doEdit() {
       // 验证表单有效性
       this.$refs.createForm.validate(valid => {

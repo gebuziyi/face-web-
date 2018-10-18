@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { createAppSplashScreen } from '../../../api/app/app-splash-screen';
+import { checkEnableTime, createAppSplashScreen } from '../../../api/app/app-splash-screen';
 import { AppSplashScreen } from '../../../utils/empty-model';
 import { APP_SPLASH_SCREEN_TYPE, APP_SPLASH_SCREEN_CLICKACTIONS } from '../../../utils/constants';
 
@@ -81,9 +81,10 @@ export default {
           { required: true, trigger: 'change', message: '失效时间不能为空' }
         ],
         fileUrl: [
-          { required: true, trigger: 'change', message: 'url不能为空' }
+          { required: true, trigger: 'change', message: '封面不能为空' }
         ]
       },
+      checkEnableTime: null,
       loading: false,
       model: AppSplashScreen(),
       types: APP_SPLASH_SCREEN_TYPE,
@@ -132,30 +133,45 @@ export default {
         message: '新图片上传失败!'
       });
     },
-    openCreateDialog() {
-      this.show = true;
-    },
     doCreate() {
       // 验证表单有效性
       this.$refs.createForm.validate(valid => {
-        if (this.model.disableTime <= this.model.enableTime || this.model.disableTime <= new Date().getTime()) {
-          this.$message.error('失效时间必须大于生效时间和当前时间');
-          return;
-        }
-        if (valid) {
-          createAppSplashScreen(this.model)
-            .then(data => {
-              this.$message.success('操作成功');
-              this.btnLoading = false;
-              this.show = false;
-              this.$emit('done')
-            })
-            .catch(error => {
-              // do something
-            });
-        } else {
-          return false;
-        }
+        checkEnableTime(this.model)
+          .then(({ data }) => {
+            this.checkEnableTime = data.detail;
+          })
+          .catch(error => {
+            this.$message.error('验证异常')
+          })
+        setTimeout(() => {
+          var remindTime = this.model.disableTime;
+          var str = remindTime.toString();
+          str = str.replace('/-/g', '/');
+          var oldTime = new Date(str).getTime();
+          if (this.model.disableTime <= this.model.enableTime || oldTime <= new Date().getTime()) {
+            this.$message.error('失效时间必须大于生效时间和当前时间');
+            return;
+          }
+          if (this.checkEnableTime === false) {
+            this.$message.error('您选择的生效期中已经有其他启动页正在生效，请重新选择生效期');
+            this.checkEnableTime = null;
+            return;
+          }
+          if (valid) {
+            createAppSplashScreen(this.model)
+              .then(data => {
+                this.$message.success('操作成功');
+                this.btnLoading = false;
+                this.show = false;
+                this.$emit('done')
+              })
+              .catch(error => {
+                // do something
+              });
+          } else {
+            return false;
+          }
+        }, 500)
       });
     },
     onDialogClose(formRef) {

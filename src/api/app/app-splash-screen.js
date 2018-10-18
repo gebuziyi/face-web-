@@ -35,3 +35,7 @@ export const getAppSplashScreenDertail = function (id) {
 export const updateAppSplashScreen = function (model) {
   return newClient().post(`/app/splash/screen/update`, model)
 }
+
+export const checkEnableTime = function(model) {
+  return newClient().post('/app/splash/screen/check', model)
+}
