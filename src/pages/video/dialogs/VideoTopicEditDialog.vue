@@ -76,8 +76,8 @@ export default {
       // 验证表单有效性
       this.$refs.editForm.validate(valid => {
         if (valid) {
-          if (this.model.introduction && this.model.introduction.length > 256) {
-            this.$message.error('介绍不能超过256个字符!');
+          if (this.model.introduction && this.model.introduction.length > 1000) {
+            this.$message.error('介绍不能超过1000个字符!');
             return;
           }
           updateVideoTopic(this.model)

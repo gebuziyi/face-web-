@@ -28,6 +28,7 @@
           <el-date-picker
             v-model="model.enableTime"
             type="datetime"
+            :picker-options="expireTimeOption"
             placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-form-item>
@@ -35,6 +36,7 @@
           <el-date-picker
             v-model="model.disableTime"
             type="datetime"
+            :picker-options="expireTimeOption"
             placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-form-item>
@@ -81,8 +83,13 @@ export default {
           { required: true, trigger: 'change', message: '失效时间不能为空' }
         ],
         fileUrl: [
-          { required: true, trigger: 'change', message: 'url不能为空' }
+          { required: true, trigger: 'change', message: '启动页封面不能为空' }
         ]
+      },
+      expireTimeOption: {
+        disabledDate(date) {
+          return date.getTime() <= Date.now();
+        }
       },
       loading: false,
       model: AppSplashScreen(),
@@ -132,17 +139,14 @@ export default {
         message: '新图片上传失败!'
       });
     },
-    openCreateDialog() {
-      this.show = true;
-    },
     doCreate() {
       // 验证表单有效性
       this.$refs.createForm.validate(valid => {
-        if (this.model.disableTime <= this.model.enableTime || this.model.disableTime <= new Date().getTime()) {
-          this.$message.error('失效时间必须大于生效时间和当前时间');
-          return;
-        }
         if (valid) {
+          if (this.model.disableTime <= this.model.enableTime) {
+            this.$message.error('失效时间必须大于生效时间');
+            return;
+          }
           createAppSplashScreen(this.model)
             .then(data => {
               this.$message.success('操作成功');
@@ -151,7 +155,9 @@ export default {
               this.$emit('done')
             })
             .catch(error => {
-              // do something
+              this.btnLoading = false;
+              this.show = true;
+              this.$message.error('您选择的生效期已有其他启动页正在生效，请选择其他生效期');
             });
         } else {
           return false;
