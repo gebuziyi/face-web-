@@ -204,18 +204,18 @@ export default {
         create: {
           model: emptyUserAvatarAccessory(),
           rules: {
-            // name: [
-            //   { required: true, trigger: 'change', message: '挂饰名称不能为空' }
-            // ],
-            // url: [
-            //   { required: true, trigger: 'change', message: '挂饰图片不能为空' }
-            // ],
-            // introduction: [
-            //   { required: true, trigger: 'change', message: '挂饰介绍不能为空' }
-            // ],
-            // priority: [
-            //   { required: true, trigger: 'change', message: '挂饰优先级不能为空' }
-            // ]
+            name: [
+              { required: true, trigger: 'change', message: '挂饰名称不能为空' }
+            ],
+            url: [
+              { required: true, trigger: 'change', message: '挂饰图片不能为空' }
+            ],
+            introduction: [
+              { required: true, trigger: 'change', message: '挂饰介绍不能为空' }
+            ],
+            priority: [
+              { required: true, trigger: 'change', message: '挂饰优先级不能为空' }
+            ]
           },
           show: false,
           formLoading: true,
