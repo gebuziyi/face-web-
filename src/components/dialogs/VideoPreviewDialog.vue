@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="title" :width="width" :visible.sync="show">
+  <el-dialog :title="title" :width="width" :visible.sync="show" :append-to-body="true">
     <div class="player-wrapper">
       <video-player :options="options" ref="videoPlayer" class="the-player"></video-player>
     </div>
