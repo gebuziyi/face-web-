@@ -19,6 +19,27 @@
       </el-table-column>
     </el-table>
     <h4>所有公开且状态正常的视频</h4>
+    <!-- 查询表单 start-->
+    <el-form :inline="true" :model="queryModel" size="small" ref="queryForm">
+      <el-form-item prop="videoId">
+        <el-input v-model.trim="queryModel.videoId" placeholder="视频ID"></el-input>
+      </el-form-item>
+      <el-form-item prop="userId">
+        <el-input v-model.trim="queryModel.userId" placeholder="用户ID"></el-input>
+      </el-form-item>
+      <el-form-item prop="nickname">
+        <el-input v-model.trim="queryModel.nickname" placeholder="用户昵称"></el-input>
+      </el-form-item>
+    </el-form>
+    <!-- 查询表单 end-->
+    <!-- 按钮 -->
+    <div class="btn-wrapper">
+      <el-button @click="onQueryBtnClick" type="primary" size="small">
+        <i class="fa fa-search"></i>
+        <span>搜索</span>
+      </el-button>
+      <el-button type="text" size="mini" @click="resetQueryForm">重置</el-button>
+    </div>
     <el-table :data="allVideos" border style="width: 100%" v-loading="loading.table.allVideo" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" :row-class-name="toggleRowClassName">
       <el-table-column prop="videoId" label="视频ID"></el-table-column>
       <el-table-column prop="userId" label="用户ID"></el-table-column>
@@ -28,11 +49,6 @@
           <el-tooltip effect="dark" content="点击播放视频" placement="top">
             <img :src="scope.row.img" class="img-thumb" @click="showVideoPreviewDialog(scope.row)">
           </el-tooltip>
-        </template>
-      </el-table-column>
-      <el-table-column prop="statues" label="状态" width="90">
-        <template slot-scope="scope">
-          <icon-tag :type="scope.row.statues === 1 ? 'success' : 'warning'">{{ status2Description(scope.row.statues) }}</icon-tag>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
@@ -101,6 +117,17 @@ export default {
   },
 
   methods: {
+    resetQueryForm() {
+      if (this.$refs.queryForm) {
+        this.$refs.queryForm.resetFields();
+      }
+    },
+
+    onQueryBtnClick() {
+      this.pager.page = 1;
+      this.getAllVideosInTopic();
+    },
+
     canMakeOfficial(row) {
       // 如果视频ID已经在官方视频列表中, 则[设为示例]按钮不显示
       return (
