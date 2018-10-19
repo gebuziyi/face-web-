@@ -77,3 +77,11 @@ export const getOfficialVideoList = function (topicId) {
     }
   })
 }
+
+export const makeOfficialVideo = function (msg) {
+  return newClient().post('/video/topic/official-video/create', msg)
+}
+
+export const cancelOfficialVideo = function (id) {
+  return newClient().post('/video/topic/official-video/delete', [].concat(id))
+}

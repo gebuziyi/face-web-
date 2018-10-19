@@ -4,11 +4,11 @@
     <el-table :data="officialVideos" border style="width: 100%" v-loading="loading.table.officialVideo" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading">
       <el-table-column prop="videoId" label="视频ID"></el-table-column>
       <el-table-column prop="userId" label="用户ID"></el-table-column>
-      <el-table-column prop="nickname" label="用户昵称"></el-table-column>
+      <el-table-column prop="userNickname" label="用户昵称"></el-table-column>
       <el-table-column prop="img" label="视频">
         <template slot-scope="scope">
           <el-tooltip effect="dark" content="点击播放视频" placement="top">
-            <img :src="scope.row.img" class="img-thumb" @click="showOfficialVideoPreviewDialog(scope.row)">
+            <img :src="scope.row.videoImg" class="img-thumb" @click="showOfficialVideoPreviewDialog(scope.row)">
           </el-tooltip>
         </template>
       </el-table-column>
@@ -18,7 +18,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <h4>所有视频</h4>
+    <h4>所有公开且状态正常的视频</h4>
     <el-table :data="allVideos" border style="width: 100%" v-loading="loading.table.allVideo" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" :row-class-name="toggleRowClassName">
       <el-table-column prop="videoId" label="视频ID"></el-table-column>
       <el-table-column prop="userId" label="用户ID"></el-table-column>
@@ -30,9 +30,15 @@
           </el-tooltip>
         </template>
       </el-table-column>
+      <el-table-column prop="statues" label="状态" width="90">
+        <template slot-scope="scope">
+          <icon-tag :type="scope.row.statues === 1 ? 'success' : 'warning'">{{ status2Description(scope.row.statues) }}</icon-tag>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="makeOfficialVideo(scope.row)">设为示例</el-button>
+          <el-button size="mini" type="primary" @click="showMakeOfficialVideoConfirm(scope.row)" v-if="canMakeOfficial(scope.row)">设为示例</el-button>
+          <el-tag size="mini" v-else>示例视频</el-tag>
         </template>
       </el-table-column>
     </el-table>
@@ -45,7 +51,15 @@
 
 <script>
 import { getVideoInfoList } from '../../../api/video/video-info';
-import { getOfficialVideoList } from '../../../api/video/video-topic';
+import {
+  getOfficialVideoList,
+  makeOfficialVideo,
+  cancelOfficialVideo
+} from '../../../api/video/video-topic';
+import {
+  VIDEO_PRIVACY_STATUS_LIST,
+  VIDEO_STATUS_LIST
+} from '../../../utils/constants';
 
 export default {
   name: 'video-topic-video-dialog',
@@ -60,7 +74,9 @@ export default {
       queryModel: {
         topicId: null,
         userId: null,
-        videoId: null
+        videoId: null,
+        statues: 1,
+        isPrivate: 1
       },
       loading: {
         table: {
@@ -78,15 +94,25 @@ export default {
         order: null
       },
       allVideos: [],
-      officialVideos: []
+      officialVideos: [],
+      videoStatusList: VIDEO_STATUS_LIST,
+      videoPrivacyStatusList: VIDEO_PRIVACY_STATUS_LIST
     };
   },
 
   methods: {
+    canMakeOfficial(row) {
+      // 如果视频ID已经在官方视频列表中, 则[设为示例]按钮不显示
+      return (
+        this.officialVideos.map(item => item.videoId).indexOf(row.videoId) ===
+        -1
+      );
+    },
     showDialog(row) {
       this.theTopic.tname = row.tname;
       this.theTopic.topicId = row.topicId;
       this.queryModel.topicId = row.topicId;
+      this.getAllOfficialVideosInTopic();
       this.getAllVideosInTopic();
       this.show = true;
     },
@@ -107,11 +133,10 @@ export default {
     },
 
     getAllOfficialVideosInTopic() {
-      this.loading.table.allVideo = true;
+      this.loading.table.officialVideo = true;
       getOfficialVideoList(this.queryModel.topicId)
         .then(({ data }) => {
-          this.allVideos = data.page.list;
-          this.pager.total = data.page.totalCount;
+          this.officialVideos = data.list;
           this.loading.table.officialVideo = false;
         })
         .catch(error => {});
@@ -140,6 +165,8 @@ export default {
         ],
         poster: row.videoImg
       };
+      console.log(row);
+      console.log(options);
       this.$refs.videoPreviewDialog.showDialog(options);
     },
 
@@ -151,9 +178,55 @@ export default {
       }
     },
 
-    makeOfficialVideo(row) {},
+    showMakeOfficialVideoConfirm(row) {
+      this.$confirm(
+        `确定将用户 ${row.nickname} 在 ${
+          row.createTime
+        } 上传的视频设置为话题 #${this.theTopic.tname} 的官方示例视频?`,
+        '设置官方示例视频',
+        {
+          type: 'warning'
+        }
+      )
+        .then(() => {
+          let msg = {
+            videoId: row.videoId,
+            videoTopicId: this.theTopic.topicId
+          };
+          makeOfficialVideo(msg)
+            .then(resp => {
+              this.$message.success('操作成功');
+              this.getAllOfficialVideosInTopic();
+            })
+            .catch(error => {
+              this.$message.error('操作失败');
+            });
+        })
+        .catch(() => {});
+    },
 
-    cancelOfficialVideo(row) {},
+    cancelOfficialVideo(row) {
+      this.$confirm(
+        `确定将视频 ${row.videoId} 从话题 #${
+          this.theTopic.tname
+        } 的示例视频中取消?`,
+        '取消官方示例视频',
+        {
+          type: 'warning'
+        }
+      )
+        .then(() => {
+          cancelOfficialVideo(row.id)
+            .then(resp => {
+              this.$message.success('操作成功');
+              this.getAllOfficialVideosInTopic();
+            })
+            .catch(error => {
+              this.$message.error('操作失败');
+            });
+        })
+        .catch(() => {});
+    },
 
     onSizeChange(size) {
       this.pager.limit = size;
@@ -165,6 +238,26 @@ export default {
       this.pager.page = page;
       this.loading.table.allVideo = true;
       this.getAllVideosInTopic();
+    },
+
+    status2Description(status) {
+      if (this.videoStatusList) {
+        return this.videoStatusList.find(item => item.status === status)
+          .description;
+      }
+      return '未知状态';
+    },
+
+    privacyStatus2Description(privacyStatus) {
+      if (
+        this.videoPrivacyStatusList &&
+        this.videoPrivacyStatusList.length > 0
+      ) {
+        return this.videoPrivacyStatusList.find(
+          item => item.status === privacyStatus
+        ).description;
+      }
+      return '未知隐私状态';
     }
   }
 };
