@@ -365,3 +365,18 @@ export const APP_SPLASH_SCREEN_CLICKACTIONS = [
     name: '进入短视频详情页面'
   }
 ]
+
+export const APP_ACTIVITY_TYPES = [
+  {
+    type: 0,
+    name: '短视频'
+  },
+  {
+    type: 1,
+    name: '直播'
+  },
+  {
+    type: 2,
+    name: '注册'
+  }
+]
