@@ -48,7 +48,11 @@
         </template>
       </el-table-column>
       <el-table-column prop="introduction" label="介绍" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="videoCount" label="视频数量"></el-table-column>
+      <el-table-column prop="videoCount" label="视频数量">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="openTopicVideoDialog(scope.row)" :disabled="scope.row.videoCount === 0">{{ scope.row.videoCount }}</el-button>
+        </template>
+      </el-table-column>
       <el-table-column prop="nickname" label="创建人昵称"></el-table-column>
       <el-table-column prop="userId" label="创建人ID"></el-table-column>
       <el-table-column prop="createTime" label="创建时间" sortable="custom" width="150"></el-table-column>
@@ -91,6 +95,7 @@
     <create-dialog ref="createDialog" @done="getTableData()"></create-dialog>
     <edit-dialog ref="editDialog" @done="getTableData()"></edit-dialog>
     <sort-dialog ref="sortDialog" @done="getTableData()"></sort-dialog>
+    <topic-video-dialog ref="topicVideoDialog" @done="getTableData()"></topic-video-dialog>
   </div>
 </template>
 
@@ -104,6 +109,7 @@ import {
 import VideoTopicCreateDialog from './dialogs/VideoTopicCreateDialog';
 import VideoTopicEditDialog from './dialogs/VideoTopicEditDialog';
 import HotVideoTopicSortDialog from './dialogs/HotVideoTopicSortDialog';
+import VideoTopicVideoDialog from './dialogs/VideoTopicVideoDialog';
 import { getAllLoginAdminVest } from '../../api/sys/sys-user-vest';
 
 export default {
@@ -111,7 +117,8 @@ export default {
   components: {
     'create-dialog': VideoTopicCreateDialog,
     'edit-dialog': VideoTopicEditDialog,
-    'sort-dialog': HotVideoTopicSortDialog
+    'sort-dialog': HotVideoTopicSortDialog,
+    'topic-video-dialog': VideoTopicVideoDialog
   },
   data() {
     return {
@@ -147,6 +154,9 @@ export default {
     }
   },
   methods: {
+    openTopicVideoDialog(row) {
+      this.$refs.topicVideoDialog.showDialog(row);
+    },
     showSortDialog() {
       this.$refs.sortDialog.showDialog();
     },
