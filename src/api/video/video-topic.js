@@ -69,3 +69,11 @@ export const getAllHotTopic = function() {
 export const updateVideoTopicSort = function(payload) {
   return newClient().post('/video/topic/hot/sort', payload)
 }
+
+export const getOfficialVideoList = function (topicId) {
+  return newClient().get('/video/topic/official-video/list', {
+    params: {
+      topicId: topicId
+    }
+  })
+}
