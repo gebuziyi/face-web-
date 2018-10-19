@@ -43,7 +43,12 @@
         </template>
       </el-table-column>
       <el-table-column prop="priority" label="挂件优先级"></el-table-column>
-      <el-table-column prop="layer" label="挂件图片图层位置" ></el-table-column>
+      <el-table-column prop="module" label="挂饰所属模块">
+        <template slot-scope="scope">
+            <option v-if="scope.row.module ===1">直播</option>
+            <option v-if="scope.row.module ===2">短视频</option>
+        </template>
+      </el-table-column>
       <el-table-column prop="createTime" label="创建时间" ></el-table-column>
       <el-table-column prop="username" label="创建人" ></el-table-column>
       <el-table-column prop="editTime" label="修改时间" ></el-table-column>
@@ -88,8 +93,9 @@
            <el-form-item label="挂件优先级" prop="priority">
             <el-input-number v-model.trim="dialog.edit.model.priority" :min="1"></el-input-number>
           </el-form-item>
-            <el-form-item label="挂件图片图层位置" prop="layer">
-            <el-input-number v-model.trim="dialog.edit.model.layer" :min="1"></el-input-number>
+          <el-form-item  label="挂饰所属模块">
+                <option v-if="dialog.edit.model.module ===1">直播</option>
+                <option v-if="dialog.edit.model.module ===2">短视频</option>
           </el-form-item>
           <el-form-item label="头像挂饰图片">
             <el-upload :action="dialog.edit.uploadAction" :on-success="onUploadSuccess" :on-error="onUploadError" :file-list="imgFileList" list-type="picture" :before-remove="onFileRemove">
@@ -117,9 +123,12 @@
           <el-form-item label="挂件优先级" prop="priority">
             <el-input-number v-model.trim="dialog.create.model.priority" :min="1"></el-input-number>
           </el-form-item>
-          <el-form-item label="挂件图片图层位置" prop="layer">
-            <el-input-number v-model.trim="dialog.create.model.layer" :min="1"></el-input-number>
-          </el-form-item>
+       <el-form-item label="挂饰所属模块" prop="module">
+        <el-select  v-model="dialog.create.model.module" clearable placeholder="挂饰所属模块">
+          <el-option :value="1" label="直播">直播</el-option>
+          <el-option :value="2" label="短视频">短视频</el-option>
+        </el-select>
+      </el-form-item>
           <el-form-item label="头像挂饰图片" prop="url">
             <el-upload :action="dialog.create.uploadAction" :on-success="onUploadSuccess" :on-error="onUploadError" :file-list="imgFileList" list-type="picture" :before-remove="onFileRemove" ref="create-upload">
               <el-button size="small" type="primary">点击选择图片</el-button>
@@ -176,9 +185,6 @@ export default {
             ],
             priority: [
               { required: true, trigger: 'change', message: '挂饰优先级不能为空' }
-            ],
-            layer: [
-              { required: true, trigger: 'change', message: '挂饰图片图层位置不能为空' }
             ]
           },
           show: false,
@@ -209,9 +215,6 @@ export default {
             ],
             priority: [
               { required: true, trigger: 'change', message: '挂饰优先级不能为空' }
-            ],
-            layer: [
-              { required: true, trigger: 'change', message: '挂饰图片图层位置不能为空' }
             ]
           },
           show: false,
