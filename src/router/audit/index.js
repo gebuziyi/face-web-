@@ -12,6 +12,7 @@ const videoPlayAudit = () => import('../../pages/audit/videoInfo/videoPlayAudit.
 const userRechargeRatioAudit = () => import('../../pages/audit/user/userRechargeRatioAudit.vue');
 const avgRechargePriceAudit = () => import('../../pages/audit/recharge/avgRechargePriceAudit.vue');
 const UserAuditPage = () => import('../../pages/audit/user/UserAuditPage.vue');
+const HalloweenLiveActivityAuditPage = () => import('../../pages/audit/halloween/HalloweenLiveActivityAuditPage.vue');
 
 export const AuditModuleRouter = {
   path: 'audit',
@@ -82,6 +83,11 @@ export const AuditModuleRouter = {
       path: 'avg-recharge-price-audit',
       name: 'avgRechargePriceAudit',
       component: avgRechargePriceAudit
+    },
+    {
+      path: 'halloween-live-audit',
+      name: 'HalloweenLiveActivityAuditPage',
+      component: HalloweenLiveActivityAuditPage
     }
   ]
 }
