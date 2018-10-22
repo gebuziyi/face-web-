@@ -85,9 +85,6 @@
     <!-- 分页 -->
     <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
     </el-pagination>
-    <el-dialog :visible.sync="dialog.picPreview.show">
-      <img :src="dialog.picPreview.picSrc" class="img-preview" />
-    </el-dialog>
     <show-deleted-activity ref="deletedActivityDialog" @done="query"></show-deleted-activity>
     <show-create-activity ref="createDialog" @done="query"></show-create-activity>
     <edit-dialog ref="editDialog" @done="getTableData"></edit-dialog>
@@ -209,10 +206,6 @@ export default {
     onCurrentPageChange(page) {
       this.pager.page = page;
       this.query();
-    },
-    showPicPreviewDialog(row) {
-      this.dialog.picPreview.picSrc = row.coverImgUrl;
-      this.dialog.picPreview.show = true;
     },
     getTableData() {
       this.loading.table = true;
