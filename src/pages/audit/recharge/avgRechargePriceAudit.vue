@@ -7,7 +7,7 @@
       </el-button>
     </el-row>
     <div class="chart-wrapper">
-      <div ref="line-chart" style="width: 1500px; height: 650px"></div>
+      <div ref="line-chart" style="width: 1500px; height: 450px"></div>
     </div>
   </div>
 </template>
