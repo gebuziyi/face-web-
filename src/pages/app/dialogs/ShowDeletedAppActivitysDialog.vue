@@ -13,19 +13,24 @@
       <el-table-column prop="startTime" label="活动开始时间" sortable="custom"></el-table-column>
       <el-table-column prop="endTime" label="活动结束时间" sortable="custom"></el-table-column>
       <el-table-column prop="webPageUrl" label="活动页面URL"></el-table-column>
-      <el-table-column prop="coverImgUrl" label="活动封面URL">
+      <el-table-column prop="coverImgUrl" label="活动封面" show-overflow-tooltip>
         <template slot-scope="scope">
-          <el-tooltip effect="dark" content="点击查看大图" placement="top">
-            <img :src="scope.row.coverImgUrl" class="img-thumb" @click="showPicPreviewDialog(scope.row)">
-          </el-tooltip>
+          <img :src="scope.row.coverImgUrl" class="cursor-pointer-img" @click="showPicPreviewDialog(scope.row.coverImgUrl)" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="shareTextCn" label="分享文案(中文)" show-overflow-tooltip width="120"></el-table-column>
+      <el-table-column prop="shareTextEn" label="分享文案(英文)" show-overflow-tooltip width="120"></el-table-column>
+      <el-table-column prop="shareImgUrl" label="分享封面">
+        <template slot-scope="scope">
+          <img :src="scope.row.shareImgUrl" class="cursor-pointer-img" @click="showPicPreviewDialog(scope.row.shareImgUrl)" />
         </template>
       </el-table-column>
       <el-table-column prop="creatorUserName" label="创建人"></el-table-column>
       <el-table-column prop="createTime" label="创建时间" sortable="custom"></el-table-column>
-      <el-table-column prop="editorUserName" label="修改人" ></el-table-column>
+      <el-table-column prop="editorUserName" label="修改人"></el-table-column>
       <el-table-column prop="editTime" label="修改时间" sortable="custom"></el-table-column>
     </el-table>
-     <!-- 分页 -->
+    <!-- 分页 -->
     <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
     </el-pagination>
     <el-dialog :visible.sync="dialog.picPreview.show" :append-to-body="true">
@@ -73,23 +78,21 @@ export default {
     };
   },
   methods: {
+    showPicPreviewDialog(imgUrl) {
+      this.dialog.picPreview.picSrc = imgUrl;
+      this.dialog.picPreview.show = true;
+    },
     actionTypes(types) {
       if (this.activitysTypes) {
-        return this.activitysTypes.find(
-          item => item.type === types
-        ).name;
+        return this.activitysTypes.find(item => item.type === types).name;
       }
       return '未知状态';
-    },
-    showPicPreviewDialog(row) {
-      this.dialog.picPreview.picSrc = row.coverImgUrl;
-      this.dialog.picPreview.show = true;
     },
     showDialog(row) {
       this.loading.table = true;
       this.loading.form = true;
       this.show = true;
-      this.queryModel.isDeleted = 1
+      this.queryModel.isDeleted = 1;
       this.getDeleteActivitys();
     },
     onSortChange({ column, prop, order }) {
@@ -125,3 +128,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.cursor-pointer-img {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+</style>
