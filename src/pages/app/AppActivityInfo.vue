@@ -9,8 +9,8 @@
       </el-form-item>
       <el-form-item prop="name">
         <el-select v-model="queryModel.name" placeholder="活动名称" filterable>
-          <template  v-for="(item, index) in activityNames">
-            <el-option  :key="index" :label="item.name" :value="item.name"></el-option>
+          <template v-for="(item, index) in activityNames">
+            <el-option :key="index" :label="item.name" :value="item.name"></el-option>
           </template>
         </el-select>
       </el-form-item>
@@ -26,11 +26,11 @@
         <i class="fa fa-trash"></i>
         <span>批量删除</span>
       </el-button>
-      <el-button @click="showDelete" type="primary" size="small"  class="btn-operation">
+      <el-button @click="showDelete" type="primary" size="small" class="btn-operation">
         <i class="fa fa-recycle"></i>
         <span>已删除活动</span>
       </el-button>
-      <el-button @click="showCreate" type="primary" size="small"  class="btn-operation" v-if="hasPermission('app:activity:save')">
+      <el-button @click="showCreate" type="primary" size="small" class="btn-operation" v-if="hasPermission('app:activity:save')">
         <i class="fa fa-plus"></i>
         <span>新增</span>
       </el-button>
@@ -44,22 +44,27 @@
           <icon-tag type='primary'>{{ actionTypes(scope.row.type) }}</icon-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="活动名称"></el-table-column>
-      <el-table-column prop="introduction" label="活动介绍"></el-table-column>
-      <el-table-column prop="startTime" label="活动开始时间" sortable="custom"></el-table-column>
-      <el-table-column prop="endTime" label="活动结束时间" sortable="custom"></el-table-column>
-      <el-table-column prop="webPageUrl" label="活动页面URL"></el-table-column>
-      <el-table-column prop="coverImgUrl" label="活动封面URL">
+      <el-table-column prop="name" label="活动名称" width="150"></el-table-column>
+      <el-table-column prop="introduction" label="活动介绍" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="startTime" label="开始时间" sortable="custom" width="110"></el-table-column>
+      <el-table-column prop="endTime" label="结束时间" sortable="custom" width="110"></el-table-column>
+      <el-table-column prop="webPageUrl" label="H5页面URL" show-overflow-tooltip width="100"></el-table-column>
+      <el-table-column prop="coverImgUrl" label="活动封面" show-overflow-tooltip>
         <template slot-scope="scope">
-          <el-tooltip effect="dark" content="点击查看大图" placement="top">
-            <img :src="scope.row.coverImgUrl" class="img-thumb" @click="showPicPreviewDialog(scope.row)">
-          </el-tooltip>
+          <table-img-previewer :option="{ imgSrc: scope.row.coverImgUrl }"></table-img-previewer>
+        </template>
+      </el-table-column>
+      <el-table-column prop="shareTextCn" label="分享文案(中文)" show-overflow-tooltip width="120"></el-table-column>
+      <el-table-column prop="shareTextEn" label="分享文案(英文)" show-overflow-tooltip width="120"></el-table-column>
+      <el-table-column prop="shareImgUrl" label="分享封面">
+        <template slot-scope="scope">
+          <table-img-previewer :option="{ imgSrc: scope.row.shareImgUrl }"></table-img-previewer>
         </template>
       </el-table-column>
       <el-table-column prop="creatorUserName" label="创建人"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" sortable="custom"></el-table-column>
-      <el-table-column prop="editorUserName" label="修改人" ></el-table-column>
-      <el-table-column prop="editTime" label="修改时间" sortable="custom"></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" sortable="custom" width="110"></el-table-column>
+      <el-table-column prop="editorUserName" label="修改人"></el-table-column>
+      <el-table-column prop="editTime" label="修改时间" sortable="custom" width="110"></el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button-group>
@@ -83,8 +88,8 @@
     <el-dialog :visible.sync="dialog.picPreview.show">
       <img :src="dialog.picPreview.picSrc" class="img-preview" />
     </el-dialog>
-    <show-deleted-activity ref="deletedActivityDialog"  @done="query"></show-deleted-activity>
-    <show-create-activity ref="createDialog"  @done="query"></show-create-activity>
+    <show-deleted-activity ref="deletedActivityDialog" @done="query"></show-deleted-activity>
+    <show-create-activity ref="createDialog" @done="query"></show-create-activity>
     <edit-dialog ref="editDialog" @done="getTableData"></edit-dialog>
   </div>
 </template>
@@ -151,20 +156,14 @@ export default {
     },
     actionTypes(types) {
       if (this.activitysTypes) {
-        return this.activitysTypes.find(
-          item => item.type === types
-        ).name;
+        return this.activitysTypes.find(item => item.type === types).name;
       }
       return '未知状态';
     },
     deleteSingle(row) {
-      this.$confirm(
-        '确定要删除id=' + row.id + '的活动?',
-        'APP活动删除',
-        {
-          type: 'warning'
-        }
-      )
+      this.$confirm('确定要删除id=' + row.id + '的活动?', 'APP活动删除', {
+        type: 'warning'
+      })
         .then(() => {
           deleteAppActivity(row.id)
             .then(resp => {
@@ -242,5 +241,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
