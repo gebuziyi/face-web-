@@ -154,7 +154,7 @@ export default {
       this.model.coverImgUrl = response;
       this.imgFileList = [].concat({ url: response });
       this.$message.success('上传成功!');
-      this.$refs.createForm.validateField('converImgUrl');
+      this.$refs.createForm.validateField('coverImgUrl');
     },
     onUploadError(error, file, fileList) {
       this.$message({
