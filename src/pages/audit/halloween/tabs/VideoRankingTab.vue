@@ -90,6 +90,9 @@
               </el-button-group>
           </template>
         </el-table-column>
+        <el-table-column prop="candyNum" label="糖果数量"></el-table-column>
+        <el-table-column prop="ghostNum" label="回魂数量"></el-table-column>
+        <el-table-column prop="ranking" label="排名结果"></el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
