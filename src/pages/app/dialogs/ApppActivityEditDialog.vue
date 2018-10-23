@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="show" title="新增启动页" width="800px" @close="onDialogClose($refs.createForm)" :close-on-click-modal="false">
+  <el-dialog :visible.sync="show" title="修改启动页" width="800px" @close="onDialogClose($refs.createForm)" :close-on-click-modal="false">
     <div v-loading="loading" class="edit-form-wrapper">
       <el-form size="small" :model="model" :rules="rules" label-position="left" label-width="120px" ref="createForm">
         <el-form-item label="请选择活动类型" prop="type">
@@ -8,7 +8,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="活动名称" prop="name">
-          <el-input v-model.trim="model.name"></el-input>
+          <el-input v-model.trim="model.name" disabled></el-input>
         </el-form-item>
         <el-form-item label="活动页面URL" prop="webPageUrl">
           <el-input v-model.trim="model.webPageUrl"></el-input>
@@ -36,8 +36,8 @@
         <el-form-item label="分享文案(英文)" prop="shareTextEn">
           <el-input v-model.trim="model.shareTextEn" type="textarea"></el-input>
         </el-form-item>
-        <el-form-item label="活动封面图片" prop="shareImgUrl">
-          <el-upload :action="uploadAction" :on-success="onShareImgUploadSuccess" :on-error="onShareUploadError" :file-list="shareImgFileList" list-type="picture" :before-remove="onShareImgFileRemove" ref="share-img-upload">
+        <el-form-item label="分享封面图片" prop="shareImgUrl">
+          <el-upload :action="uploadAction" :on-success="onShareImgUploadSuccess" :on-error="onShareImgUploadError" :file-list="shareImgFileList" list-type="picture" :before-remove="onShareImgFileRemove" ref="share-img-upload">
             <el-button size="small" type="primary">点击选择图片</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
           </el-upload>
