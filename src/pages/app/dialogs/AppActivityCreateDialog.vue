@@ -24,7 +24,7 @@
           <el-date-picker v-model="model.endTime" type="datetime" :picker-options="expireTimeOption" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="文件地址" prop="coverImgUrl">
+        <el-form-item label="活动封面图片" prop="coverImgUrl">
           <el-upload :action="uploadAction" :on-success="onUploadSuccess" :on-error="onUploadError" :file-list="imgFileList" list-type="picture" :before-remove="onFileRemove" ref="create-upload">
             <el-button size="small" type="primary">点击选择图片</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
@@ -36,8 +36,8 @@
         <el-form-item label="分享文案(英文)" prop="shareTextEn">
           <el-input v-model.trim="model.shareTextEn" type="textarea"></el-input>
         </el-form-item>
-        <el-form-item label="活动封面图片" prop="shareImgUrl">
-          <el-upload :action="uploadAction" :on-success="onShareImgUploadSuccess" :on-error="onShareUploadError" :file-list="shareImgFileList" list-type="picture" :before-remove="onShareImgFileRemove" ref="share-img-upload">
+        <el-form-item label="分享封面图片" prop="shareImgUrl">
+          <el-upload :action="uploadAction" :on-success="onShareImgUploadSuccess" :on-error="onShareImgUploadError" :file-list="shareImgFileList" list-type="picture" :before-remove="onShareImgFileRemove" ref="share-img-upload">
             <el-button size="small" type="primary">点击选择图片</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
           </el-upload>
