@@ -200,7 +200,6 @@ export default {
             };
           });
           this.loading.table = false;
-          console.log(this.tableData);
         })
         .catch(errorMsg => {});
     }
