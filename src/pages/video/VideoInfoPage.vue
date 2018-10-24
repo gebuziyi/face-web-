@@ -69,6 +69,12 @@
           <el-option v-for="(item, index) in sysList" :key="index" :value="item.userId" :label="item.username"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item prop="featured">
+        <el-select v-model="queryModel.featured" placeholder="是否精选" clearable>
+          <el-option :value="0" label="普通视频"></el-option>
+          <el-option :value="1" label="精选视频"></el-option>
+        </el-select>
+      </el-form-item>
     </el-form>
     <!-- 查询表单 end-->
     <!-- 按钮 -->
@@ -165,52 +171,66 @@
           <icon-tag :type="scope.row.isPrivate | privacyStatus2TagType" :icon="scope.row.isPrivate === 0 ? 'fa fa-lock' : null" v-if="scope.row.statues!=0">{{ privacyStatus2Description(scope.row.isPrivate) }}</icon-tag>
           <icon-tag :type="scope.row.hot === true ? 'danger' : 'info'" :icon="scope.row.hot === true ? 'fa fa-fire' : ''" v-if="scope.row.statues!=0">{{ scope.row.hot === true ? '热门视频' : '普通视频'}}</icon-tag>
           <icon-tag :type="scope.row.statues === 0 ? 'info' : ''" v-if="scope.row.statues === 0">{{ scope.row.deleteType === true ? '管理员删除' : '用户删除'}}</icon-tag>
+          <icon-tag :type="'danger'" :icon="'fa fa-snowflake-o'" v-if="scope.row.featured === true">精选</icon-tag>
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="上传时间" sortable="custom" width="105"></el-table-column>
       <el-table-column prop="deleteUserName" label="删除人" width="100"></el-table-column>
       <el-table-column prop="deleteTime" label="删除时间" width="105"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="150">
+      <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
-          <el-button-group v-if="scope.row.statues!=0">
-            <el-tooltip class="item" effect="dark" content="编辑" placement="top" v-if="hasPermission('video:info:update') && scope.row.isPrivate === 1">
-              <el-button type="primary" size="mini" @click="openEditDialog(scope.row)">
-                <i class="fa fa-edit"></i>
-              </el-button>
-            </el-tooltip>
-            <!-- 不允许冻结/解冻热门视频 -->
-            <el-tooltip class="item" effect="dark" content="冻结" placement="top" v-if="hasPermission('video:info:freeze') && scope.row.statues === 1 && scope.row.hot === false">
-              <el-button type="warning" size="mini" @click="doFreezeSingle(scope.row)">
-                <i class="fa fa-lock"></i>
-              </el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="解冻" placement="top" v-if="hasPermission('video:info:unfreeze') && scope.row.statues === 2 && scope.row.hot === false">
-              <el-button type="success" size="mini" @click="doUnfreezeSingle(scope.row)">
-                <i class="fa fa-unlock"></i>
-              </el-button>
-            </el-tooltip>
-            <!-- 只有公开视频且未被冻结才可以进行热门操作 -->
-            <el-tooltip class="item" effect="dark" content="推荐热门" placement="top" v-if="hasPermission('video:info:hot') && scope.row.hot === false && scope.row.isPrivate === 1 && scope.row.statues !== 2">
-              <el-button type="danger" size="mini" @click="showMakeHotConfirm(scope.row)">
-                <i class="fa fa-fire"></i>
-              </el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="取消热门" placement="top" v-if="hasPermission('video:info:hot') && scope.row.hot === true && scope.row.isPrivate === 1 && scope.row.statues !== 2">
-              <el-button type="info" size="mini" @click="showCancelHotConfirm(scope.row)">
-                <i class="fa fa-ban"></i>
-              </el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('video:info:delete')">
-              <el-button type="danger" size="mini" @click="doDeleteSingle(scope.row)">
-                <i class="fa fa-trash"></i>
-              </el-button>
-            </el-tooltip>
-          </el-button-group>
-          <el-tooltip class="item" effect="dark" content="收礼记录" placement="top" v-if="hasPermission('video:info:delete')">
-            <el-button type="info" size="mini" @click="openSendGiftLogDialog(scope.row)">
-              <i class="fa fa-file-text-o"></i>
+          <el-dropdown trigger="click" size="mini" type="text">
+            <el-button type="primary" size="mini">
+              操作<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
-          </el-tooltip>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-if="hasPermission('video:info:update') && scope.row.isPrivate === 1">
+                <el-button type="primary" size="mini" @click="openEditDialog(scope.row)">
+                  <i class="fa fa-edit"></i>修改视频
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item v-if="hasPermission('video:info:freeze') && scope.row.statues === 1 && scope.row.hot === false">
+                <el-button type="warning" size="mini" @click="doFreezeSingle(scope.row)">
+                  <i class="fa fa-lock"></i>冻结视频
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item v-if="hasPermission('video:info:unfreeze') && scope.row.statues === 2 && scope.row.hot === false">
+                <el-button type="success" size="mini" @click="doUnfreezeSingle(scope.row)">
+                  <i class="fa fa-unlock"></i>解冻视频
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item v-if="hasPermission('video:info:hot') && scope.row.hot === false && scope.row.isPrivate === 1 && scope.row.statues !== 2">
+                <el-button type="danger" size="mini" @click="showMakeHotConfirm(scope.row)">
+                  <i class="fa fa-fire"></i>推荐热门
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item v-if="hasPermission('video:info:hot') && scope.row.hot === true && scope.row.isPrivate === 1 && scope.row.statues !== 2">
+                <el-button type="info" size="mini" @click="showCancelHotConfirm(scope.row)">
+                  <i class="fa fa-ban"></i>取消热门
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item v-if="hasPermission('video:info:delete')">
+                <el-button type="danger" size="mini" @click="doDeleteSingle(scope.row)">
+                  <i class="fa fa-trash"></i>删除视频
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item v-if="hasPermission('video:info:delete')">
+                <el-button type="info" size="mini" @click="openSendGiftLogDialog(scope.row)">
+                  <i class="fa fa-file-text-o"></i>收礼记录
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item v-if="hasPermission('video:info:featured') && scope.row.featured === false && scope.row.isPrivate === 1 && scope.row.statues === 1">
+                <el-button type="danger" size="mini" @click="showMakeFeaturedConfirm(scope.row)">
+                  <i class="fa fa-snowflake-o"></i>设为精选
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item v-if="hasPermission('video:info:featured') && scope.row.featured === true">
+                <el-button type="primary" size="mini" @click="showCancelFeaturedConfirm(scope.row)">
+                  <i class="fa fa-ban"></i>取消精选
+                </el-button>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
@@ -236,7 +256,9 @@ import {
   makeVideoHot,
   cancelVideoHot,
   removeVideoTopic,
-  DoCancelHotConfirm
+  DoCancelHotConfirm,
+  makeVideoFeatured,
+  cancelVideoFeatured
 } from '../../api/video/video-info';
 import { getAllCountryInfo } from '../../api/basic-data/country-info';
 import { getAllVideoType } from '../../api/video/video-type';
@@ -270,30 +292,6 @@ export default {
   data() {
     return {
       operationBtns: {
-        // 取消冻结功能
-        // unfreezeBatch: {
-        //   label: '批量解冻',
-        //   type: 'success',
-        //   needPerm: true,
-        //   permission: 'video:info:unfreeze',
-        //   icon: 'fa fa-unlock',
-        //   enable: false,
-        //   onClick: payload => {
-        //     this.unfreezeBatch();
-        //   }
-        // },
-
-        // freezeBatch: {
-        //   label: '批量冻结',
-        //   type: 'warning',
-        //   needPerm: true,
-        //   permission: 'video:info:freeze',
-        //   icon: 'fa fa-lock',
-        //   enable: false,
-        //   onClick: payload => {
-        //     this.freezeBatch();
-        //   }
-        // },
         cancelHotConfirmBatch: {
           label: '批量取消热门视频',
           type: 'danger',
@@ -370,7 +368,8 @@ export default {
         source: null,
         hot: null,
         createTime: null,
-        sysUserId: null
+        sysUserId: null,
+        featured: null
       },
 
       pager: {
@@ -523,6 +522,48 @@ export default {
           cancelVideoHot(row.videoId)
             .then(resp => {
               this.$message.success('取消推荐成功');
+              this.getTableData();
+            })
+            .catch(error => {});
+        })
+        .catch(() => {});
+    },
+
+    showMakeFeaturedConfirm(row) {
+      this.$confirm(
+        `此操作将把用户 ${row.nickname} 在 ${
+          row.createTime
+        } 上传的视频设置为精选视频, 是否继续?`,
+        '设置精选视频',
+        {
+          type: 'warning'
+        }
+      )
+        .then(() => {
+          makeVideoFeatured(row.videoId)
+            .then(resp => {
+              this.$message.success('设置成功');
+              this.getTableData();
+            })
+            .catch(error => {});
+        })
+        .catch(() => {});
+    },
+
+    showCancelFeaturedConfirm(row) {
+      this.$confirm(
+        `此操作将取消用户 ${row.nickname} 在 ${
+          row.createTime
+        } 上传的视频的精选状态, 是否继续?`,
+        '取消精选视频',
+        {
+          type: 'warning'
+        }
+      )
+        .then(() => {
+          cancelVideoFeatured(row.videoId)
+            .then(resp => {
+              this.$message.success('取消成功');
               this.getTableData();
             })
             .catch(error => {});

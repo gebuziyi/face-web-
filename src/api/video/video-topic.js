@@ -69,3 +69,19 @@ export const getAllHotTopic = function() {
 export const updateVideoTopicSort = function(payload) {
   return newClient().post('/video/topic/hot/sort', payload)
 }
+
+export const getOfficialVideoList = function (topicId) {
+  return newClient().get('/video/topic/official-video/list', {
+    params: {
+      topicId: topicId
+    }
+  })
+}
+
+export const makeOfficialVideo = function (msg) {
+  return newClient().post('/video/topic/official-video/create', msg)
+}
+
+export const cancelOfficialVideo = function (id) {
+  return newClient().post('/video/topic/official-video/delete', [].concat(id))
+}
