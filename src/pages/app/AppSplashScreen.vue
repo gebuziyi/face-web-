@@ -15,7 +15,7 @@
         <span>搜索</span>
       </el-button>
       <el-button type="text" size="mini" @click="$refs.queryForm.resetFields()">重置</el-button>
-      <el-button @click="deleteBatch" type="danger" size="small" v-if="hasPermission('splash:key:delete')" class="btn-operation" :disabled="selectedIds.length === 0">
+      <el-button @click="deleteBatch" type="danger" size="small" v-if="hasPermission('search:key:delete')" class="btn-operation" :disabled="selectedIds.length === 0">
         <i class="fa fa-trash"></i>
         <span>批量删除</span>
       </el-button>
@@ -23,7 +23,7 @@
         <i class="fa fa-recycle"></i>
         <span>已删除启动页</span>
       </el-button>
-      <el-button @click="showCreate" type="primary" size="small"  class="btn-operation" v-if="hasPermission('splash:key:save')">
+      <el-button @click="showCreate" type="primary" size="small"  class="btn-operation">
         <i class="fa fa-plus"></i>
         <span>新增</span>
       </el-button>
@@ -75,12 +75,12 @@
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button-group>
-            <el-tooltip class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('splash:key:delete')">
+            <el-tooltip class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('search:key:delete')">
               <el-button type="danger" size="mini" @click="deleteSingle(scope.row)">
                 <i class="fa fa-trash"></i>
               </el-button>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="编辑" placement="top" v-if="hasPermission('splash:key:update')">
+            <el-tooltip class="item" effect="dark" content="编辑" placement="top" v-if="hasPermission('gift:info:update')">
               <el-button type="warning" size="mini" @click="openEditDialog(scope.row.id)">
                 <i class="fa fa-edit"></i>
               </el-button>
