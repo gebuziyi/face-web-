@@ -122,6 +122,9 @@ export default {
           rules: {
             parameter: [
               { required: true, trigger: 'change', message: '参数值不能为空' }
+            ],
+            url: [
+              { required: true, trigger: 'change', message: 'url不能为空' }
             ]
           },
           show: false,

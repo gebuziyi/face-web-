@@ -15,6 +15,12 @@
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
           </el-upload>
         </el-form-item>
+        <el-form-item label="极光推送提醒" prop="needPush">
+          <el-radio-group v-model="model.needPush">
+            <el-radio-button :label="false">否</el-radio-button>
+            <el-radio-button :label="true">是</el-radio-button>
+          </el-radio-group>
+          </el-form-item>
         <el-form-item label="">
           <el-button type="primary" @click="doPublish" size="small" :loading="btnLoading">确认发布</el-button>
         </el-form-item>
@@ -95,7 +101,8 @@ export default {
         text: null,
         image: null,
         imageWidth: null,
-        imageHeight: null
+        imageHeight: null,
+        needPush: null
       },
       queryModel: {
         createTime: null
@@ -125,6 +132,13 @@ export default {
             required: true,
             trigger: 'change',
             message: '活动图片不能为空'
+          }
+        ],
+        needPush: [
+          {
+            required: true,
+            trigger: 'change',
+            message: '请选择是否需要极光推送提醒(手机通知栏提醒)'
           }
         ]
       },
