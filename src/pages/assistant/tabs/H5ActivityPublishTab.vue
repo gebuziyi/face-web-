@@ -20,7 +20,7 @@
             <el-radio-button :label="false">否</el-radio-button>
             <el-radio-button :label="true">是</el-radio-button>
           </el-radio-group>
-          </el-form-item>
+        </el-form-item>
         <el-form-item label="">
           <el-button type="primary" @click="doPublish" size="small" :loading="btnLoading">确认发布</el-button>
         </el-form-item>

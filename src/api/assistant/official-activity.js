@@ -19,3 +19,7 @@ export const sendLiveMsg = function (model) {
 export const sendLittleAssistantnotificationsMsg = function (model) {
   return newClient().post('/assistant/chat-msg/sendLittleAssistantnotificationsMsg', model)
 }
+
+export const sendMsgForAndOrIOS = function (model) {
+  return newClient().post('/assistant/chat-msg/sendMsg-And-IOS', model)
+}
