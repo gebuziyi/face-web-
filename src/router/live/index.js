@@ -7,6 +7,7 @@ const LiveGiftSendPage = () => import('../../pages/live/LiveGiftSendPage.vue')
 const LiveConsolePage = () => import('../../pages/live/LiveConsole.vue')
 const AnchorWorkLogPage = () => import('../../pages/live/AnchorWorkLogPage.vue')
 const AnchorInfoPage = () => import('../../pages/live/AnchorInfoPage.vue')
+const LiveTapeFile = () => import('../../pages/live/LiveTapeFile.vue')
 
 export const LiveModuleRouter = {
   path: '/live',
@@ -47,6 +48,11 @@ export const LiveModuleRouter = {
       path: 'anchor-info',
       name: 'AnchorInfoPage',
       component: AnchorInfoPage
+    },
+    {
+      path: 'tape-file',
+      name: 'LiveTapeFile',
+      component: LiveTapeFile
     }
   ]
 }
