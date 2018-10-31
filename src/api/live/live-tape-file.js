@@ -37,3 +37,15 @@ export const remove = function(id) {
 export const Recommend = function(id) {
   return newClient().get('/live/tape-file/RecommendLive/' + id)
 }
+
+export const CloseRecommend = function(id) {
+  return newClient().get('/live/tape-file/CloseRecommendLive/' + id)
+}
+
+export const getAll = function() {
+  return newClient().get('/live/tape-file/withList')
+}
+
+export const update = function(sortedTypes) {
+  return newClient().post('/live/tape-file/sort', sortedTypes)
+}

@@ -30,6 +30,10 @@
         <i class="fa fa-trash"></i>
         <span>批量删除</span>
       </el-button> -->
+      <el-button @click="showSortDialog" type="primary" size="small" v-if="hasPermission('video:topic:sort')" class="btn-operation">
+        <i class="fa fa-sort-numeric-desc"></i>
+        <span>录播文件排序</span>
+      </el-button>
     </div>
     <!-- 表格 -->
     <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @selection-change="onSelectionChange" @sort-change="onSortChange">
@@ -48,7 +52,6 @@
       <el-table-column prop="duration" label="推流时长/s"></el-table-column>
       <el-table-column prop="streamParam" label="推流url参数"></el-table-column>
       <el-table-column prop="createTime" label="创建时间" ></el-table-column>
-      <el-table-column prop="sort" label="排序值" ></el-table-column>
       <el-table-column prop="deleteTime" label="录播删除时间" ></el-table-column>
       <el-table-column prop="username" label="删除人" ></el-table-column>
       <el-table-column prop="status" label="录播文件状态">
@@ -59,18 +62,28 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
-          <el-button-group>
-            <el-tooltip class="item" effect="dark"   content="推荐" placement="top" v-if="hasPermission('gift:type:delete') && scope.row.status === 1 === false&& scope.row.status === 2 === false">
+          <el-dropdown trigger="click" size="mini" type="text">
+            <el-button type="primary" size="mini">
+              操作<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item class="item" effect="dark"   content="推荐" placement="top" v-if="hasPermission('gift:type:delete') && scope.row.status === 1 === false&& scope.row.status === 2 === false">
               <el-button type="success" size="mini" @click="RecommendLive(scope.row)">
-                <i>推荐</i>
+                <i class="fa fa-fire"></i>推荐录播文件
               </el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('gift:type:delete') && scope.row.status === 2 === false">
+            </el-dropdown-item>
+            <el-dropdown-item class="item" effect="dark"   content="推荐" placement="top" v-if="hasPermission('gift:type:delete')  && scope.row.status === 2 === false">
+              <el-button type="info" size="mini" @click="CloseRecommendLive(scope.row)">
+                <i class="fa fa-fire"></i>取消录播文件
+              </el-button>
+            </el-dropdown-item>
+            <el-dropdown-item class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('gift:type:delete') && scope.row.status === 2 === false ">
               <el-button type="danger" size="mini" @click="deleteSingleGift(scope.row)">
-                <i class="fa fa-trash"></i>
+                <i class="fa fa-trash"></i>删除录播文件
               </el-button>
-            </el-tooltip>
-          </el-button-group>
+            </el-dropdown-item>
+           </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
@@ -78,6 +91,7 @@
     <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
     </el-pagination>
     <!-- 弹窗 start-->
+    <sort-dialog ref="sortDialog" @done="getTableData()"></sort-dialog>
   </div>
 </template>
 
@@ -85,13 +99,17 @@
 import {
   getLiveTapeFileList,
   remove,
-  Recommend
+  Recommend,
+  CloseRecommend
 } from '../../api/live/live-tape-file';
-
+import SortDialog from './dialogs/SortDialog';
 import { emptyUserAvatarAccessory } from '../../utils/empty-model';
 
 export default {
   name: 'gift-type-page',
+  components: {
+    'sort-dialog': SortDialog
+  },
   data() {
     const token = this.$store.state.user.token;
     return {
@@ -145,6 +163,9 @@ export default {
       this.dialog.picPreview.picSrc = row.url;
       this.dialog.picPreview.mname = row.mname;
       this.dialog.picPreview.show = true;
+    },
+    showSortDialog() {
+      this.$refs.sortDialog.showDialog();
     },
     onSortChange({ column, prop, order }) {
       this.sorter.prop = prop;
@@ -200,6 +221,24 @@ export default {
           Recommend(row.id)
             .then(({ data }) => {
               this.$message.success('推荐成功');
+              // 刷新表格数据
+              this.getTableData();
+            })
+            .catch(msg => {
+              this.loading.table = false;
+            });
+        })
+        .catch(() => {
+          // 用户点击了取消, do nothing
+        });
+    },
+    CloseRecommendLive(row) {
+      this.$confirm('此取消推荐此录播文件: ' + row.id, ' 确认取消推荐')
+        .then(() => {
+          this.loading.table = true;
+          CloseRecommend(row.id)
+            .then(({ data }) => {
+              this.$message.success('取消推荐成功');
               // 刷新表格数据
               this.getTableData();
             })
