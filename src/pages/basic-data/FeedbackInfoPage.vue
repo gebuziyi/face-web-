@@ -36,6 +36,7 @@
     <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @sort-change="onSortChange" @selection-change="onSelectionChange">
       <el-table-column type="selection" width="30"></el-table-column>
       <el-table-column prop="feedblackId" label="ID" sortable="custom" width="60"></el-table-column>
+      <el-table-column prop="userId" label="用户ID"></el-table-column>
       <el-table-column prop="username" label="反馈人"></el-table-column>
       <el-table-column prop="content" label="反馈内容" show-overflow-tooltip></el-table-column>
       <el-table-column prop="createTime" label="反馈时间" sortable="custom"></el-table-column>

@@ -21,6 +21,7 @@ export const getAssistantChatMsgPage = function ({ query, pager, sorter }) {
       limit: pager.limit,
       nickname: requireNonNull(query.nickname),
       userId: requireNonNull(query.userId),
+      assistandId: requireNonNull(query.assistandId),
       ifAssiataneId: requireNonNull(query.ifAssiataneId),
       readByAdmin: requireNonNull(query.readByAdmin),
       msgType: requireNonNull(query.msgType),

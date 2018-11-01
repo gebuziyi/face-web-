@@ -115,8 +115,8 @@ export default {
         table: true
       },
       tableData: [],
-      assistandId: null,
       queryModel: {
+        assistandId: null,
         userId: null,
         msgType: null,
         createTime: null,
@@ -213,7 +213,7 @@ export default {
     dogetAssistantId() {
       getAssistantId()
         .then(({ data }) => {
-          this.assistandId = data.detail
+          this.queryModel.assistandId = data.detail
           this.$store.commit('setOfficialAccountId', {
             payload: data.detail
           });
