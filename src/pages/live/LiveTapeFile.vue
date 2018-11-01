@@ -200,7 +200,7 @@ export default {
       this.$confirm('此操作将删除此录播文件: ' + row.id, '删除确认')
         .then(() => {
           this.loading.table = true;
-          remove(row.id)
+          remove(row.fileId)
             .then(({ data }) => {
               this.$message.success('删除成功');
               // 刷新表格数据
