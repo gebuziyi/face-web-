@@ -67,17 +67,17 @@
               操作<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item class="item" effect="dark" content="推荐" placement="top" v-if="hasPermission('gift:type:delete') && scope.row.status === 1 === false&& scope.row.status === 2 === false">
+              <el-dropdown-item class="item" effect="dark" content="推荐" placement="top" v-if="hasPermission('gift:type:delete') && scope.row.status === 0">
                 <el-button type="success" size="mini" @click="RecommendLive(scope.row)">
                   <i class="fa fa-fire"></i>推荐录播文件
                 </el-button>
               </el-dropdown-item>
-              <el-dropdown-item class="item" effect="dark" content="推荐" placement="top" v-if="hasPermission('gift:type:delete')  && scope.row.status === 2 === false">
+              <el-dropdown-item class="item" effect="dark" content="推荐" placement="top" v-if="hasPermission('gift:type:delete')  && scope.row.status === 1">
                 <el-button type="info" size="mini" @click="CloseRecommendLive(scope.row)">
                   <i class="fa fa-fire"></i>取消录播文件
                 </el-button>
               </el-dropdown-item>
-              <el-dropdown-item class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('gift:type:delete') && scope.row.status === 2 === false ">
+              <el-dropdown-item class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('gift:type:delete') && scope.row.status !== 2">
                 <el-button type="danger" size="mini" @click="deleteSingleGift(scope.row)">
                   <i class="fa fa-trash"></i>删除录播文件
                 </el-button>
