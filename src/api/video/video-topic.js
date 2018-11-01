@@ -4,7 +4,8 @@ import { sortOrderMapping } from '../../utils/constants'
 
 const propIndexMapping = {
   topicId: 'topic_id',
-  createTime: 'topic_id'
+  createTime: 'topic_id',
+  videoCount: 'videoCount'
 }
 
 export const getVideoTopicList = function({ query, pager, sorter }) {

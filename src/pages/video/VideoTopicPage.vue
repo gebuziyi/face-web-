@@ -48,7 +48,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="introduction" label="介绍" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="videoCount" label="视频数量">
+      <el-table-column prop="videoCount" label="视频数量" sortable="custom">
         <template slot-scope="scope">
           <el-button size="mini" @click="openTopicVideoDialog(scope.row)" :disabled="scope.row.videoCount === 0">{{ scope.row.videoCount }}</el-button>
         </template>
