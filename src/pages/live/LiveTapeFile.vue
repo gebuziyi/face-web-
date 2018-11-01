@@ -8,7 +8,7 @@
       <el-form-item prop="liveId">
         <el-input v-model.trim="queryModel.liveId" placeholder="直播记录ID"></el-input>
       </el-form-item>
-     <el-form-item prop="status">
+      <el-form-item prop="status">
         <el-select v-model="queryModel.status" clearable placeholder="录播文件状态">
           <el-option :value="1" label="已推荐"></el-option>
           <el-option :value="2" label="已删除"></el-option>
@@ -43,17 +43,17 @@
       <el-table-column prop="userId" label="主播用户ID"></el-table-column>
       <el-table-column prop="liveId" label="直播记录ID"></el-table-column>
       <el-table-column prop="streamId" label="直播流ID"></el-table-column>
-      <el-table-column prop="videoUrl" label="录播视频URL" ></el-table-column>
-      <el-table-column prop="fileSize" label="录播文件大小" ></el-table-column>
-      <el-table-column prop="startTime" label="开始时间戳" ></el-table-column>
-      <el-table-column prop="endTime" label="结束时间戳" ></el-table-column>
+      <el-table-column prop="videoUrl" label="录播视频URL"></el-table-column>
+      <el-table-column prop="fileSize" label="录播文件大小"></el-table-column>
+      <el-table-column prop="startTime" label="开始时间戳"></el-table-column>
+      <el-table-column prop="endTime" label="结束时间戳"></el-table-column>
       <el-table-column prop="fileId" label="点播ID"></el-table-column>
       <el-table-column prop="fileFormat" label="录播文件格式"></el-table-column>
       <el-table-column prop="duration" label="推流时长/s"></el-table-column>
       <el-table-column prop="streamParam" label="推流url参数"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" ></el-table-column>
-      <el-table-column prop="deleteTime" label="录播删除时间" ></el-table-column>
-      <el-table-column prop="username" label="删除人" ></el-table-column>
+      <el-table-column prop="createTime" label="创建时间"></el-table-column>
+      <el-table-column prop="deleteTime" label="录播删除时间"></el-table-column>
+      <el-table-column prop="username" label="删除人"></el-table-column>
       <el-table-column prop="status" label="录播文件状态">
         <template slot-scope="scope">
           <icon-tag type="success" v-if="scope.row.status === 1">已推荐</icon-tag>
@@ -67,22 +67,22 @@
               操作<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item class="item" effect="dark"   content="推荐" placement="top" v-if="hasPermission('gift:type:delete') && scope.row.status === 1 === false&& scope.row.status === 2 === false">
-              <el-button type="success" size="mini" @click="RecommendLive(scope.row)">
-                <i class="fa fa-fire"></i>推荐录播文件
-              </el-button>
-            </el-dropdown-item>
-            <el-dropdown-item class="item" effect="dark"   content="推荐" placement="top" v-if="hasPermission('gift:type:delete')  && scope.row.status === 2 === false">
-              <el-button type="info" size="mini" @click="CloseRecommendLive(scope.row)">
-                <i class="fa fa-fire"></i>取消录播文件
-              </el-button>
-            </el-dropdown-item>
-            <el-dropdown-item class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('gift:type:delete') && scope.row.status === 2 === false ">
-              <el-button type="danger" size="mini" @click="deleteSingleGift(scope.row)">
-                <i class="fa fa-trash"></i>删除录播文件
-              </el-button>
-            </el-dropdown-item>
-           </el-dropdown-menu>
+              <el-dropdown-item class="item" effect="dark" content="推荐" placement="top" v-if="hasPermission('gift:type:delete') && scope.row.status === 1 === false&& scope.row.status === 2 === false">
+                <el-button type="success" size="mini" @click="RecommendLive(scope.row)">
+                  <i class="fa fa-fire"></i>推荐录播文件
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item class="item" effect="dark" content="推荐" placement="top" v-if="hasPermission('gift:type:delete')  && scope.row.status === 2 === false">
+                <el-button type="info" size="mini" @click="CloseRecommendLive(scope.row)">
+                  <i class="fa fa-fire"></i>取消录播文件
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('gift:type:delete') && scope.row.status === 2 === false ">
+                <el-button type="danger" size="mini" @click="deleteSingleGift(scope.row)">
+                  <i class="fa fa-trash"></i>删除录播文件
+                </el-button>
+              </el-dropdown-item>
+            </el-dropdown-menu>
           </el-dropdown>
         </template>
       </el-table-column>
@@ -92,49 +92,37 @@
     </el-pagination>
     <!-- 弹窗 start-->
     <sort-dialog ref="sortDialog" @done="getTableData()"></sort-dialog>
+    <el-dialog :title="`录播文件播放: ${dialog.play.fileId}`" width="1000" class="play-dialog" :visible.sync="dialog.play.show">
+      <!-- 设置播放器容器 -->
+      <video id="player-container-id" preload="auto" width="900" height="800" playsinline webkit-playinline x5-playinline autoplay></video>
+      <span slot="footer">
+        <el-button @click="dialog.play.show = false" size="small">关闭</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import {
   getLiveTapeFileList,
-  remove,
   Recommend,
   CloseRecommend
 } from '../../api/live/live-tape-file';
 import SortDialog from './dialogs/SortDialog';
-import { emptyUserAvatarAccessory } from '../../utils/empty-model';
 
 export default {
-  name: 'gift-type-page',
+  name: 'live-tape-file-page',
   components: {
     'sort-dialog': SortDialog
   },
   data() {
-    const token = this.$store.state.user.token;
     return {
-      imgFileList: [],
+      player: null,
       selectedIds: [],
       dialog: {
-        picPreview: {
+        play: {
           show: false,
-          picSrc: null
-        },
-        create: {
-          model: emptyUserAvatarAccessory(),
-          show: false,
-          formLoading: true,
-          btnLoading: false,
-          // 文件上传的url
-          uploadAction:
-            '/faceshow-admin/api/fileupload?token=' +
-            token +
-            '&temp=' +
-            new Date().getTime(),
-          // 上传文件时请求的header
-          headers: {
-            token: token
-          }
+          fileId: ''
         }
       },
       loading: {
@@ -159,10 +147,23 @@ export default {
     };
   },
   methods: {
-    showPicPreviewDialog(row) {
-      this.dialog.picPreview.picSrc = row.url;
-      this.dialog.picPreview.mname = row.mname;
-      this.dialog.picPreview.show = true;
+    showPlayDialog(row) {
+      this.dialog.play.show = true;
+      this.dialog.play.fileId = row.fileId;
+      setTimeout(() => {
+        if (this.player) {
+          this.player.loadVideoByID({
+            fileID: row.fileId,
+            appID: '1256213697'
+          });
+        } else {
+          // eslint-disable-next-line
+          this.player = TCPlayer('player-container-id', {
+            fileID: row.fileId,
+            appID: '1256213697'
+          });
+        }
+      }, 500);
     },
     showSortDialog() {
       this.$refs.sortDialog.showDialog();
@@ -176,43 +177,6 @@ export default {
       if (rows) {
         this.selectedIds = rows.map(data => data.id);
       }
-    },
-    deleteBatch() {
-      this.$confirm('此操作将删除所选择的挂饰', '批量删除确认')
-        .then(() => {
-          // 表格loading
-          this.loading.table = true;
-          remove(this.selectedIds)
-            .then(({ data }) => {
-              this.$message.success('删除成功');
-              // 刷新表格数据
-              this.getTableData();
-            })
-            .catch(msg => {
-              this.loading.table = false;
-            });
-        })
-        .catch(() => {
-          // 用户点击了取消, do nothing
-        });
-    },
-    deleteSingleGift(row) {
-      this.$confirm('此操作将删除此录播文件: ' + row.id, '删除确认')
-        .then(() => {
-          this.loading.table = true;
-          remove(row.id)
-            .then(({ data }) => {
-              this.$message.success('删除成功');
-              // 刷新表格数据
-              this.getTableData();
-            })
-            .catch(msg => {
-              this.loading.table = false;
-            });
-        })
-        .catch(() => {
-          // 用户点击了取消, do nothing
-        });
     },
     RecommendLive(row) {
       this.$confirm('此操作将推荐此录播文件: ' + row.id, ' 确认推荐')
@@ -250,9 +214,6 @@ export default {
           // 用户点击了取消, do nothing
         });
     },
-    openCreateDialog() {
-      this.dialog.create.show = true;
-    },
     query() {
       this.loading.table = true;
       this.getTableData();
@@ -268,8 +229,6 @@ export default {
     getTableData() {
       // 显示表格loading
       this.loading.table = true;
-      this.dialog.create.model = emptyUserAvatarAccessory();
-      this.imgFileList = [];
       getLiveTapeFileList({
         query: this.queryModel,
         pager: this.pager,
@@ -310,4 +269,5 @@ export default {
   border-radius: 20%;
   overflow: hidden;
 }
+
 </style>
