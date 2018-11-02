@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3>极光推送控制台</h3><br><br>
-    <el-tabs  v-model="activeTabName">
+    <el-tabs v-model="activeTabName">
       <el-tab-pane label="极光推送" name="1">
         <div>
           <el-row :gutter="10" style="font-size: 20px; margin-top:20px; margin-left: 10px">
@@ -13,7 +13,7 @@
                 <el-form-item label="内容" prop="content">
                   <el-input v-model.trim="model.content" type="textarea" oninput="if(value.length > 300)value = value.slice(0, 300)"></el-input>
                 </el-form-item>
-                <el-form-item label="推送缘由" prop="description" >
+                <el-form-item label="推送缘由" prop="description">
                   <el-input v-model.trim="model.description" type="textarea" oninput="if(value.length > 500)value = value.slice(0, 500)" placeholder="请输入此次推送的目的或者原因（用户不可见）"></el-input>
                 </el-form-item>
                 <el-form-item label="活动图片" prop="image">
@@ -36,17 +36,22 @@
                     </el-radio-group>
                   </el-form-item>
                 </div>
-                <el-form-item v-for="(field, index) in model.fields" :label="'附加字段' + index" :key="field.key" :prop="field.values">
-                  <el-row :gutter="1">
-                    <el-col :span="5">
+                <el-row>
+                  <el-col :span="8">
+                    <el-form-item v-for="(field, index) in model.fields" :label="'附加字段' + index" :key="field.key" :prop="'fields.' + index + '.keys'" :rules="{ required: true, message: 'key不能为空', trigger: 'blur' }">
                       <el-input v-model="field.keys" placeholder="key"></el-input>
-                    </el-col>
-                    <el-col :span="15">
-                      <el-input v-model="field.values" placeholder="value"></el-input>
-                    </el-col>
-                  </el-row>
-                  <el-button @click.prevent="removeField(field)">删除</el-button>
-                </el-form-item>
+                      <el-button @click.prevent="removeField(field)">删除</el-button>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="16">
+                    <el-form-item v-for="(field, index) in model.fields" :key="field.key" :prop="'fields.' + index + '.values'" :rules="{ required: true, message: 'value不能为空', trigger: 'blur' }">
+                      <div style="height:66px">
+                        <el-input v-model="field.values" placeholder="value" style="height: 15px"></el-input>
+                      </div>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+
                 <el-form-item>
                   <el-button @click="addField">新增附加字段</el-button>
                 </el-form-item>
@@ -108,7 +113,7 @@
           <el-table-column prop="id" label="ID" sortable="custom"></el-table-column>
           <el-table-column prop="title" label="标题"></el-table-column>
           <el-table-column prop="content" label="内容"></el-table-column>
-          <el-table-column prop="image" label="图片" >
+          <el-table-column prop="image" label="图片">
             <template slot-scope="scope">
               <el-tooltip effect="dark" content="点击查看大图" placement="top">
                 <img :src="scope.row.image" class="img-thumb" @click="showPicPreviewDialog(scope.row)">
@@ -325,7 +330,7 @@ export default {
         }
         let extras = {};
         this.model.fields.forEach(item => {
-          extras[item.keys] = item.values
+          extras[item.keys] = item.values;
         });
 
         let msg = {
@@ -336,9 +341,9 @@ export default {
           description: this.model.description,
           iosProduction: this.model.iosProduction,
           extras: extras
-        }
+        };
         this.$confirm(
-          `是否要发布一条H5活动通知给所有用户?`,
+          `是否要发布一条活动通知给所有用户?`,
           '活动通知发布确认',
           {
             type: 'warning'
