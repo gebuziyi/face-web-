@@ -30,8 +30,8 @@ export const getLiveTapeFileList = function({ query, pager, sorter }) {
   })
 }
 
-export const remove = function(id) {
-  return newClient().get('/live/tape-file/del/' + id)
+export const remove = function(fileId) {
+  return newClient().get('/live/tape-file/del/' + fileId)
 }
 
 export const Recommend = function(id) {
