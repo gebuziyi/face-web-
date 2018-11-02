@@ -30,7 +30,7 @@
         <i class="fa fa-trash"></i>
         <span>批量删除</span>
       </el-button> -->
-      <el-button @click="showSortDialog" type="primary" size="small" v-if="hasPermission('video:topic:sort')" class="btn-operation">
+      <el-button @click="showSortDialog" type="primary" size="small" v-if="hasPermission('live:tape-file:sort')" class="btn-operation">
         <i class="fa fa-sort-numeric-desc"></i>
         <span>录播文件排序</span>
       </el-button>
@@ -67,17 +67,17 @@
               操作<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item class="item" effect="dark" content="推荐" placement="top" v-if="hasPermission('gift:type:delete') && scope.row.status === 0">
+              <el-dropdown-item class="item" effect="dark" content="推荐" placement="top" v-if="hasPermission('live:tape-file:RecommendLive') && scope.row.status === 0">
                 <el-button type="success" size="mini" @click="RecommendLive(scope.row)">
                   <i class="fa fa-fire"></i>推荐录播文件
                 </el-button>
               </el-dropdown-item>
-              <el-dropdown-item class="item" effect="dark" content="推荐" placement="top" v-if="hasPermission('gift:type:delete')  && scope.row.status === 1">
+              <el-dropdown-item class="item" effect="dark" content="推荐" placement="top" v-if="hasPermission('live:tape-file:CloseRecommendLive')  && scope.row.status === 1">
                 <el-button type="info" size="mini" @click="CloseRecommendLive(scope.row)">
                   <i class="fa fa-fire"></i>取消录播文件
                 </el-button>
               </el-dropdown-item>
-              <el-dropdown-item class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('gift:type:delete') && scope.row.status !== 2">
+              <el-dropdown-item class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('live:tape-file:del') && scope.row.status !== 2">
                 <el-button type="danger" size="mini" @click="deleteSingleGift(scope.row)">
                   <i class="fa fa-trash"></i>删除录播文件
                 </el-button>
