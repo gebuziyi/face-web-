@@ -3,6 +3,7 @@ import AssistantHomePage from '../../pages/assistant/AssistantHomePage.vue'
 import AssistantChatMsgPage from '../../pages/assistant/AssistantChatMsgPage.vue';
 import OfficialActivityPublishPage from '../../pages/assistant/OfficialActivityPublishPage.vue';
 import AssistantFaqType from '../../pages/assistant/AssistantFaqType.vue';
+import JPushConsolePage from '../../pages/assistant/JPushConsolePage.vue';
 
 export const AssistantModuleRouter = {
   path: 'assistant',
@@ -23,6 +24,11 @@ export const AssistantModuleRouter = {
       path: 'faq-type',
       name: 'AssistantFaqType',
       component: AssistantFaqType
+    },
+    {
+      path: 'jpush-console',
+      name: 'JPushConsolePage',
+      component: JPushConsolePage
     }
   ]
 }
