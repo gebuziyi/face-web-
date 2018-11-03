@@ -91,7 +91,7 @@
       </el-tab-pane>
       <el-tab-pane label="推送历史" name="2">
         <el-form :inline="true" :model="queryModel" size="small" ref="queryForm">
-          <el-form-item prop="typeId">
+          <el-form-item prop="userId">
             <el-select v-model="queryModel.userId" placeholder="选择管理员" filterable>
               <el-option v-for="(item, index) in sysUsers" :key="index" :label="item.username" :value="item.userId"></el-option>
             </el-select>
