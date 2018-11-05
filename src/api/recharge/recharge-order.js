@@ -39,6 +39,37 @@ export const getRechargeOrderList = function({query, pager, sorter}) {
   })
 }
 
+export const getRechargeTotalMoney = function({query, pager, sorter}) {
+  let createTimeStart = null
+  let createTimeEnd = null
+
+  if (query.createTime !== null && typeof query.createTime !== 'undefined') {
+    createTimeStart = query.createTime[0]
+    createTimeEnd = query.createTime[1]
+  }
+
+  return newClient().get('/recharge/order/total/money', {
+    params: {
+      page: pager.page,
+      limit: pager.limit,
+      orderNo: requireNonNull(query.orderNo),
+      typeId: requireNonNull(query.typeId),
+      rechargeId: requireNonNull(query.rechargeId),
+      status: requireNonNull(query.status),
+      payStatus: requireNonNull(query.payStatus),
+      userId: requireNonNull(query.userId),
+      nickname: requireNonNull(query.nickname),
+      username: requireNonNull(query.username),
+      priceStart: requireNonNull(query.priceStart),
+      priceEnd: requireNonNull(query.priceEnd),
+      createTimeStart: requireNonNull(createTimeStart),
+      createTimeEnd: requireNonNull(createTimeEnd),
+      sidx: propIndexMapping[sorter.prop],
+      order: sortOrderMapping[sorter.order]
+    }
+  })
+}
+
 export const getRechargeOrderDetail = function(id) {
   return newClient().get('/recharge/order/detail/' + id)
 }
