@@ -30,7 +30,7 @@
         <i class="fa fa-trash"></i>
         <span>批量删除</span>
       </el-button> -->
-      <el-button @click="pullDialog" type="primary" size="small" v-if="hasPermission('live:tape-file:pull')" class="btn-pull">
+      <el-button @click="pullDialog" type="primary" style="float:right" size="small" v-if="hasPermission('live:tape-file:pull')" class="btn-pull">
         <i></i>拉取录播文件
       </el-button>
       <el-button @click="showSortDialog" type="primary" size="small" v-if="hasPermission('live:tape-file:sort')" class="btn-operation">
@@ -311,13 +311,4 @@ export default {
   overflow: hidden;
 }
 
-.btn-operation{
-  float: right;
-  margin-right:220px;
-}
-
-.btn-pull{
-  background-color: red;
-  margin-left:1900px;
-}
 </style>
