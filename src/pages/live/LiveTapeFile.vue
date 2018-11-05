@@ -30,6 +30,9 @@
         <i class="fa fa-trash"></i>
         <span>批量删除</span>
       </el-button> -->
+      <el-button @click="pullDialog" type="primary" size="small" v-if="hasPermission('live:tape-file:pull')" class="btn-pull">
+        <i></i>拉取录播文件
+      </el-button>
       <el-button @click="showSortDialog" type="primary" size="small" v-if="hasPermission('live:tape-file:sort')" class="btn-operation">
         <i class="fa fa-sort-numeric-desc"></i>
         <span>录播文件排序</span>
@@ -107,7 +110,8 @@ import {
   getLiveTapeFileList,
   Recommend,
   CloseRecommend,
-  remove
+  remove,
+  pull
 } from '../../api/live/live-tape-file';
 import SortDialog from './dialogs/SortDialog';
 
@@ -186,6 +190,24 @@ export default {
           Recommend(row.id)
             .then(({ data }) => {
               this.$message.success('推荐成功');
+              // 刷新表格数据
+              this.getTableData();
+            })
+            .catch(msg => {
+              this.loading.table = false;
+            });
+        })
+        .catch(() => {
+          // 用户点击了取消, do nothing
+        });
+    },
+    pullDialog(row) {
+      this.$confirm('是否拉取录播文件')
+        .then(() => {
+          this.loading.table = true;
+          pull()
+            .then(({ data }) => {
+              this.$message.success('拉取成功');
               // 刷新表格数据
               this.getTableData();
             })
@@ -289,4 +311,13 @@ export default {
   overflow: hidden;
 }
 
+.btn-operation{
+  float: right;
+  margin-right:220px;
+}
+
+.btn-pull{
+  background-color: red;
+  margin-left:1900px;
+}
 </style>

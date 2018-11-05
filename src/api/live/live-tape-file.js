@@ -38,6 +38,10 @@ export const Recommend = function(id) {
   return newClient().get('/live/tape-file/RecommendLive/' + id)
 }
 
+export const pull = function() {
+  return newClient().get('/live/tape-file/pull/')
+}
+
 export const CloseRecommend = function(id) {
   return newClient().get('/live/tape-file/CloseRecommendLive/' + id)
 }
