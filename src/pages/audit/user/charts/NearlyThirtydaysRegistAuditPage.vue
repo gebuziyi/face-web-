@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import { getDataCountByWeek } from '../../../../api/dashboard/dashboard';
+import { getRegisterCountByNearlyThirtyDaysLine } from '../../../../api/audit/user-audit';
 
 export default {
-  name: 'weekly-registered-user-line-chart',
+  name: 'thirty-ago-registered-user-line-chart',
 
   data() {
     return {
@@ -29,21 +29,13 @@ export default {
     initLineChartData() {
       this.lineChart.showLoading();
 
-      getDataCountByWeek()
+      getRegisterCountByNearlyThirtyDaysLine()
         .then(({ data }) => {
           // 隐藏加载动画
           this.lineChart.hideLoading();
-
-          let lineData = [];
-          lineData.push({
-            name: '新增用户数量',
-            type: 'line',
-            value: data.userCountList
-          });
-
           this.option = {
             title: {
-              text: '每周新增用户数量统计'
+              text: '近三十天新增用户数量统计'
             },
             tooltip: {
               trigger: 'axis',
@@ -66,8 +58,8 @@ export default {
             xAxis: {
               type: 'category',
               boundaryGap: false,
-              name: '周数',
-              data: data.weekNumList.map(num => '第' + num + '周')
+              name: '日期',
+              data: data.nearlyThirtyDays.map(date => date)
             },
             yAxis: {
               type: 'value'
@@ -76,7 +68,7 @@ export default {
               {
                 name: '新增用户数量',
                 type: 'line',
-                data: data.userCountList,
+                data: data.newRegistList.map(data => data.register),
                 itemStyle: {
                   normal: {
                     label: {

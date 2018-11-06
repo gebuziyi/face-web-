@@ -11,3 +11,7 @@ export const getUserCountInCountryAuditData = function ({ pager }) {
 export const getUserRechargeTypeAuditPieData = function () {
   return newClient().get('/audit/user/pie/user-count/regist-type')
 }
+
+export const getRegisterCountByNearlyThirtyDaysLine = function() {
+  return newClient().get('/audit/user/line/regs-30ago')
+}

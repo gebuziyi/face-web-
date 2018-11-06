@@ -7,7 +7,7 @@
       </el-button>
     </el-row>
     <div class="chart-wrapper">
-      <div ref="bar-chart" style="width: 1700px; height: 650px"></div>
+      <div ref="bar-chart" style="width: 1700px; height: 500px"></div>
     </div>
   </div>
 </template>
@@ -179,7 +179,7 @@ export default {
 .audit-page{
   border: 3px solid #DDDDDDDD;
   margin:10px;
-  height: 500px;
+  height: 400px;
   width: 100%;
 }
 </style>

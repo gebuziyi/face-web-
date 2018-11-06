@@ -47,6 +47,10 @@
       </el-button>
       <el-button type="text" size="mini" @click="$refs.queryForm.resetFields()">重置</el-button>
     </div>
+    <div class="recharge-total">
+      <h3 style="padding: 8px"> 充值总金额：</h3><br>
+      <h4 style="padding: 10px"> 人民币：￥{{totalRmb ? totalRmb : 0 }} &nbsp;&nbsp;美元：${{totalUsd ? totalUsd : 0 }}</h4>
+    </div><br>
     <!-- 表格 -->
     <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @sort-change="onSortChange">
       <el-table-column prop="orderId" label="ID" sortable="custom" width="80"></el-table-column>
@@ -159,6 +163,7 @@
 <script>
 import {
   getRechargeOrderList,
+  getRechargeTotalMoney,
   getRechargeOrderDetail,
   updateRechargeOrder,
   getAllOrderStatus
@@ -202,6 +207,8 @@ export default {
       loading: {
         table: true
       },
+      totalRmb: null,
+      totalUsd: null,
       tableData: [],
       queryModel: {
         userId: null,
@@ -302,6 +309,16 @@ export default {
           this.loading.table = false;
         })
         .catch(error => {});
+      getRechargeTotalMoney({
+        query: this.queryModel,
+        pager: this.pager,
+        sorter: this.sorter
+      })
+        .then(({ data }) => {
+          this.totalRmb = data.detail.totalRmb;
+          this.totalUsd = data.detail.totalUsd;
+        })
+        .catch(error => {});
     },
     initOrderStatusSelectData() {
       getAllOrderStatus()
@@ -338,5 +355,9 @@ export default {
 .detail-span {
   font-weight: 500;
   font-size: 16px;
+}
+.recharge-total {
+  border: 1px solid #dddddddd;
+  height: 100px;
 }
 </style>

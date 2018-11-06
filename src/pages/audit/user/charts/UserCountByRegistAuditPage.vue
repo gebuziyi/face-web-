@@ -7,7 +7,7 @@
       </el-button>
     </el-row>
     <div class="chart-wrapper">
-      <div ref="pie-chart" style="width: 1500px; height: 650px"></div>
+      <div ref="pie-chart" style="width: 1500px; height: 500px"></div>
     </div>
   </div>
 </template>
@@ -145,7 +145,7 @@ export default {
 
 .audit-page{
   border: 3px solid #DDDDDDDD;
-  height: 700px;
+  height: 550px;
   width: 700px;
   margin:10px;
 }

@@ -24,33 +24,24 @@
         <user-count-by-week></user-count-by-week>
       </el-col>
     </el-row>
+    <el-row class="line-chart-row">
+      <el-col :span="24">
+        <user-count-by-nearly-30-days></user-count-by-nearly-30-days>
+      </el-col>
+    </el-row>
     <el-row class="order-user-table-row" :gutter="60">
       <el-col :span="16" class="latest-10-order-col">
         <user-register-count></user-register-count>
       </el-col>
-      <el-col :span="8" class="latest-10-reg-user-col">
-        <!-- <p class="table-desc">新注册用户</p> -->
-        <!-- <new-registered-users></new-registered-users> -->
-      </el-col>
     </el-row>
-    <!-- <el-row class="most-like-top10-videos-row">
-      <el-col :span="24">
-        <p class="table-desc">热门视频</p>
-      </el-col>
-    </el-row>
-    <el-row class="most-popular-top10-live-row">
-      <el-col :span="24">
-        <p class="table-desc">热门直播</p>
-      </el-col>
-    </el-row> -->
   </div>
 </template>
-
 <script>
 
 import UserCountInCountryAuditPage from './charts/UserCountInCountryAuditPage';
 import UserCountByRegistAuditPage from './charts/UserCountByRegistAuditPage';
 import WeeklyRegisteredUserLineChart from './charts/WeeklyRegisteredUserLineChart';
+import NearlyThirtydaysRegistAuditPage from './charts/NearlyThirtydaysRegistAuditPage';
 
 export default {
   name: 'dashboard',
@@ -58,7 +49,8 @@ export default {
   components: {
     'user-count-in-country': UserCountInCountryAuditPage,
     'user-register-count': UserCountByRegistAuditPage,
-    'user-count-by-week': WeeklyRegisteredUserLineChart
+    'user-count-by-week': WeeklyRegisteredUserLineChart,
+    'user-count-by-nearly-30-days': NearlyThirtydaysRegistAuditPage
   },
 
   data() {
