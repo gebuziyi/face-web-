@@ -26,7 +26,7 @@
         <span>搜索</span>
       </el-button>
       <el-button type="text" size="mini" @click="$refs.queryForm.resetFields()">重置</el-button>
-      <el-button @click="deleteBatch" type="danger" size="small" v-if="hasPermission('live:tape-file:delete')" class="btn-operation" :disabled="selectedIds.length === 0">
+      <el-button @click="deleteBatch" type="danger" size="small" v-if="hasPermission('live:tape-file:del')" class="btn-operation" :disabled="selectedIds.length === 0">
         <i class="fa fa-trash"></i>
         <span>批量删除</span>
       </el-button>
