@@ -61,7 +61,7 @@
         <template slot-scope="scope">
           <icon-tag type="warning" v-if="scope.row.status === 0">待推荐</icon-tag>
           <icon-tag type="success" v-if="scope.row.status === 1">已推荐</icon-tag>
-          <icon-tag type="warning" v-if="scope.row.status === 2">已删除</icon-tag>
+          <icon-tag type="danger" v-if="scope.row.status === 2">已删除</icon-tag>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作">
