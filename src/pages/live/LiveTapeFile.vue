@@ -26,11 +26,11 @@
         <span>搜索</span>
       </el-button>
       <el-button type="text" size="mini" @click="$refs.queryForm.resetFields()">重置</el-button>
-      <!-- <el-button @click="deleteBatch" type="danger" size="small" v-if="hasPermission('gift:type:delete')" class="btn-operation" :disabled="selectedIds.length === 0">
+      <el-button @click="deleteBatch" type="danger" size="small" v-if="hasPermission('live:tape-file:delete')" class="btn-operation" :disabled="selectedIds.length === 0">
         <i class="fa fa-trash"></i>
         <span>批量删除</span>
-      </el-button> -->
-      <el-button @click="pullDialog" type="primary" size="small" v-if="hasPermission('live:tape-file:pull')" class="btn-pull">
+      </el-button>
+      <el-button @click="pullDialog" type="primary" size="small" v-if="hasPermission('live:tape-file:pull')" class="btn-operation">
         <i></i>拉取录播文件
       </el-button>
       <el-button @click="showSortDialog" type="primary" size="small" v-if="hasPermission('live:tape-file:sort')" class="btn-operation">
@@ -43,22 +43,23 @@
       <el-table-column type="selection" width="55">
       </el-table-column>
       <el-table-column prop="id" label="ID" sortable="custom"></el-table-column>
-      <el-table-column prop="userId" label="主播用户ID"></el-table-column>
-      <el-table-column prop="liveId" label="直播记录ID"></el-table-column>
-      <el-table-column prop="streamId" label="直播流ID"></el-table-column>
-      <el-table-column prop="videoUrl" label="录播视频URL"></el-table-column>
-      <el-table-column prop="fileSize" label="录播文件大小"></el-table-column>
-      <el-table-column prop="startTime" label="开始时间戳"></el-table-column>
-      <el-table-column prop="endTime" label="结束时间戳"></el-table-column>
-      <el-table-column prop="fileId" label="点播ID"></el-table-column>
-      <el-table-column prop="fileFormat" label="录播文件格式"></el-table-column>
-      <el-table-column prop="duration" label="推流时长/s"></el-table-column>
-      <el-table-column prop="streamParam" label="推流url参数"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间"></el-table-column>
-      <el-table-column prop="deleteTime" label="录播删除时间"></el-table-column>
+      <el-table-column prop="userId" label="主播用户ID" width="100"></el-table-column>
+      <el-table-column prop="liveId" label="直播记录ID" width="100"></el-table-column>
+      <el-table-column prop="streamId" label="直播流ID" width="130"></el-table-column>
+      <el-table-column prop="videoUrl" label="录播URL" show-overflow-tooltip width="90"></el-table-column>
+      <el-table-column prop="fileSize" label="文件大小" width="90"></el-table-column>
+      <el-table-column prop="startTime" label="开始时间戳" width="100"></el-table-column>
+      <el-table-column prop="endTime" label="结束时间戳" width="100"></el-table-column>
+      <el-table-column prop="fileId" label="文件ID" width="180"></el-table-column>
+      <el-table-column prop="fileFormat" label="录播文件格式" width="100"></el-table-column>
+      <el-table-column prop="duration" label="推流时长/s" width="100"></el-table-column>
+      <el-table-column prop="streamParam" label="推流url参数" width="120" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" width="120"></el-table-column>
+      <el-table-column prop="deleteTime" label="删除时间" width="120"></el-table-column>
       <el-table-column prop="username" label="删除人"></el-table-column>
       <el-table-column prop="status" label="录播文件状态">
         <template slot-scope="scope">
+          <icon-tag type="warning" v-if="scope.row.status === 0">待推荐</icon-tag>
           <icon-tag type="success" v-if="scope.row.status === 1">已推荐</icon-tag>
           <icon-tag type="warning" v-if="scope.row.status === 2">已删除</icon-tag>
         </template>
@@ -70,19 +71,24 @@
               操作<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item class="item" effect="dark" content="播放" placement="top" v-if="hasPermission('live:tape-file:RecommendLive') && scope.row.status === 0">
+                <el-button type="success" size="mini" @click="showPlayDialog(scope.row)">
+                  <i class="fa fa-play"></i> 播放
+                </el-button>
+              </el-dropdown-item>
               <el-dropdown-item class="item" effect="dark" content="推荐" placement="top" v-if="hasPermission('live:tape-file:RecommendLive') && scope.row.status === 0">
                 <el-button type="success" size="mini" @click="RecommendLive(scope.row)">
-                  <i class="fa fa-fire"></i>推荐录播文件
+                  <i class="fa fa-fire"></i> 推荐录播
                 </el-button>
               </el-dropdown-item>
               <el-dropdown-item class="item" effect="dark" content="推荐" placement="top" v-if="hasPermission('live:tape-file:CloseRecommendLive')  && scope.row.status === 1">
                 <el-button type="info" size="mini" @click="CloseRecommendLive(scope.row)">
-                  <i class="fa fa-fire"></i>取消录播文件
+                  <i class="fa fa-fire"></i> 取消推荐
                 </el-button>
               </el-dropdown-item>
               <el-dropdown-item class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('live:tape-file:del') && scope.row.status !== 2">
                 <el-button type="danger" size="mini" @click="deleteSingleGift(scope.row)">
-                  <i class="fa fa-trash"></i>删除录播文件
+                  <i class="fa fa-trash"></i> 删除录播
                 </el-button>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -95,9 +101,10 @@
     </el-pagination>
     <!-- 弹窗 start-->
     <sort-dialog ref="sortDialog" @done="getTableData()"></sort-dialog>
-    <el-dialog :title="`录播文件播放: ${dialog.play.fileId}`" width="1000" class="play-dialog" :visible.sync="dialog.play.show">
+    <el-dialog :title="`录播文件播放: ${dialog.play.fileId}`" width="800" class="play-dialog" :visible.sync="dialog.play.show" :before-close="beforePlayDialogClose">
       <!-- 设置播放器容器 -->
-      <video id="player-container-id" preload="auto" width="900" height="800" playsinline webkit-playinline x5-playinline autoplay></video>
+      <iframe :src="`//1256213697.vod2.myqcloud.com/vod-player/1256213697/${this.dialog.play.fileId}/tcplayer/console/vod-player.html?autoplay=true&width=600&height=800`" frameborder="0" scrolling="no" width="100%" height="800" allowfullscreen>
+      </iframe>
       <span slot="footer">
         <el-button @click="dialog.play.show = false" size="small">关闭</el-button>
       </span>
@@ -152,23 +159,34 @@ export default {
     };
   },
   methods: {
+    beforePlayDialogClose(done) {
+      if (this.player) {
+        this.player.pause();
+        this.player.dispose();
+        this.player = null;
+      }
+      done();
+    },
+
     showPlayDialog(row) {
       this.dialog.play.show = true;
       this.dialog.play.fileId = row.fileId;
-      setTimeout(() => {
-        if (this.player) {
-          this.player.loadVideoByID({
-            fileID: row.fileId,
-            appID: '1256213697'
-          });
-        } else {
-          // eslint-disable-next-line
-          this.player = TCPlayer('player-container-id', {
-            fileID: row.fileId,
-            appID: '1256213697'
-          });
-        }
-      }, 500);
+      // if (this.player) {
+      //   console.log(this.player);
+      //   this.player.pause();
+      //   this.player.dispose();
+      //   this.player = null;
+      // }
+
+      // setTimeout(() => {
+      //   // eslint-disable-next-line
+      //   this.player = TCPlayer('player-container-id', {
+      //     fileID: row.fileId,
+      //     appID: '1256213697',
+      //     bigPlayButton: false
+      //   });
+      //   console.log(this.player);
+      // }, 500);
     },
     showSortDialog() {
       this.$refs.sortDialog.showDialog();
@@ -309,15 +327,5 @@ export default {
   height: 240px;
   border-radius: 20%;
   overflow: hidden;
-}
-
-.btn-operation{
-  float: right;
-  margin-right:220px;
-}
-
-.btn-pull{
-  background-color: red;
-  margin-left:1900px;
 }
 </style>
