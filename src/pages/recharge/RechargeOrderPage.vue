@@ -49,7 +49,7 @@
     </div>
     <div class="recharge-total">
       <h3 style="padding: 8px"> 充值总金额：</h3><br>
-      <h4 style="padding: 10px"> 人民币：{{totalRmb ? totalRmb : 0 }}￥ &nbsp;&nbsp;美元：{{totalUsd ? totalUsd : 0 }}$</h4>
+      <h4 style="padding: 10px"> 人民币：￥{{totalRmb ? totalRmb : 0 }} &nbsp;&nbsp;美元：${{totalUsd ? totalUsd : 0 }}</h4>
     </div><br>
     <!-- 表格 -->
     <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @sort-change="onSortChange">
