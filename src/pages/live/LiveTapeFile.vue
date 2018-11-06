@@ -66,7 +66,7 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
-          <el-dropdown trigger="click" size="mini" type="text">
+          <el-dropdown trigger="click" size="mini" type="text" v-if="scope.row.status === 2 === false">
             <el-button type="primary" size="mini">
               操作<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
