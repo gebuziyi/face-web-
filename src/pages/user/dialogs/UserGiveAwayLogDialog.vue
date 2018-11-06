@@ -4,36 +4,47 @@
     <div class="give-change">
       <h3 style="padding: 10px"> F币余额： {{f.fbalance ? f.fbalance : 0 }}</h3><br>
       <el-row :gutter="10" style="font-size: 20px; margin-top:20px; margin-left: 10px">
-        <el-col :span="2"><div class="grid-content bg-purple" style="font-weight: bold">收入：</div></el-col>
+        <el-col :span="2">
+          <div class="grid-content bg-purple" style="font-weight: bold">收入：</div>
+        </el-col>
         <el-col :span="10">
           <div class="grid-content bg-purple">
-            短视频收到的礼物:
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {{f.videoiIcome ? f.videoiIcome : 0 }}
+            短视频收到的礼物: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{f.videoiIcome ? f.videoiIcome : 0 }}
           </div>
         </el-col>
         <el-col :span="10">
           <div class="grid-content bg-purple">
-             直播收到的礼物:
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             {{f.liveIncome ? f.liveIncome : 0 }}
+            直播收到的礼物: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{f.liveIncome ? f.liveIncome : 0 }}
           </div>
         </el-col>
       </el-row>
       <el-row :gutter="10" style="font-size: 20px; margin-top:20px; margin-left: 105px">
         <el-col :span="11">
           <div class="grid-content bg-purple">
-            1v1收到的礼物:
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {{f.matchingIncome ? f.matchingIncome : 0 }}
+            1v1收到的礼物: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{f.matchingIncome ? f.matchingIncome : 0 }}
           </div>
         </el-col>
-        <el-col :span="12"><div class="grid-content bg-purple"> 用户聊天收到的礼物:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{f.chatIncome ? f.chatIncome : 0}}</div></el-col>
+        <el-col :span="12">
+          <div class="grid-content bg-purple"> 用户聊天收到的礼物:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{f.chatIncome ? f.chatIncome : 0}}</div>
+        </el-col>
+      </el-row>
+      <el-row :gutter="10" style="font-size: 20px; margin-top:20px; margin-left: 105px">
+        <el-col :span="11">
+          <div class="grid-content bg-purple">
+            个人中心收到的礼物: &nbsp;&nbsp;&nbsp;&nbsp; {{f.perCenIncome ? f.perCenIncome : 0 }}
+          </div>
+        </el-col>
       </el-row>
       <el-row :gutter="10" style="font-size: 20px; margin-top:20px; margin-left: 10px;">
-        <el-col :span="2"><div class="grid-content bg-purple" style="font-weight: bold">支出：</div></el-col>
-        <el-col :span="10"><div class="grid-content bg-purple">F币转钻石:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{f.ftodiamond ? '-' + f.ftodiamond : 0 }}</div></el-col>
-        <el-col :span="10"><div class="grid-content bg-purple">提现：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{f.withdrawto ? '-' + f.withdrawto : 0 }}</div></el-col>
+        <el-col :span="2">
+          <div class="grid-content bg-purple" style="font-weight: bold">支出：</div>
+        </el-col>
+        <el-col :span="10">
+          <div class="grid-content bg-purple">F币转钻石:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{f.ftodiamond ? '-' + f.ftodiamond : 0 }}</div>
+        </el-col>
+        <el-col :span="10">
+          <div class="grid-content bg-purple">提现：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{f.withdrawto ? '-' + f.withdrawto : 0 }}</div>
+        </el-col>
       </el-row>
     </div>
     <br>
@@ -167,7 +178,10 @@
 </template>
 
 <script>
-import { getUserGiveAwayLogList, getUserFBAuditDetail } from '../../../api/user/giveaway-log';
+import {
+  getUserGiveAwayLogList,
+  getUserFBAuditDetail
+} from '../../../api/user/giveaway-log';
 export default {
   name: 'user-giveaway-log-dialog',
   data() {
@@ -186,7 +200,8 @@ export default {
         matchingIncome: null,
         chatIncome: null,
         ftodiamond: null,
-        withdrawto: null
+        withdrawto: null,
+        perCenIncome: null
       },
       queryModel: {
         userId: null,
@@ -251,16 +266,16 @@ export default {
           this.loading.table = false;
         })
         .catch(error => {});
-      getUserFBAuditDetail(userId)
-        .then(({data}) => {
-          this.f.fbalance = data.detail.fbalance;
-          this.f.liveIncome = data.detail.liveIncome;
-          this.f.videoiIcome = data.detail.videoiIcome;
-          this.f.matchingIncome = data.detail.matchingIncome;
-          this.f.chatIncome = data.detail.chatIncome;
-          this.f.ftodiamond = data.detail.ftodiamond;
-          this.f.withdrawto = data.detail.withdrawto;
-        })
+      getUserFBAuditDetail(userId).then(({ data }) => {
+        this.f.fbalance = data.detail.fbalance;
+        this.f.liveIncome = data.detail.liveIncome;
+        this.f.videoiIcome = data.detail.videoiIcome;
+        this.f.matchingIncome = data.detail.matchingIncome;
+        this.f.chatIncome = data.detail.chatIncome;
+        this.f.ftodiamond = data.detail.ftodiamond;
+        this.f.withdrawto = data.detail.withdrawto;
+        this.f.perCenIncome = data.detail.perCenIncome;
+      });
     },
     onClose() {
       this.queryModel.userId = null;
@@ -273,8 +288,8 @@ export default {
 </script>
 
 <style scoped>
-.give-change{
-  border: 1px solid #DDDDDDDD;
-  height: 220px;
+.give-change {
+  border: 1px solid #dddddddd;
+  height: 250px;
 }
 </style>
