@@ -26,10 +26,10 @@
         <span>搜索</span>
       </el-button>
       <el-button type="text" size="mini" @click="$refs.queryForm.resetFields()">重置</el-button>
-      <!-- <el-button @click="deleteBatch" type="danger" size="small" v-if="hasPermission('gift:type:delete')" class="btn-operation" :disabled="selectedIds.length === 0">
+      <el-button @click="deleteBatch" type="danger" size="small" v-if="hasPermission('live:tape-file:del')" class="btn-operation" :disabled="selectedIds.length === 0">
         <i class="fa fa-trash"></i>
         <span>批量删除</span>
-      </el-button> -->
+      </el-button>
       <el-button @click="pullDialog" type="primary" style="float:right" size="small" v-if="hasPermission('live:tape-file:pull')" class="btn-pull">
         <i></i>拉取录播文件
       </el-button>
@@ -180,8 +180,27 @@ export default {
     },
     onSelectionChange(rows) {
       if (rows) {
-        this.selectedIds = rows.map(data => data.id);
+        this.selectedIds = rows.map(data => data.fileId);
       }
+    },
+    deleteBatch() {
+      this.$confirm('此操作将删除所选择的直播录播文件', '批量删除确认')
+        .then(() => {
+          // 表格loading
+          this.loading.table = true;
+          remove(this.selectedIds)
+            .then(({ data }) => {
+              this.$message.success('删除成功');
+              // 刷新表格数据
+              this.getTableData();
+            })
+            .catch(msg => {
+              this.loading.table = false;
+            });
+        })
+        .catch(() => {
+          // 用户点击了取消, do nothing
+        });
     },
     RecommendLive(row) {
       this.$confirm('此操作将推荐此录播文件: ' + row.id, ' 确认推荐')
