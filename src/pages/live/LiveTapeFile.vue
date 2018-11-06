@@ -198,8 +198,27 @@ export default {
     },
     onSelectionChange(rows) {
       if (rows) {
-        this.selectedIds = rows.map(data => data.id);
+        this.selectedIds = rows.map(data => data.fileId);
       }
+    },
+    deleteBatch() {
+      this.$confirm('此操作将删除所选择的直播录播文件', '批量删除确认')
+        .then(() => {
+          // 表格loading
+          this.loading.table = true;
+          remove(this.selectedIds)
+            .then(({ data }) => {
+              this.$message.success('删除成功');
+              // 刷新表格数据
+              this.getTableData();
+            })
+            .catch(msg => {
+              this.loading.table = false;
+            });
+        })
+        .catch(() => {
+          // 用户点击了取消, do nothing
+        });
     },
     RecommendLive(row) {
       this.$confirm('此操作将推荐此录播文件: ' + row.id, ' 确认推荐')
