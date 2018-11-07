@@ -105,7 +105,7 @@
               </el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="拒绝" placement="top" v-if="hasPermission('withdraw:application:check') && scope.row.check === 2">
-              <el-button type="danger" size="mini" @click="showCheckDenyConfirm(scope.row)">
+              <el-button type="danger" size="mini" @click="openCheckDenyDialog(scope.row)">
                 <i class="fa fa-ban"></i>
               </el-button>
             </el-tooltip>
@@ -187,6 +187,7 @@
         <el-button type="primary" @click="dialog.detail.show = false" size="small">关闭</el-button>
       </span>
     </el-dialog>
+    <check-deny-dialog ref="checkDenyDialog" @done="getTableData"></check-deny-dialog>
   </div>
 </template>
 
@@ -195,7 +196,6 @@ import {
   getWithdrawApplicationList,
   getWithdrawApplicationDetail,
   passApplication,
-  denyApplication,
   transferSuccess,
   transferFailed
 } from '../../api/withdraw/withdraw-application';
@@ -206,9 +206,15 @@ import {
 } from '../../utils/empty-model';
 import { getAllWithdrawNorm } from '../../api/withdraw/withdraw-norm';
 import { WITHDRAW_STATUS_LIST } from '../../utils/constants';
+import CheckDenyDialog from './dialogs/CheckDenyDialog';
 
 export default {
   name: 'withdraw-application-page',
+
+  components: {
+    'check-deny-dialog': CheckDenyDialog
+  },
+
   data() {
     return {
       withdrawNormList: [],
@@ -261,11 +267,21 @@ export default {
     };
   },
   filters: {
-    norm2OptionLabel: (norm) => {
-      return `${norm.f} F  -->  ${norm.price} ${norm.currency === 0 ? '人民币' : norm.currency === 1 ? '美元' : '未知币种'}`
+    norm2OptionLabel: norm => {
+      return `${norm.f} F  -->  ${norm.price} ${
+        norm.currency === 0
+          ? '人民币'
+          : norm.currency === 1
+            ? '美元'
+            : '未知币种'
+      }`;
     }
   },
   methods: {
+    openCheckDenyDialog(row) {
+      this.$refs.checkDenyDialog.showDialog(row);
+    },
+
     showTransferSuccessConfirm(row) {
       this.$confirm(
         `转账成功? (一旦确认, 系统将发送提现成功通知给用户, 请确认钱款已经到达用户的提现账户之后再进行此操作)`,
@@ -314,24 +330,6 @@ export default {
           passApplication(row.aid)
             .then(resp => {
               this.$message.success('已通过');
-              this.getTableData();
-            })
-            .catch(error => {});
-        })
-        .catch(() => {});
-    },
-    showCheckDenyConfirm(row) {
-      this.$confirm(
-        `确定拒绝该提现申请? (拒绝后, 系统将发送提现失败通知给用户, 扣除的F币也将一并返还)`,
-        '拒绝提现申请',
-        {
-          type: 'warning'
-        }
-      )
-        .then(() => {
-          denyApplication(row.aid)
-            .then(resp => {
-              this.$message.success('已拒绝');
               this.getTableData();
             })
             .catch(error => {});
@@ -397,9 +395,9 @@ export default {
     initWithdrawNormSelectData() {
       getAllWithdrawNorm()
         .then(({ data }) => {
-          this.withdrawNormList = data.list
+          this.withdrawNormList = data.list;
         })
-        .catch(error => {})
+        .catch(error => {});
     }
   },
   created() {
