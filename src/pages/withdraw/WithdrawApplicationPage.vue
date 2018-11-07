@@ -105,7 +105,7 @@
               </el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="拒绝" placement="top" v-if="hasPermission('withdraw:application:check') && scope.row.check === 2">
-              <el-button type="danger" size="mini" @click="showCheckDenyConfirm(scope.row)">
+              <el-button type="danger" size="mini" @click="openCheckDenyDialog(scope.row)">
                 <i class="fa fa-ban"></i>
               </el-button>
             </el-tooltip>
@@ -115,7 +115,7 @@
               </el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="转账失败" placement="top" v-if="hasPermission('withdraw:application:transfer') && scope.row.check === 1 && scope.row.statues === 2">
-              <el-button type="danger" size="mini" @click="showTransferFailedConfirm(scope.row)">
+              <el-button type="danger" size="mini" @click="openTransferFailedDialog(scope.row)">
                 <i class="fa fa-money"></i>
               </el-button>
             </el-tooltip>
@@ -187,6 +187,8 @@
         <el-button type="primary" @click="dialog.detail.show = false" size="small">关闭</el-button>
       </span>
     </el-dialog>
+    <check-deny-dialog ref="checkDenyDialog" @done="getTableData"></check-deny-dialog>
+    <transfer-failed-dialog ref="transferFailedDialog" @done="getTableData"></transfer-failed-dialog>
   </div>
 </template>
 
@@ -195,9 +197,7 @@ import {
   getWithdrawApplicationList,
   getWithdrawApplicationDetail,
   passApplication,
-  denyApplication,
-  transferSuccess,
-  transferFailed
+  transferSuccess
 } from '../../api/withdraw/withdraw-application';
 import { getAllPayType } from '../../api/basic-data/pay-type';
 import {
@@ -206,9 +206,17 @@ import {
 } from '../../utils/empty-model';
 import { getAllWithdrawNorm } from '../../api/withdraw/withdraw-norm';
 import { WITHDRAW_STATUS_LIST } from '../../utils/constants';
+import CheckDenyDialog from './dialogs/CheckDenyDialog';
+import TransferFailedDialog from './dialogs/TransferFailedDialog';
 
 export default {
   name: 'withdraw-application-page',
+
+  components: {
+    'check-deny-dialog': CheckDenyDialog,
+    'transfer-failed-dialog': TransferFailedDialog
+  },
+
   data() {
     return {
       withdrawNormList: [],
@@ -261,11 +269,25 @@ export default {
     };
   },
   filters: {
-    norm2OptionLabel: (norm) => {
-      return `${norm.f} F  -->  ${norm.price} ${norm.currency === 0 ? '人民币' : norm.currency === 1 ? '美元' : '未知币种'}`
+    norm2OptionLabel: norm => {
+      return `${norm.f} F  -->  ${norm.price} ${
+        norm.currency === 0
+          ? '人民币'
+          : norm.currency === 1
+            ? '美元'
+            : '未知币种'
+      }`;
     }
   },
   methods: {
+    openCheckDenyDialog(row) {
+      this.$refs.checkDenyDialog.showDialog(row);
+    },
+
+    openTransferFailedDialog(row) {
+      this.$refs.transferFailedDialog.showDialog(row);
+    },
+
     showTransferSuccessConfirm(row) {
       this.$confirm(
         `转账成功? (一旦确认, 系统将发送提现成功通知给用户, 请确认钱款已经到达用户的提现账户之后再进行此操作)`,
@@ -284,24 +306,7 @@ export default {
         })
         .catch(() => {});
     },
-    showTransferFailedConfirm(row) {
-      this.$confirm(
-        `转账失败? (一旦确认, 系统将发送提现失败通知给用户, 已扣除的F币也将一并返还)`,
-        '转账失败',
-        {
-          type: 'warning'
-        }
-      )
-        .then(() => {
-          transferFailed(row.aid)
-            .then(resp => {
-              this.$message.success('提现状态: 提现失败');
-              this.getTableData();
-            })
-            .catch(error => {});
-        })
-        .catch(() => {});
-    },
+
     showCheckPassConfirm(row) {
       this.$confirm(
         `确定通过该提现申请? (一旦通过, 财务人员即可进行转账操作)`,
@@ -314,24 +319,6 @@ export default {
           passApplication(row.aid)
             .then(resp => {
               this.$message.success('已通过');
-              this.getTableData();
-            })
-            .catch(error => {});
-        })
-        .catch(() => {});
-    },
-    showCheckDenyConfirm(row) {
-      this.$confirm(
-        `确定拒绝该提现申请? (拒绝后, 系统将发送提现失败通知给用户, 扣除的F币也将一并返还)`,
-        '拒绝提现申请',
-        {
-          type: 'warning'
-        }
-      )
-        .then(() => {
-          denyApplication(row.aid)
-            .then(resp => {
-              this.$message.success('已拒绝');
               this.getTableData();
             })
             .catch(error => {});
@@ -397,9 +384,9 @@ export default {
     initWithdrawNormSelectData() {
       getAllWithdrawNorm()
         .then(({ data }) => {
-          this.withdrawNormList = data.list
+          this.withdrawNormList = data.list;
         })
-        .catch(error => {})
+        .catch(error => {});
     }
   },
   created() {

@@ -380,3 +380,23 @@ export const APP_ACTIVITY_TYPES = [
     name: '注册'
   }
 ]
+
+export const WITHDRAW_FAILED_REASON_KEY_OTHER = 'other';
+
+export const WITHDRAW_FAILED_REASONES = [
+  {
+    key: 'account-error',
+    cnContent: '账号错误',
+    enContent: 'Account error'
+  },
+  {
+    key: 'name-error',
+    cnContent: '名字错误',
+    enContent: 'Name error'
+  },
+  {
+    key: WITHDRAW_FAILED_REASON_KEY_OTHER,
+    cnContent: '其他(手写)',
+    enContent: 'Others'
+  }
+]
