@@ -381,9 +381,9 @@ export const APP_ACTIVITY_TYPES = [
   }
 ]
 
-export const DENY_REASON_KEY_OTHER = 'other';
+export const WITHDRAW_FAILED_REASON_KEY_OTHER = 'other';
 
-export const WITHDRAW_CHECK_DENY_REASONES = [
+export const WITHDRAW_FAILED_REASONES = [
   {
     key: 'account-error',
     cnContent: '账号错误',
@@ -395,7 +395,7 @@ export const WITHDRAW_CHECK_DENY_REASONES = [
     enContent: 'Name error'
   },
   {
-    key: DENY_REASON_KEY_OTHER,
+    key: WITHDRAW_FAILED_REASON_KEY_OTHER,
     cnContent: '其他(手写)',
     enContent: 'Others'
   }

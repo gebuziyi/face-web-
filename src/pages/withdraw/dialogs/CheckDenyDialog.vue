@@ -21,8 +21,8 @@
 
 <script>
 import {
-  WITHDRAW_CHECK_DENY_REASONES,
-  DENY_REASON_KEY_OTHER
+  WITHDRAW_FAILED_REASONES,
+  WITHDRAW_FAILED_REASON_KEY_OTHER
 } from '../../../utils/constants';
 import { denyApplication } from '../../../api/withdraw/withdraw-application';
 
@@ -31,12 +31,12 @@ export default {
 
   data() {
     return {
-      denyReasonKeyOther: DENY_REASON_KEY_OTHER,
+      denyReasonKeyOther: WITHDRAW_FAILED_REASON_KEY_OTHER,
       show: false,
       loading: {
         btn: false
       },
-      reasones: WITHDRAW_CHECK_DENY_REASONES,
+      reasones: WITHDRAW_FAILED_REASONES,
       row: null,
       model: {
         reasonKey: null,
@@ -75,7 +75,7 @@ export default {
         }
 
         if (
-          this.model.reasonKey === DENY_REASON_KEY_OTHER &&
+          this.model.reasonKey === WITHDRAW_FAILED_REASON_KEY_OTHER &&
           (this.model.adminReason === null ||
             typeof this.model.adminReason === 'undefined' ||
             this.model.adminReason.trim() === '')
@@ -84,7 +84,7 @@ export default {
           return;
         }
 
-        if (this.model.reasonKey !== DENY_REASON_KEY_OTHER) {
+        if (this.model.reasonKey !== WITHDRAW_FAILED_REASON_KEY_OTHER) {
           let result = this.reasones.find(
             item => item.key === this.model.reasonKey
           );

@@ -50,6 +50,6 @@ export const transferSuccess = function(aid) {
   return newClient().post(`/withdraw/application/${aid}/transfer/success`)
 }
 
-export const transferFailed = function(aid) {
-  return newClient().post(`/withdraw/application/${aid}/transfer/failed`)
+export const transferFailed = function(msg) {
+  return newClient().post(`/withdraw/application/${msg.aid}/transfer/failed`, msg)
 }
