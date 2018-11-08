@@ -8,6 +8,7 @@ const LiveConsolePage = () => import('../../pages/live/LiveConsole.vue')
 const AnchorWorkLogPage = () => import('../../pages/live/AnchorWorkLogPage.vue')
 const AnchorInfoPage = () => import('../../pages/live/AnchorInfoPage.vue')
 const LiveTapeFile = () => import('../../pages/live/LiveTapeFile.vue')
+const LiveEnterEffect = () => import('../../pages/live/LiveEnterEffect.vue')
 
 export const LiveModuleRouter = {
   path: '/live',
@@ -53,6 +54,11 @@ export const LiveModuleRouter = {
       path: 'tape-file',
       name: 'LiveTapeFile',
       component: LiveTapeFile
+    },
+    {
+      path: 'enter-effect',
+      name: 'LiveEnterEffect',
+      component: LiveEnterEffect
     }
   ]
 }
