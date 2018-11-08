@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { getThanksgivingRegisterByDailyLineLine } from '../../../../../api/audit/thanksgiving-audit';
+import { getThanksgivingRegisterByDailyLineLine } from '../../../../../api/audit/thanksgiving-public-audit';
 
 export default {
   name: 'thanksgiving-register-line-chart',

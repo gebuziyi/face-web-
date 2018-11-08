@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { getRechargeDataByThanksgivingLine } from '../../../../../api/audit/thanksgiving-audit';
+import { getRechargeDataByThanksgivingLine } from '../../../../../api/audit/thanksgiving-public-audit';
 
 export default {
   name: 'thanksgiving-register-line-chart',

@@ -14,7 +14,7 @@
   </div>
 </template>
 <script>
-import { getAllPublicTotalByThanksgivingDays } from '../../../../api/audit/thanksgiving-audit';
+import { getAllPublicTotalByThanksgivingDays } from '../../../../api/audit/thanksgiving-public-audit';
 import ThanksgivingDaysRegisterAuditByDailyLine from './charts/ThanksgivingDaysRegisterAuditByDailyLine';
 import ThanksgivingDaysRechargeAuditByDailyLine from './charts/ThanksgivingDaysRechargeAuditByDailyLine';
 
