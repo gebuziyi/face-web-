@@ -202,7 +202,7 @@ export default {
       if (effectList && effectList.length > 0) {
         this.effects = effectList;
       } else {
-        this.initAccessories();
+        this.initEffects();
       }
       if (user) {
         this.selectedUsers.push(user);
