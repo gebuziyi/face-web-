@@ -380,3 +380,14 @@ export const APP_ACTIVITY_TYPES = [
     name: '注册'
   }
 ]
+
+export const VEST_STATE = [
+  {
+    vestState: 0,
+    vestName: '普通账号'
+  },
+  {
+    vestState: 1,
+    vestName: '机器人账号'
+  }
+]
