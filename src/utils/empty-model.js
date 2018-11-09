@@ -33,6 +33,16 @@ export const emptyUserAvatarAccessory = function () {
   return empty
 }
 
+export const emptyLiveEnterEffect = function () {
+  let empty = {
+    name: null,
+    description: null,
+    fileUrl: null
+  }
+
+  return empty
+}
+
 export const emptyGiftType = function () {
   let empty = {
     typeId: null,
