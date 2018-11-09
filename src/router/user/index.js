@@ -18,6 +18,7 @@ const UserFreezeLogPage = () => import('../../pages/user/UserFreezelog.vue');
 const InviteRecord = () => import('../../pages/user/InviteRecord.vue');
 const UserAvatarAccessoryPage = () => import('../../pages/user/UserAvatarAccessoryPage.vue');
 const AvatarAccessoryInfo = () => import('../../pages/user/AvatarAccessoryInfo.vue');
+const UserLiveEnterEffectPage = () => import('../../pages/user/UserLiveEnterEffectPage.vue');
 
 export const UserModuleRouter = {
   path: 'user',
@@ -113,6 +114,11 @@ export const UserModuleRouter = {
       path: 'avatar-accessory-info',
       name: 'AvatarAccessoryInfo',
       component: AvatarAccessoryInfo
+    },
+    {
+      path: 'live-enter-effect',
+      name: 'UserLiveEnterEffectPage',
+      component: UserLiveEnterEffectPage
     }
   ]
 }
