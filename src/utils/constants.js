@@ -381,17 +381,6 @@ export const APP_ACTIVITY_TYPES = [
   }
 ]
 
-export const VEST_STATE = [
-  {
-    vestState: 0,
-    vestName: '普通账号'
-  },
-  {
-    vestState: 1,
-    vestName: '机器人账号'
-  }
-]
-
 export const WITHDRAW_FAILED_REASON_KEY_OTHER = 'other';
 
 export const WITHDRAW_FAILED_REASONES = [
