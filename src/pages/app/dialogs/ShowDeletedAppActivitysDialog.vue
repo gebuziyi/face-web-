@@ -98,11 +98,11 @@ export default {
     onSortChange({ column, prop, order }) {
       this.sorter.prop = prop;
       this.sorter.order = order;
-      this.getTableData();
+      this.getDeleteActivitys();
     },
     query() {
       this.loading.table = true;
-      this.getTableData();
+      this.getDeleteActivitys();
     },
     onSizeChange(size) {
       this.pager.limit = size;
