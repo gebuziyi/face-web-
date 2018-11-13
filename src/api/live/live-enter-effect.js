@@ -20,6 +20,17 @@ export const getList = function({ query, pager, sorter }) {
   })
 }
 
+export const getDeletedList = function({ query, pager, sorter }) {
+  return newClient().get('/live/enter-effect/list-deleted', {
+    params: {
+      page: pager.page,
+      limit: pager.limit,
+      sidx: propIndexMapping[sorter.prop],
+      order: sortOrderMapping[sorter.order]
+    }
+  })
+}
+
 export const getDetail = function(id) {
   return newClient().get('/live/enter-effect/detail/' + id)
 }
