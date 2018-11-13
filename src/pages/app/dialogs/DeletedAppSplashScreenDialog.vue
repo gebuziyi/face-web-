@@ -123,7 +123,7 @@ export default {
     onSortChange({ column, prop, order }) {
       this.sorter.prop = prop;
       this.sorter.order = order;
-      this.getTableData();
+      this.getDeleteScreen();
     },
     onSelectionChange(rows) {
       if (rows) {
@@ -132,7 +132,7 @@ export default {
     },
     query() {
       this.loading.table = true;
-      this.getTableData();
+      this.getDeleteScreen();
     },
     onSizeChange(size) {
       this.pager.limit = size;
