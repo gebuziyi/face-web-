@@ -56,7 +56,7 @@
               </el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="处理完成" placement="top" v-if="hasPermission('feedback:info:update') && scope.row.isProcess !== 1">
-              <el-button type="success" size="mini" @click="processConfirm(scope.row.feedblackId)">
+              <el-button type="success" size="mini" @click="processConfirm(scope.row)">
                 <i class="fa fa-check"></i>
               </el-button>
             </el-tooltip>
@@ -76,7 +76,9 @@ import {
   deleteFeedback,
   processFeedback
 } from '../../api/basic-data/feedback-info';
-
+import {
+  PROMPT_MSG_REG_EXPRESSION
+} from '../../utils/constants';
 export default {
   name: 'feedback-info-page',
   data() {
@@ -141,16 +143,18 @@ export default {
         })
         .catch(() => {});
     },
-    processConfirm(id) {
-      this.$confirm(
-        '确定要将id=' + id + '的反馈信息标记为已处理?',
-        '反馈信息处理完成',
-        {
-          type: 'warning'
-        }
-      )
-        .then(() => {
-          processFeedback(id)
+    processConfirm(row) {
+      this.$prompt('请输入处理结果描述', '处理举报信息', {
+        inputPattern: PROMPT_MSG_REG_EXPRESSION,
+        inputErrorMessage: '请输入1-20字处理结果描述'
+      })
+        .then(({ value }) => {
+          let msg = {
+            feedblackId: row.feedblackId,
+            userId: row.userId,
+            memo: value
+          };
+          processFeedback(msg)
             .then(resp => {
               this.$message.success('操作成功');
               this.getTableData();
