@@ -61,6 +61,15 @@
           <icon-tag :type="scope.row.hot === true ? 'danger' : 'info'" :icon="scope.row.hot === true ? 'fa fa-fire' : ''">{{ scope.row.hot === true ? '热门话题' : '普通话题'}}</icon-tag>
         </template>
       </el-table-column>
+      <el-table-column prop="urlTitle" label="url标题"></el-table-column>
+      <el-table-column prop="url" label="url"></el-table-column>
+      <el-table-column prop="linkedToUrl" label="是否链接到一个URL" width="65">
+        <template slot-scope="scope">
+          <icon-tag :type="scope.row.linkedToUrl === false ? 'danger' : 'success'">
+            {{ scope.row.linkedToUrl === false ? '否' : scope.row.linkedToUrl === true ? '是' : '未知' }}
+          </icon-tag>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button-group>

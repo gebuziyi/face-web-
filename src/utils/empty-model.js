@@ -547,7 +547,10 @@ export const emptyVideoTopic = function () {
     createTime: null,
     introduction: null,
     accountId: null,
-    hot: null
+    hot: null,
+    linkedToUrl: null,
+    urlTitle: null,
+    url: null
   }
 
   return empty
