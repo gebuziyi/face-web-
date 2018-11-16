@@ -20,6 +20,19 @@ export const getList = function({ query, pager, sorter }) {
   })
 }
 
+export const deleteGetList = function({ query, pager, sorter }) {
+  return newClient().get('/user/avatar-accessory-info/list-delete', {
+    params: {
+      page: pager.page,
+      limit: pager.limit,
+      name: requireNonNull(query.name),
+      isDeleted: requireNonNull(query.isDeleted),
+      sidx: propIndexMapping[sorter.prop],
+      order: sortOrderMapping[sorter.order]
+    }
+  })
+}
+
 export const getDetail = function(id) {
   return newClient().get('/user/avatar-accessory-info/detail/' + id)
 }

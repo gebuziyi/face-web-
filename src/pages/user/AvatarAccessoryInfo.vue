@@ -19,6 +19,10 @@
         <span>搜索</span>
       </el-button>
       <el-button type="text" size="mini" @click="$refs.queryForm.resetFields()">重置</el-button>
+      <el-button @click="showDelete" type="primary" size="small"  class="btn-operation">
+        <i class="fa fa-recycle"></i>
+        <span>已删除头像挂饰</span>
+      </el-button>
       <el-button @click="deleteBatch" type="danger" size="small" v-if="hasPermission('gift:type:delete')" class="btn-operation" :disabled="selectedIds.length === 0">
         <i class="fa fa-trash"></i>
         <span>批量删除</span>
@@ -142,6 +146,7 @@
         <el-button type="primary" @click="doCreate" size="small" :loading="dialog.create.btnLoading">确 定</el-button>
       </span>
     </el-dialog>
+    <show-deleted ref="deletedDialog"  @done="query"></show-deleted>
     <el-dialog :visible.sync="dialog.picPreview.show" :title="'头像图片预览: '">
       <img :src="dialog.picPreview.picSrc" class="img-preview" />
     </el-dialog>
@@ -158,9 +163,12 @@ import {
 } from '../../api/user/avatar-accessory-info';
 
 import { emptyUserAvatarAccessory } from '../../utils/empty-model';
-
+import DeletedDialog from './dialogs/DeletedDialog';
 export default {
   name: 'gift-type-page',
+  components: {
+    'show-deleted': DeletedDialog
+  },
   data() {
     const token = this.$store.state.user.token;
     return {
@@ -285,6 +293,9 @@ export default {
         .catch(() => {
           // 用户点击了取消, do nothing
         });
+    },
+    showDelete() {
+      this.$refs.deletedDialog.showDialog();
     },
     doCreate() {
       // 验证表单有效性
