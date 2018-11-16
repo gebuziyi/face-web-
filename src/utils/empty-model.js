@@ -550,7 +550,8 @@ export const emptyVideoTopic = function () {
     hot: null,
     linkedToUrl: null,
     urlTitle: null,
-    url: null
+    url: null,
+    shareUrl: null
   }
 
   return empty

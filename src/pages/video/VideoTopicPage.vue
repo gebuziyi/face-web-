@@ -61,6 +61,7 @@
           <icon-tag :type="scope.row.hot === true ? 'danger' : 'info'" :icon="scope.row.hot === true ? 'fa fa-fire' : ''">{{ scope.row.hot === true ? '热门话题' : '普通话题'}}</icon-tag>
         </template>
       </el-table-column>
+      <el-table-column prop="shareUrl" label="分享短链接"></el-table-column>
       <el-table-column prop="urlTitle" label="url标题"></el-table-column>
       <el-table-column prop="url" label="url"></el-table-column>
       <el-table-column prop="linkedToUrl" label="是否链接到一个URL" width="65">

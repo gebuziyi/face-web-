@@ -14,6 +14,9 @@
         <el-form-item label="话题介绍" prop="introduction">
           <el-input v-model.trim="model.introduction" type="textarea" placeholder="介绍一下这个话题... ..."></el-input>
         </el-form-item>
+        <el-form-item label="分享短链接" prop="shareUrl">
+          <el-input v-model.trim="model.shareUrl" readonly></el-input>
+        </el-form-item>
         <el-form-item label="发否选择url" prop="linkedToUrl">
          <el-switch v-model="model.linkedToUrl" :active-value="true" :inactive-value="false" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否"></el-switch>
         </el-form-item>
