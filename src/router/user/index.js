@@ -19,6 +19,7 @@ const InviteRecord = () => import('../../pages/user/InviteRecord.vue');
 const UserAvatarAccessoryPage = () => import('../../pages/user/UserAvatarAccessoryPage.vue');
 const AvatarAccessoryInfo = () => import('../../pages/user/AvatarAccessoryInfo.vue');
 const UserLiveEnterEffectPage = () => import('../../pages/user/UserLiveEnterEffectPage.vue');
+const UserShareLog = () => import('../../pages/user/UserShareLog.vue');
 
 export const UserModuleRouter = {
   path: 'user',
@@ -119,6 +120,11 @@ export const UserModuleRouter = {
       path: 'live-enter-effect',
       name: 'UserLiveEnterEffectPage',
       component: UserLiveEnterEffectPage
+    },
+    {
+      path: 'user-share-log',
+      name: 'UserShareLog',
+      component: UserShareLog
     }
   ]
 }
