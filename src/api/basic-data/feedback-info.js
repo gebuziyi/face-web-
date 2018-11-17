@@ -35,6 +35,10 @@ export const processFeedback = function(model) {
   return newClient().post('/feedback/info/detail/process', model)
 }
 
+export const getDetail = function(feedblackId) {
+  return newClient().get('/feedback/info/detail/' + feedblackId)
+}
+
 export const deleteFeedback = function(ids) {
   return newClient().post('/feedback/info/delete', [].concat(ids))
 }

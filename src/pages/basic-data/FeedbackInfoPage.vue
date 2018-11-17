@@ -67,6 +67,20 @@
     <!-- 分页 -->
     <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
     </el-pagination>
+        <!-- 修改系统参数 -->
+    <el-dialog :visible.sync="dialog.edit.show" title="回复反馈人员" width="600px">
+      <div v-loading="dialog.edit.loading" class="edit-form-wrapper">
+        <el-form size="small" :model="dialog.edit.model" :rules="dialog.edit.rules" label-position="left" label-width="100px" ref="editForm">
+          <el-form-item label="回复APP反馈人员" prop="memo">
+            <el-input type="textarea" v-model.trim="dialog.edit.model.memo" ></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <span slot="footer">
+        <el-button @click="dialog.edit.show = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="doEdit" size="small" :loading="dialog.edit.btnLoading">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -74,16 +88,25 @@
 import {
   getFeedbackInfoList,
   deleteFeedback,
-  processFeedback
+  processFeedback,
+  getDetail
 } from '../../api/basic-data/feedback-info';
-import {
-  PROMPT_MSG_REG_EXPRESSION
-} from '../../utils/constants';
+import { emptyAppFeedback } from '../../utils/empty-model';
 export default {
   name: 'feedback-info-page',
   data() {
     return {
       selectedIds: [],
+      dialog: {
+        edit: {
+          model: emptyAppFeedback(),
+          rules: {
+          },
+          show: false,
+          formLoading: true,
+          btnLoading: false
+        }
+      },
       loading: {
         table: true
       },
@@ -144,24 +167,35 @@ export default {
         .catch(() => {});
     },
     processConfirm(row) {
-      this.$prompt('请输入处理结果描述', '处理举报信息', {
-        inputPattern: PROMPT_MSG_REG_EXPRESSION,
-        inputErrorMessage: '请输入1-20字处理结果描述'
-      })
-        .then(({ value }) => {
-          let msg = {
-            feedblackId: row.feedblackId,
-            userId: row.userId,
-            memo: value
-          };
-          processFeedback(msg)
-            .then(resp => {
+      this.dialog.edit.show = true;
+      getDetail(row.feedblackId)
+        .then(({ data }) => {
+          this.dialog.edit.model = data.detail;
+          this.dialog.edit.formLoading = false;
+        })
+        .catch(error => {
+          // 获取详情失败, 关闭修改弹窗
+          this.dialog.edit.show = false;
+        });
+    },
+    doEdit() {
+      // 验证表单有效性
+      this.$refs.editForm.validate(valid => {
+        if (valid) {
+          processFeedback(this.dialog.edit.model)
+            .then(data => {
               this.$message.success('操作成功');
+              this.dialog.edit.btnLoading = false;
+              this.dialog.edit.show = false;
               this.getTableData();
             })
-            .catch(errorMsg => {});
-        })
-        .catch(() => {});
+            .catch(error => {
+              // do something
+            });
+        } else {
+          return false;
+        }
+      });
     },
     onSortChange({ column, prop, order }) {
       this.sorter.prop = prop;
