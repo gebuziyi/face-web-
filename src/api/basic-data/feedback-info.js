@@ -31,8 +31,12 @@ export const getFeedbackInfoList = function({ query, pager, sorter }) {
   })
 }
 
-export const processFeedback = function(id) {
-  return newClient().post('/feedback/info/detail/' + id + '/process')
+export const processFeedback = function(model) {
+  return newClient().post('/feedback/info/detail/process', model)
+}
+
+export const getDetail = function(feedblackId) {
+  return newClient().get('/feedback/info/detail/' + feedblackId)
 }
 
 export const deleteFeedback = function(ids) {

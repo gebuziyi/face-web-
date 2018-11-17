@@ -56,7 +56,7 @@
               </el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="处理完成" placement="top" v-if="hasPermission('feedback:info:update') && scope.row.isProcess !== 1">
-              <el-button type="success" size="mini" @click="processConfirm(scope.row.feedblackId)">
+              <el-button type="success" size="mini" @click="processConfirm(scope.row)">
                 <i class="fa fa-check"></i>
               </el-button>
             </el-tooltip>
@@ -67,6 +67,20 @@
     <!-- 分页 -->
     <el-pagination @size-change="onSizeChange" @current-change="onCurrentPageChange" :current-page="pager.page" :page-sizes="[10, 20, 30]" :page-size="pager.limit" layout="total, sizes, prev, pager, next, jumper" :total="pager.total">
     </el-pagination>
+        <!-- 修改系统参数 -->
+    <el-dialog :visible.sync="dialog.edit.show" title="回复反馈人员" width="600px">
+      <div v-loading="dialog.edit.loading" class="edit-form-wrapper">
+        <el-form size="small" :model="dialog.edit.model" :rules="dialog.edit.rules" label-position="left" label-width="100px" ref="editForm">
+          <el-form-item label="回复APP反馈人员" prop="memo">
+            <el-input type="textarea" v-model.trim="dialog.edit.model.memo" ></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <span slot="footer">
+        <el-button @click="dialog.edit.show = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="doEdit" size="small" :loading="dialog.edit.btnLoading">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -74,14 +88,25 @@
 import {
   getFeedbackInfoList,
   deleteFeedback,
-  processFeedback
+  processFeedback,
+  getDetail
 } from '../../api/basic-data/feedback-info';
-
+import { emptyAppFeedback } from '../../utils/empty-model';
 export default {
   name: 'feedback-info-page',
   data() {
     return {
       selectedIds: [],
+      dialog: {
+        edit: {
+          model: emptyAppFeedback(),
+          rules: {
+          },
+          show: false,
+          formLoading: true,
+          btnLoading: false
+        }
+      },
       loading: {
         table: true
       },
@@ -141,23 +166,36 @@ export default {
         })
         .catch(() => {});
     },
-    processConfirm(id) {
-      this.$confirm(
-        '确定要将id=' + id + '的反馈信息标记为已处理?',
-        '反馈信息处理完成',
-        {
-          type: 'warning'
-        }
-      )
-        .then(() => {
-          processFeedback(id)
-            .then(resp => {
+    processConfirm(row) {
+      this.dialog.edit.show = true;
+      getDetail(row.feedblackId)
+        .then(({ data }) => {
+          this.dialog.edit.model = data.detail;
+          this.dialog.edit.formLoading = false;
+        })
+        .catch(error => {
+          // 获取详情失败, 关闭修改弹窗
+          this.dialog.edit.show = false;
+        });
+    },
+    doEdit() {
+      // 验证表单有效性
+      this.$refs.editForm.validate(valid => {
+        if (valid) {
+          processFeedback(this.dialog.edit.model)
+            .then(data => {
               this.$message.success('操作成功');
+              this.dialog.edit.btnLoading = false;
+              this.dialog.edit.show = false;
               this.getTableData();
             })
-            .catch(errorMsg => {});
-        })
-        .catch(() => {});
+            .catch(error => {
+              // do something
+            });
+        } else {
+          return false;
+        }
+      });
     },
     onSortChange({ column, prop, order }) {
       this.sorter.prop = prop;

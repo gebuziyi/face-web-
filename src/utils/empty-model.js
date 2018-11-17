@@ -219,6 +219,21 @@ export const emptySysSet = function () {
   return empty
 }
 
+export const emptyAppFeedback = function () {
+  let empty = {
+    feedblackId: null,
+    userId: null,
+    content: null,
+    createTime: null,
+    isProcess: null,
+    processTime: null,
+    processMan: null,
+    memo: null
+  }
+
+  return empty
+}
+
 export const emptyassistant = function () {
   let empty = {
     txt: null,
