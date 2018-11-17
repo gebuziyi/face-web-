@@ -14,6 +14,20 @@
         <el-form-item label="话题介绍" prop="introduction">
           <el-input v-model.trim="model.introduction" type="textarea"></el-input>
         </el-form-item>
+       <el-form-item label="分享短链接" prop="shareUrl">
+          <el-input v-model.trim="model.shareUrl" readonly></el-input>
+        </el-form-item>
+        <el-form-item label="发否选择url" prop="linkedToUrl">
+         <el-switch v-model="model.linkedToUrl" :active-value="true" :inactive-value="false" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否"></el-switch>
+        </el-form-item>
+        <div v-if="this.model.linkedToUrl === true">
+          <el-form-item label="url标题" prop="urlTitle">
+            <el-input v-model.trim="model.urlTitle" oninput="if(value.length > 125)value = value.slice(0, 125)"></el-input>
+          </el-form-item>
+          <el-form-item label="url" prop="url">
+            <el-input v-model.trim="model.url" type="textarea" oninput="if(value.length > 225)value = value.slice(0, 225)" placeholder="url"></el-input>
+          </el-form-item>
+        </div>
       </el-form>
     </div>
     <span slot="footer">
@@ -45,10 +59,17 @@ export default {
       rules: {
         tname: [
           { required: true, trigger: 'change', message: '话题名称不能为空' }
+        ],
+        urlTitle: [
+          { required: true, trigger: 'change', message: 'url标题不能为空' }
+        ],
+        url: [
+          { required: true, trigger: 'change', message: 'url不能为空' },
+          {
+            pattern: /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .?%&=]*)?/,
+            message: '请输入正确的url'
+          }
         ]
-        // img: [
-        //   { required: true, trigger: 'change', message: '话题图片不能为空' }
-        // ]
       },
       imgFileList: [],
       show: false,
@@ -71,14 +92,20 @@ export default {
         })
         .catch(error => {});
     },
-
     doEdit() {
       // 验证表单有效性
       this.$refs.editForm.validate(valid => {
         if (valid) {
-          if (this.model.introduction && this.model.introduction.length > 1000) {
+          if (
+            this.model.introduction &&
+            this.model.introduction.length > 1000
+          ) {
             this.$message.error('介绍不能超过1000个字符!');
             return;
+          }
+          if (this.model.linkedToUrl === false) {
+            this.model.urlTitle = null;
+            this.model.url = null;
           }
           updateVideoTopic(this.model)
             .then(data => {
