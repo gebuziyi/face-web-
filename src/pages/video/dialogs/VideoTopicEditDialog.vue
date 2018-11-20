@@ -1,7 +1,7 @@
 <template>
   <el-dialog :visible.sync="show" title="修改视频话题" width="800px" @close="onDialogClose('editForm')" :close-on-click-modal="false">
     <div v-loading="loading" class="edit-form-wrapper">
-      <el-form size="small" :model="model" :rules="rules" label-position="left" label-width="80px" ref="editForm">
+      <el-form size="small" :model="model" :rules="rules" label-position="left" label-width="90px" ref="editForm">
         <el-form-item label="话题名称" prop="tname">
           <el-input v-model.trim="model.tname"></el-input>
         </el-form-item>
@@ -14,10 +14,10 @@
         <el-form-item label="话题介绍" prop="introduction">
           <el-input v-model.trim="model.introduction" type="textarea"></el-input>
         </el-form-item>
-       <el-form-item label="分享短链接" prop="shareUrl">
+       <el-form-item label="分享短链接" prop="shareUrl" label-width="90px">
           <el-input v-model.trim="model.shareUrl" readonly></el-input>
         </el-form-item>
-        <el-form-item label="发否选择url" prop="linkedToUrl">
+        <el-form-item label="是否选择url" prop="linkedToUrl" >
          <el-switch v-model="model.linkedToUrl" :active-value="true" :inactive-value="false" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否"></el-switch>
         </el-form-item>
         <div v-if="this.model.linkedToUrl === true">
