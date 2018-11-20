@@ -61,6 +61,16 @@
           <table-img-previewer :option="{ imgSrc: scope.row.shareImgUrl }"></table-img-previewer>
         </template>
       </el-table-column>
+      <el-table-column prop="floatIconUrl" label="浮动图标">
+        <template slot-scope="scope">
+          <table-img-previewer :option="{ imgSrc: scope.row.floatIconUrl }"></table-img-previewer>
+        </template>
+      </el-table-column>
+      <el-table-column prop="likeImg" label="点赞图标">
+        <template slot-scope="scope">
+          <table-img-previewer :option="{ imgSrc: scope.row.likeImg }"></table-img-previewer>
+        </template>
+      </el-table-column>
       <el-table-column prop="creatorUserName" label="创建人"></el-table-column>
       <el-table-column prop="createTime" label="创建时间" sortable="custom" width="110"></el-table-column>
       <el-table-column prop="editorUserName" label="修改人"></el-table-column>
