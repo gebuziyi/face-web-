@@ -31,7 +31,7 @@
     <el-table :data="tableData" border style="width: 100%" v-loading="loading.table" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" @sort-change="onSortChange" @selection-change="onSelectionChange">
       <el-table-column type="selection" width="50"></el-table-column>
       <el-table-column prop="id" label="Id" sortable="custom" width="60"></el-table-column>
-      <el-table-column prop="name" label="点赞图标名称" sortable="custom"></el-table-column>
+      <el-table-column prop="name" label="点赞图标名称" ></el-table-column>
       <el-table-column prop="imgUrl" label="封面">
         <template slot-scope="scope">
           <el-tooltip effect="dark" content="点击查看大图" placement="top">
