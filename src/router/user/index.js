@@ -20,6 +20,7 @@ const UserAvatarAccessoryPage = () => import('../../pages/user/UserAvatarAccesso
 const AvatarAccessoryInfo = () => import('../../pages/user/AvatarAccessoryInfo.vue');
 const UserLiveEnterEffectPage = () => import('../../pages/user/UserLiveEnterEffectPage.vue');
 const UserShareLog = () => import('../../pages/user/UserShareLog.vue');
+const ImgUserHomepage = () => import('../../pages/user/ImgUserHomepage.vue');
 
 export const UserModuleRouter = {
   path: 'user',
@@ -125,6 +126,11 @@ export const UserModuleRouter = {
       path: 'user-share-log',
       name: 'UserShareLog',
       component: UserShareLog
+    },
+    {
+      path: 'img-user-homepage',
+      name: 'ImgUserHomepage',
+      component: ImgUserHomepage
     }
   ]
 }
