@@ -24,6 +24,22 @@
           <el-date-picker v-model="model.endTime" type="datetime" :picker-options="expireTimeOption" placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-form-item>
+        <el-form-item prop="appLikeImgId" label="点赞图标">
+          <el-select v-model="model.appLikeImgId" multiple placeholder="请选择点赞图标" @change="onRoleChange">
+            <el-option v-for="item in appLikeImgList" :key="item.id" :label="item.name" :value="item.id">
+              <div>
+                <span>{{item.name}}</span>
+                <img :src="item.imgUrl" width="20px" height="20px" style="float: right"/>
+              </div>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="浮动图标" prop="floatIconUrl">
+          <el-upload :action="uploadAction" :on-success="onFloatIconUrlUploadSuccess" :on-error="onFloatIconUrlUploadError" :file-list="floatIconUrlFileList" list-type="picture" :before-remove="onFloatIconUrlRemove" ref="float-img-upload">
+            <el-button size="small" type="primary">点击选择图片</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
+          </el-upload>
+        </el-form-item>
         <el-form-item label="活动封面图片" prop="coverImgUrl">
           <el-upload :action="uploadAction" :on-success="onUploadSuccess" :on-error="onUploadError" :file-list="imgFileList" list-type="picture" :before-remove="onFileRemove" ref="create-upload">
             <el-button size="small" type="primary">点击选择图片</el-button>
@@ -57,6 +73,7 @@ import {
   getAppActivityDetail
 } from '../../../api/app/app-activity';
 import { APP_ACTIVITY_TYPES } from '../../../utils/constants';
+import { getAllAppLikeImgNames } from '../../../api/app/app-like-img';
 export default {
   name: 'app-splash-screen-create-dialog',
   data() {
@@ -95,6 +112,12 @@ export default {
         ],
         shareTextEn: [
           { required: true, trigger: 'change', message: '英文分享文案不能为空' }
+        ],
+        appLikeImgId: [
+          { required: true, trigger: 'change', message: '点赞图标不能为空' }
+        ],
+        floatIconUrl: [
+          { required: true, trigger: 'change', message: '浮动图标不能为空' }
         ]
       },
       expireTimeOption: {
@@ -113,8 +136,11 @@ export default {
         coverImgUrl: null,
         shareImgUrl: null,
         shareTextCn: null,
-        shareTextEn: null
+        shareTextEn: null,
+        floatIconUrl: null,
+        appLikeImgId: []
       },
+      appLikeImgList: [],
       types: APP_ACTIVITY_TYPES,
       formLoading: true,
       btnLoading: false,
@@ -126,10 +152,25 @@ export default {
         new Date().getTime(),
       imgFileList: [],
       shareImgFileList: [],
+      floatIconUrlFileList: [],
       show: false
     };
   },
   methods: {
+    getAllAppLikeImg() {
+      getAllAppLikeImgNames()
+        .then(({ data }) => {
+          this.appLikeImgList = data.list;
+        })
+        .catch(error => {});
+    },
+    onRoleChange(values) {
+      if (values) {
+        this.model.appLikeImgId = values;
+      } else {
+        this.model.appLikeImgId = null;
+      }
+    },
     onFileRemove(file, fileList) {
       // 由于图片为必选项, 所以这里禁止移除已经上传的图片文件
       this.$message({
@@ -194,6 +235,38 @@ export default {
         message: '分享封面图片上传失败!'
       });
     },
+    onFloatIconUrlRemove(file, fileList) {
+      // 由于图片为必选项, 所以这里禁止移除已经上传的图片文件
+      this.$message({
+        type: 'warning',
+        message: '图片文件不可为空!'
+      });
+      return false;
+    },
+    onFloatIconUrlUploadSuccess(response, file, fileList) {
+      // response is the file url or {code: 500, msg: 'error msg here'}
+      if (response.code && response.code !== 0) {
+        // 此时虽然http的status=200, 但实际上结果为上传失败!!!
+        this.$message({
+          type: 'error',
+          message: '图片上传失败: ' + response.msg
+        });
+        this.model.floatIconUrl = null;
+        this.floatIconUrlFileList = [];
+        return;
+      }
+      // 上传文件在服务器上的地址, 根据当前对话框类型, 设置响应model的img属性值
+      this.model.floatIconUrl = response;
+      this.floatIconUrlFileList = [].concat({ url: response });
+      this.$message.success('上传成功!');
+      this.$refs.createForm.validateField('floatIconUrl');
+    },
+    onFloatIconUrlUploadError(error, file, fileList) {
+      this.$message({
+        type: 'error',
+        message: '分享封面图片上传失败!'
+      });
+    },
     doEdit() {
       // 验证表单有效性
       this.$refs.createForm.validate(valid => {
@@ -224,6 +297,7 @@ export default {
           this.model = data.detail;
           this.imgFileList = [].concat({ url: this.model.coverImgUrl });
           this.shareImgFileList = [].concat({ url: this.model.shareImgUrl });
+          this.floatIconUrlFileList = [].concat({ url: this.model.floatIconUrl });
           this.show = true;
         })
         .catch(error => {
@@ -238,6 +312,7 @@ export default {
     },
     showDialog(id) {
       this.show = true;
+      this.getAllAppLikeImg();
       this.doGetAppActivityDetail(id);
     }
   }

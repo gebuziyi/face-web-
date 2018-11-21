@@ -61,24 +61,41 @@
           <table-img-previewer :option="{ imgSrc: scope.row.shareImgUrl }"></table-img-previewer>
         </template>
       </el-table-column>
+      <el-table-column prop="floatIconUrl" label="浮动图标">
+        <template slot-scope="scope">
+          <table-img-previewer :option="{ imgSrc: scope.row.floatIconUrl }"></table-img-previewer>
+        </template>
+      </el-table-column>
+      <el-table-column prop="likeImgUrl" label="点赞图标" width="200">
+        <template slot-scope="scope">
+          <template v-for="item in scope.row.likeImgUrl">
+            <img :src="item" class="like-img-in-table" :key="item"/>
+          </template>
+        </template>
+      </el-table-column>
       <el-table-column prop="creatorUserName" label="创建人"></el-table-column>
       <el-table-column prop="createTime" label="创建时间" sortable="custom" width="110"></el-table-column>
       <el-table-column prop="editorUserName" label="修改人"></el-table-column>
       <el-table-column prop="editTime" label="修改时间" sortable="custom" width="110"></el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
-          <el-button-group>
-            <el-tooltip class="item" effect="dark" content="删除" placement="top" v-if="hasPermission('app:activity:delete')">
-              <el-button type="danger" size="mini" @click="deleteSingle(scope.row)">
-                <i class="fa fa-trash"></i>
-              </el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="编辑" placement="top" v-if="hasPermission('app:activity:update')">
-              <el-button type="warning" size="mini" @click="openEditDialog(scope.row.id)">
-                <i class="fa fa-edit"></i>
-              </el-button>
-            </el-tooltip>
-          </el-button-group>
+          <el-dropdown trigger="click" size="mini" type="text">
+            <el-button type="primary" size="mini">
+              操作<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item class="item" effect="dark" placement="top" v-if="hasPermission('app:activity:delete')">
+                <el-button type="danger" size="mini" @click="deleteSingle(scope.row)">
+                  <i class="fa fa-trash"></i>删除
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item class="item" effect="dark" placement="top" v-if="hasPermission('app:activity:update')">
+                <el-button type="warning" size="mini" @click="openEditDialog(scope.row.id)">
+                  <i class="fa fa-edit"></i>编辑
+                </el-button>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
@@ -234,4 +251,9 @@ export default {
 </script>
 
 <style scoped>
+.like-img-in-table {
+  width: 40px;
+  height: 40px;
+  padding-right: 1em;
+}
 </style>
