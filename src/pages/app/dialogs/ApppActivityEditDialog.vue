@@ -112,12 +112,6 @@ export default {
         ],
         shareTextEn: [
           { required: true, trigger: 'change', message: '英文分享文案不能为空' }
-        ],
-        appLikeImgId: [
-          { required: true, trigger: 'change', message: '点赞图标不能为空' }
-        ],
-        floatIconUrl: [
-          { required: true, trigger: 'change', message: '浮动图标不能为空' }
         ]
       },
       expireTimeOption: {
