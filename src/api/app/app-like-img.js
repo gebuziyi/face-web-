@@ -11,7 +11,7 @@ export const getAppLikeImgList = function ({ query, pager, sorter }) {
     params: {
       page: pager.page,
       limit: pager.limit,
-      type: requireNonNull(query.id),
+      id: requireNonNull(query.id),
       name: requireNonNull(query.name),
       sidx: propIndexMapping[sorter.prop],
       order: sortOrderMapping[sorter.order]
