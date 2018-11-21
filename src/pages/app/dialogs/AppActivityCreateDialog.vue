@@ -296,6 +296,8 @@ export default {
         formRef.resetFields();
       }
       this.imgFileList = [];
+      this.shareImgFileList = [];
+      this.floatIconUrlFileList = [];
     },
     showDialog() {
       this.show = true;
